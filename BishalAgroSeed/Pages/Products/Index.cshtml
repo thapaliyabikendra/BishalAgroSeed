@@ -1,0 +1,96 @@
+﻿@page
+@model BishalAgroSeed.Pages.Products.IndexModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Products</h1>
+<br />
+<br />
+<form asp-action="Index" method="get">
+    <div>
+        <p>
+            Find Product: <input type="text" name="searchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-info" />
+            <a asp-action="Index">Remove Filter</a>
+        </p>
+    </div>
+</form>
+
+@if (SignInManager.IsSignedIn(User))
+{
+<p class="text-right">
+    <a asp-page="Create">Create New Product</a>
+</p>
+}
+<br />
+<div class="row">
+    @foreach (var item in Model.Products)
+    {
+        <div class="col-sm-4 mb-5">
+            <div class="card" style="max-width: 18rem;">
+                <img class="card-img-top" height="150" src="@Html.DisplayFor(modelItem => item.ImagePath)" alt="Product Image">
+                <div class="card-body">
+                    <h5 class="card-title text-center">@Html.DisplayFor(modelItem => item.Name)</h5>
+                    <div>
+                        <h6 class="text-left" style="display:inline">
+                            @Html.DisplayNameFor(modelItem => item.Price) :
+                        </h6>
+                        <span class="float-right">
+                            Rs. @Html.DisplayFor(modelItem => item.Price)
+                        </span>
+                    </div>
+                    <div>
+                        <h6 class="text-left" style="display:inline">
+                            @Html.DisplayNameFor(modelItem => item.Weight) :
+                        </h6>
+                        <span class="float-right">
+                            @Html.DisplayFor(modelItem => item.Price) gm
+                        </span>
+                    </div>
+                    <div>
+                        <h6 class="text-left" style="display:inline">
+                            @Html.DisplayNameFor(modelItem => item.Brand) :
+                        </h6>
+                        <span class="float-right">
+                            @Html.DisplayFor(modelItem => item.Brand)
+                        </span>
+                    </div>
+                    <div class="btn-group float-right">
+                        <a asp-page="./Details" asp-route-id="@item.Id" class="mr-2"><i class="fas fa-search-plus" style="color:black"></i></a>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <a asp-page="./Edit" asp-route-id="@item.Id" class="mr-2"><i class="far fa-edit" style="color:Highlight">></i></a>
+                            <a asp-page="./Delete" asp-route-id="@item.Id"><i class="far fa-trash-alt" style="color:red"></i></a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+
+    @{
+        var prevDisabled = !Model.Products.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.Products.HasNextPage ? "disabled" : "";
+    }
+
+    <div class="col-12">
+        <a asp-page="./Index"
+           asp-route-pageIndex="@(Model.Products.PageIndex - 1)"
+           asp-route-currentFilter="@Model.CurrentFilter"
+           class="btn btn-primary @prevDisabled">
+            Previous
+        </a>
+        <a asp-page="./Index"
+           asp-route-pageIndex="@(Model.Products.PageIndex + 1)"
+           asp-route-currentFilter="@Model.CurrentFilter"
+           class="btn btn-primary @nextDisabled">
+            Next
+        </a>
+    </div>
+</div>
+
