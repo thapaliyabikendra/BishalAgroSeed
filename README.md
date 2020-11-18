@@ -1,4 +1,12 @@
 # BishalAgroSeed
+## Introduction
+This project is implemented using Asp.Net Core Razor Pages. 
+## Key Points
+- Implemented CRUD Operation
+- Sorting anf Filtering of Items
+- Pagination
+- Image File Upload
+
 ## Screenshots
 
 <h5>Home Page</h5>
