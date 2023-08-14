@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BishalAgroSeed.Configurations;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -52,7 +53,7 @@ public class BishalAgroSeedDbContext :
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
 
     #endregion
-
+    public DbSet<Configuration> Configurations { get; set; }
     public BishalAgroSeedDbContext(DbContextOptions<BishalAgroSeedDbContext> options)
         : base(options)
     {
