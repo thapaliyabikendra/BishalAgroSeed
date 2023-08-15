@@ -7,6 +7,12 @@
     "Permission:Configurations": "Configurations",
     "Permission:Configurations.Create": "Create",
     "Permission:Configurations.Edit": "Edit",
-    "Permission:Configurations.Delete":"Delete"
+    "Permission:Configurations.Delete": "Delete",
+
+    "Permission:Customers": "Customers",
+    "Permission:Customers.Create": "Create",
+    "Permission:Customers.Edit": "Edit",
+    "Permission:Customers.Delete": "Delete"
+
   }
 }

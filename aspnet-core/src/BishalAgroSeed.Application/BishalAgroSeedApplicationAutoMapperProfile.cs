@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BishalAgroSeed.Configurations;
+using BishalAgroSeed.Customers;
 
 namespace BishalAgroSeed;
 
@@ -12,6 +13,9 @@ public class BishalAgroSeedApplicationAutoMapperProfile : Profile
          * into multiple profile classes for a better organization. */
         CreateMap<CreateUpdateConfigurationDto, Configuration>();
         CreateMap<Configuration, ConfigurationDto>();
+
+        CreateMap<CreateUpdateCustomerDto, Customer>();
+        CreateMap<Customer, CustomerDto>();
 
     }
 }
