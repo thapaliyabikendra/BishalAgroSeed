@@ -5,12 +5,12 @@
     "Welcome": "Welcome",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
     "Menu:Configurations": "Configurations",
+    "Menu:Customers": "Customers",
     "New": "New",
     "Permission:Configurations": "Configurations",
     "Permission:Configurations.Create": "Create",
     "Permission:Configurations.Edit": "Edit",
     "Permission:Configurations.Delete": "Delete",
-
     "Permission:Customers": "Customers",
     "Permission:Customers.Create": "Create",
     "Permission:Customers.Edit": "Edit",
@@ -18,7 +18,13 @@
     "CreatedConfiguration": "Configuration created successfully.",
     "UpdatedConfiguration": "Configuration updated successfully.",
     "DeletedConfiguration": "Configuration deleted successfully.",
-    "AreYouSureToDelete": "Are you sure to delete?"
-
+    "AreYouSureToDelete": "Are you sure to delete?",
+    "CreatedCustomer": "Customer created successfully.",
+    "UpdatedCustomer": "Customer updated successfully.",
+    "DeletedCustomer": "Customer deleted successfully.",
+    "DisplayName": "Display Name",
+    "ContactNo": "Contact No",
+    "IsCustomer": "Is Customer",
+    "IsVendor": "Is Vendor"
   }
 }
