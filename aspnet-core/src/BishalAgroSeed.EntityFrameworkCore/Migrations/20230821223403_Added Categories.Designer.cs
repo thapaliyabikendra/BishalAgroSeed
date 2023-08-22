@@ -4,6 +4,7 @@ using BishalAgroSeed.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -12,9 +13,11 @@ using Volo.Abp.EntityFrameworkCore;
 namespace BishalAgroSeed.Migrations
 {
     [DbContext(typeof(BishalAgroSeedDbContext))]
-    partial class BishalAgroSeedDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230821223403_Added Categories")]
+    partial class AddedCategories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,7 +89,7 @@ namespace BishalAgroSeed.Migrations
                     b.ToTable("Brands");
                 });
 
-            modelBuilder.Entity("BishalAgroSeed.Categories.Category", b =>
+            modelBuilder.Entity("BishalAgroSeed.Categories.Categorie", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -138,12 +141,10 @@ namespace BishalAgroSeed.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("LastModifierId");
 
-                    b.Property<Guid?>("ParentId")
+                    b.Property<Guid>("ParentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ParentId");
 
                     b.ToTable("Categories");
                 });
@@ -1932,15 +1933,6 @@ namespace BishalAgroSeed.Migrations
                     b.HasKey("TenantId", "Name");
 
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
-                });
-
-            modelBuilder.Entity("BishalAgroSeed.Categories.Category", b =>
-                {
-                    b.HasOne("BishalAgroSeed.Categories.Category", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId");
-
-                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>

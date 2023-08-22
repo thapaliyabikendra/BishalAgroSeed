@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using BishalAgroSeed.Brands;
+using BishalAgroSeed.Categories;
 using BishalAgroSeed.Configurations;
 using BishalAgroSeed.Customers;
 
@@ -17,5 +19,10 @@ public class BishalAgroSeedApplicationAutoMapperProfile : Profile
         CreateMap<CreateUpdateCustomerDto, Customer>();
         CreateMap<Customer, CustomerDto>();
 
+        CreateMap<CreateUpdateBrandDto, Brand>();
+        CreateMap<Brand, BrandDto>();
+
+        CreateMap<CreateUpdateCategoryDto, Category>();
+        CreateMap<Category, CategoryDto>();
     }
 }

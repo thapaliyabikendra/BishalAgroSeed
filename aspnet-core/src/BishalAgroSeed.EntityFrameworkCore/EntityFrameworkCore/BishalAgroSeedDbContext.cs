@@ -1,4 +1,6 @@
-﻿using BishalAgroSeed.Configurations;
+﻿using BishalAgroSeed.Brands;
+using BishalAgroSeed.Categories;
+using BishalAgroSeed.Configurations;
 using BishalAgroSeed.Customers;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -56,6 +58,8 @@ public class BishalAgroSeedDbContext :
     #endregion
     public DbSet<Configuration> Configurations { get; set; }
     public DbSet<Customer> Customers { get; set; }
+    public DbSet<Brand> Brands { get; set; }
+    public DbSet<Category> Categories { get; set; }
     public BishalAgroSeedDbContext(DbContextOptions<BishalAgroSeedDbContext> options)
         : base(options)
     {
