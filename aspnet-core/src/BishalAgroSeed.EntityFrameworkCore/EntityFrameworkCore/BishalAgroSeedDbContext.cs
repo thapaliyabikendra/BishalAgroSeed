@@ -1,7 +1,20 @@
 ﻿using BishalAgroSeed.Brands;
 using BishalAgroSeed.Categories;
+using BishalAgroSeed.CompanyInfos;
 using BishalAgroSeed.Configurations;
 using BishalAgroSeed.Customers;
+using BishalAgroSeed.CycleCountNumbers;
+using BishalAgroSeed.CycleCounts;
+using BishalAgroSeed.DateTimes;
+using BishalAgroSeed.InventoryCounts;
+using BishalAgroSeed.NumberGenerations;
+using BishalAgroSeed.OpeningBalances;
+using BishalAgroSeed.Products;
+using BishalAgroSeed.TransactionDetails;
+using BishalAgroSeed.TransactionPayments;
+using BishalAgroSeed.Transactions;
+using BishalAgroSeed.TranscationTypes;
+using BishalAgroSeed.UnitTypes;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -56,10 +69,25 @@ public class BishalAgroSeedDbContext :
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
 
     #endregion
+
     public DbSet<Configuration> Configurations { get; set; }
+    public DbSet<CompanyInfo> CompanyInfos { get; set; }
+    public DbSet<DateTime> DateTimes { get; set; }
     public DbSet<Customer> Customers { get; set; }
+    public DbSet<OpeningBalance> OpeningBalances { get; set; }
     public DbSet<Brand> Brands { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<UnitType> UnitTypes { get; set; }
+    public DbSet<Product> Products { get; set; }
+    public DbSet<TransactionType> TransactionTypes { get; set; }
+    public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<TransactionDetail> TransactionDetails { get; set; }
+    public DbSet<TransactionPayment> TransactionPayments { get; set; }
+    public DbSet<InventoryCount> InventoryCounts { get; set; }
+    public DbSet<NumberGeneration> NumberGenerations { get; set; }
+    public DbSet<CycleCountNumber> CycleCountNumbers { get; set; }
+    public DbSet<CycleCount> CycleCounts { get; set; }
+
     public BishalAgroSeedDbContext(DbContextOptions<BishalAgroSeedDbContext> options)
         : base(options)
     {
