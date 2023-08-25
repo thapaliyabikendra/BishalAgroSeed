@@ -37,4 +37,18 @@ public static class BishalAgroSeedPermissions
         public const string Edit = Default + ".Edit";
         public const string Delete = Default + ".Delete";
     }
+    public static class CompanyInfos
+    {
+        public const string Default = GroupName + ".CompanyInfos";
+        public const string Create = Default + ".Create";
+        public const string Edit = Default + ".Edit";
+        public const string Delete = Default + ".Delete";
+    }
+    public static class Products
+    {
+        public const string Default = GroupName + ".CompanyInfos";
+        public const string Create = Default + ".Create";
+        public const string Edit = Default + ".Edit";
+        public const string Delete = Default + ".Delete";
+    }
 }
