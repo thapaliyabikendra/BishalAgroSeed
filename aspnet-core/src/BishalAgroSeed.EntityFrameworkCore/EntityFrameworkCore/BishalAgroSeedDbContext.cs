@@ -117,5 +117,10 @@ public class BishalAgroSeedDbContext :
         //    b.ConfigureByConvention(); //auto configure for the base class props
         //    //...
         //});
+
+        builder.Entity<BishalAgroSeed.DateTimes.DateTime>(b =>
+        {
+            b.HasIndex(s => s.Datetime).IsUnique();
+        });
     }
 }

@@ -9,7 +9,7 @@ namespace BishalAgroSeed.Products;
 public class Product : FullAuditedAggregateRoot<Guid>
 {
     public Product() { }
-    public Product(Guid id, string displayName, Guid categoryId, Guid brandId, decimal unit, Guid unitTypeId, decimal price, string description, string imgFileName) : base(id)
+    public Product(Guid id, string displayName, Guid categoryId, Guid brandId, decimal unit, Guid unitTypeId, decimal price, string? description, string? imgFileName) : base(id)
     {
         Id = id;
         DisplayName = displayName;
@@ -34,6 +34,6 @@ public class Product : FullAuditedAggregateRoot<Guid>
     [ForeignKey("UnitTypeId")]
     public virtual UnitType UnitType { get; set; }
     public decimal Price { get; set; }
-    public string Description { get; set; }
-    public string ImgFileName { get; set; }
+    public string? Description { get; set; }
+    public string? ImgFileName { get; set; }
 }

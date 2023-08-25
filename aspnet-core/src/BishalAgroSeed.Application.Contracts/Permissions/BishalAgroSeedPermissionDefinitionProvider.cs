@@ -39,9 +39,9 @@ public class BishalAgroSeedPermissionDefinitionProvider : PermissionDefinitionPr
 
 
         var productPermission = bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.Products.Default, L("Permission:Products"));
-        productPermission.AddChild(BishalAgroSeedPermissions.CompanyInfos.Create, L("Permissions:Products.Create"));
-        productPermission.AddChild(BishalAgroSeedPermissions.CompanyInfos.Edit, L("Permissions:Products.Edit"));
-        productPermission.AddChild(BishalAgroSeedPermissions.CompanyInfos.Delete, L("Permissions:Products.Delete"));
+        productPermission.AddChild(BishalAgroSeedPermissions.Products.Create, L("Permissions:Products.Create"));
+        productPermission.AddChild(BishalAgroSeedPermissions.Products.Edit, L("Permissions:Products.Edit"));
+        productPermission.AddChild(BishalAgroSeedPermissions.Products.Delete, L("Permissions:Products.Delete"));
 
     }
     private static LocalizableString L(string name)

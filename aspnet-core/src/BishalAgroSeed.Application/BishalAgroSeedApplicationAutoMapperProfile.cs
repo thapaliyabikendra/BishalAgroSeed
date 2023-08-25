@@ -4,6 +4,7 @@ using BishalAgroSeed.Categories;
 using BishalAgroSeed.CompanyInfos;
 using BishalAgroSeed.Configurations;
 using BishalAgroSeed.Customers;
+using BishalAgroSeed.Products;
 
 namespace BishalAgroSeed;
 
@@ -28,5 +29,8 @@ public class BishalAgroSeedApplicationAutoMapperProfile : Profile
 
         CreateMap<CreateUpdateCompanyInfoDto, CompanyInfo>();
         CreateMap<CompanyInfo, CompanyInfoDto>();
+
+        CreateMap<CreateUpdateProductDto, Product>();
+        CreateMap<Product, ProductDto>();
     }
 }

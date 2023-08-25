@@ -10,12 +10,12 @@ public class TransactionType : Entity<Guid>
 {
     public TransactionType() { }
 
-    public TransactionType(Guid id, string displayName, string description):base(id)
+    public TransactionType(Guid id, string displayName, string? description):base(id)
     {
         DisplayName = displayName;
         Description = description;
     }
 
     public string DisplayName { get; set; }
-    public string Description { get; set; }
+    public string? Description { get; set; }
 }

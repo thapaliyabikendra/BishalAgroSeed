@@ -30,7 +30,7 @@ public class UnitTypeDataSeederContributor : IDataSeedContributor, ITransientDep
                 Description = d.description
             };
 
-            var unitType = await _repository.FirstOrDefaultAsync(s => String.Equals(s.DisplayName, newUnitType.DisplayName, StringComparison.OrdinalIgnoreCase));
+            var unitType = await _repository.FirstOrDefaultAsync(s => s.DisplayName == newUnitType.DisplayName);
             if (unitType == null)
             {
                 await _repository.InsertAsync(newUnitType);

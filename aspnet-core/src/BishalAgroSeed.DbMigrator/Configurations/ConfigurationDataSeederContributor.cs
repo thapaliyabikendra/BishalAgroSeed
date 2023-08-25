@@ -25,7 +25,7 @@ public class ConfigurationDataSeederContributor : IDataSeedContributor, ITransie
                 Key = d.value,
                 Value = d.description
             };
-            var configuration = await _repository.FirstOrDefaultAsync(s => String.Equals(s.Key, newConfiguration.Key, StringComparison.OrdinalIgnoreCase));
+            var configuration = await _repository.FirstOrDefaultAsync(s => s.Key == newConfiguration.Key);
             if (configuration == null)
             {
                 await _repository.InsertAsync(newConfiguration);

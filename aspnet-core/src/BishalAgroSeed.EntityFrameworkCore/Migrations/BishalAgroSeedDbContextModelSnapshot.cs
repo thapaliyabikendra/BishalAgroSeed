@@ -30,7 +30,6 @@ namespace BishalAgroSeed.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -40,7 +39,6 @@ namespace BishalAgroSeed.Migrations
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<string>("ContactNo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
@@ -242,7 +240,6 @@ namespace BishalAgroSeed.Migrations
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ExtraProperties")
@@ -282,7 +279,6 @@ namespace BishalAgroSeed.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -292,7 +288,6 @@ namespace BishalAgroSeed.Migrations
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<string>("ContactNo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
@@ -356,10 +351,10 @@ namespace BishalAgroSeed.Migrations
                     b.Property<Guid>("CloseBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ClosedBy")
+                    b.Property<Guid?>("ClosedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("ClosedDate")
+                    b.Property<DateTime?>("ClosedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -460,14 +455,13 @@ namespace BishalAgroSeed.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("LastModifierId");
 
-                    b.Property<decimal>("PhysicalQuantity")
+                    b.Property<decimal?>("PhysicalQuantity")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Remarks")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("SystemQuantity")
@@ -495,6 +489,9 @@ namespace BishalAgroSeed.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Datetime")
+                        .IsUnique();
 
                     b.ToTable("DateTimes");
                 });
@@ -722,7 +719,6 @@ namespace BishalAgroSeed.Migrations
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DisplayName")
@@ -734,7 +730,6 @@ namespace BishalAgroSeed.Migrations
                         .HasColumnName("ExtraProperties");
 
                     b.Property<string>("ImgFileName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
@@ -846,11 +841,9 @@ namespace BishalAgroSeed.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("BankName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ChequeNo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -994,7 +987,6 @@ namespace BishalAgroSeed.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DisplayName")
@@ -1012,7 +1004,6 @@ namespace BishalAgroSeed.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DisplayName")

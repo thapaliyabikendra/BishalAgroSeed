@@ -31,7 +31,7 @@ public class TransactionTypeDataSeederContributor : IDataSeedContributor, ITrans
                 Description = d.description
             };
 
-            var transactionType = await _repository.FirstOrDefaultAsync(s => String.Equals(s.DisplayName, newTransactionType.DisplayName, StringComparison.OrdinalIgnoreCase));
+            var transactionType = await _repository.FirstOrDefaultAsync(s => s.DisplayName == newTransactionType.DisplayName);
             if (transactionType == null)
             {
                 await _repository.InsertAsync(newTransactionType);
