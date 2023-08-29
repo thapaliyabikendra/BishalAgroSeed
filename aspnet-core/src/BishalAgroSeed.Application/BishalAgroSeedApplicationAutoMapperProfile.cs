@@ -4,6 +4,7 @@ using BishalAgroSeed.Categories;
 using BishalAgroSeed.CompanyInfos;
 using BishalAgroSeed.Configurations;
 using BishalAgroSeed.Customers;
+using BishalAgroSeed.Dtos;
 using BishalAgroSeed.Products;
 
 namespace BishalAgroSeed;
@@ -32,5 +33,8 @@ public class BishalAgroSeedApplicationAutoMapperProfile : Profile
 
         CreateMap<CreateUpdateProductDto, Product>();
         CreateMap<Product, ProductDto>();
+        CreateMap<Category, DropdownDto>()
+            .ForMember(opt => opt.Value, opt => opt.MapFrom(dest => dest.Id.ToString()))
+            .ForMember(opt => opt.Name, opt => opt.MapFrom(dest => dest.DisplayName));
     }
 }

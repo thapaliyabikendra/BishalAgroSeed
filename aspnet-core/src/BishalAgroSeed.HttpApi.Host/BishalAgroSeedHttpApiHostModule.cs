@@ -69,6 +69,14 @@ public class BishalAgroSeedHttpApiHostModule : AbpModule
         ConfigureVirtualFileSystem(context);
         ConfigureCors(context, configuration);
         ConfigureSwaggerServices(context, configuration);
+        ConfigureLocalization();
+    }
+
+    private void ConfigureLocalization()
+    {
+        Configure<AbpLocalizationOptions>(options => {
+            options.Languages.Add(new LanguageInfo("en", "en", "English"));
+        });
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)

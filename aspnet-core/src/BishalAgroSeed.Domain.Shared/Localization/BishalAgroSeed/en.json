@@ -8,7 +8,9 @@
     "Menu:Customers": "Customers",
     "Menu:Brands": "Brands",
     "Menu:Categories": "Categories",
-    "Menu:CompanyInfo": "CompanyInfos",
+    "Menu:CompanyInfos": "Company-Infos",
+    "Menu:CycleCounts": "Cycle-Counts",
+    "Menu:Products": "Products",
     "New": "New",
     "Permission:Configurations": "Configurations",
     "Permission:Configurations.Create": "Create",
@@ -41,9 +43,20 @@
     "CreatedCustomer": "Customer created successfully.",
     "UpdatedCustomer": "Customer updated successfully.",
     "DeletedCustomer": "Customer deleted successfully.",
+    "CreatedCategory": "Category created successfully.",
+    "UpdatedCategory": "Category updated successfully.",
+    "DeletedCategory": "Category deleted successfully.",
+    "CreatedBrand": "Brand created successfully.",
+    "UpdatedBrand": "Brand updated successfully.",
+    "DeletedBrand": "Brand deleted successfully.",
+    "CreatedCompanyInfo": "CompanyInfo created successfully.",
+    "UpdatedCompanyInfo": "CompanyInfo updated successfully.",
+    "DeletedCompanyInfo": "CompanyInfo deleted successfully.",
     "DisplayName": "Display Name",
     "ContactNo": "Contact No",
     "IsCustomer": "Is Customer",
-    "IsVendor": "Is Vendor"
+    "IsVendor": "Is Vendor",
+    "ParentName": "Parent Name",
+    "PanNo": "Pan No"
   }
 }

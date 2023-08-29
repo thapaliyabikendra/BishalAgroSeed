@@ -1,0 +1,79 @@
+<div class="card">
+    <div class="card-header">
+        <div class="row align-items-center">
+            <div class="col col-6">
+                <h5 class="card-title">{{ '::Menu:CompanyInfos' | abpLocalization}}</h5>
+            </div>
+            <div class="col col-6 text-end">
+                <button class="btn btn-primary" type="button" (click)="create()"
+                    *abpPermission="'BishalAgroSeed.CompanyInfos'">{{'::New' | abpLocalization}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <ngx-datatable [rows]="data.items" [count]="data.totalCount" [list]="list" default>
+            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div ngbDropdown container="body" class="d-inline-block">
+                        <button class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" ngbDropdownToggle>
+                            <i class="fa fa-cog me-1"></i> {{'::Actions' | abpLocalization}}
+                        </button>
+                        <div ngbDropdownMenu>
+                            <button (click)=" edit(row.id)" ngbDropdownItem
+                                *abpPermission="'BishalAgroSeed.CompanyInfos.Edit'">
+                                {{'abpAccount::Edit' | abpLocalization}}
+                            </button>
+                            <button (click)="delete(row.id)" ngbDropdownItem
+                                *abpPermission="'BishalAgroSeed.CompanyInfos.Delete'">
+                                {{ 'AbpAccount::Delete' | abpLocalization}}
+                            </button>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'::DisplayName' | abpLocalization" prop="displayName"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Address' | abpLocalization" prop="address"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::ContactNo' | abpLocalization" prop="contactNo"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::PanNo' | abpLocalization" prop="panNo"></ngx-datatable-column>
+
+
+        </ngx-datatable>
+    </div>
+</div>
+
+<abp-modal [(visible)]="isModalOpen">
+    <ng-template #abpHeader>
+        <h5>{{(selected.id ? '::Edit' : '::New') | abpLocalization }}</h5>
+    </ng-template>
+
+    <ng-template #abpBody>
+        <form id="form" [formGroup]="form" (ngSubmit)="save()">
+            <div>
+                <label for="display-name" class="form-label">{{'::DisplayName' | abpLocalization}}</label> <span>*</span>
+                <input type="text" id="display-name" class="form-control" formControlName="displayName" autofocus />
+            </div>
+            <div class="mt-2">
+                <label for="address" class="form-label">{{'::Address' | abpLocalization}}</label>
+                <input type="text" id="address" class="form-control" formControlName="address" />
+            </div>
+            <div class="mt-2 form-check">
+                <label for="contactNo" class="form-check-label">{{'::ContactNo' | abpLocalization}}</label>
+                <input type="text" id="contactNo" class="form-check-input" formControlName="contactNO" />
+            </div>
+            <div class="mt-2 form-check">
+                <label for="panNo" class="form-check-label">{{'::PanNo' | abpLocalization}}</label>
+                <input type="text" id="panNo" class="form-check-input" formControlName="panNo" />
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template #abpFooter>
+        <button type="button" class="btn btn-secondary" abpClose>
+            {{'::Cancel' | abpLocalization}}
+        </button>
+        <button class="btn btn-warning" form="form" [disabled]="form.invalid"> {{'::Save' | abpLocalization}}</button>
+    </ng-template>
+
+</abp-modal>
+
