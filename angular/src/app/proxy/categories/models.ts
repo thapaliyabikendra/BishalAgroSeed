@@ -11,3 +11,7 @@ export interface CreateUpdateCategoryDto {
   parentId?: string;
   isActive: boolean;
 }
+
+export interface GetCategoryFilter {
+  id?: string;
+}

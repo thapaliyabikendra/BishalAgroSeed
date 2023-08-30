@@ -17,6 +17,4 @@ public class FiscalYear : FullAuditedAggregateRoot<Guid>
     public DateTime FromDate { get; set; }
     public DateTime ToDate { get; set; }
     public bool IsCurrent { get; set; }
-
-
 }

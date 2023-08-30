@@ -61,7 +61,7 @@ function configureRoutes(routesService: RoutesService) {
         path: '/cycle-counts',
         name: '::Menu:CycleCounts',
         iconClass: 'fas fa-home',
-        order: 6,
+        order: 8,
         layout: eLayoutType.application,
       },
     ]);

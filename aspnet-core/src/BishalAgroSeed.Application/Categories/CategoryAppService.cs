@@ -3,6 +3,7 @@ using BishalAgroSeed.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -23,8 +24,11 @@ public class CategoryAppService : CrudAppService<Category, CategoryDto, Guid, Pa
 
     public async Task<List<DropdownDto>> GetCategoriesAsync(GetCategoryFilter filter) 
     {
-        var getList = await Repository.GetListAsync();
-        var mapped = ObjectMapper.Map<List<Category>, List<DropdownDto>>(getList);
-        return mapped;
+        //var categories = await Repository.GetListAsync();
+        //var mappedCategories = ObjectMapper.Map<List<Category>, List<DropdownDto>>(categories);
+        //return mappedCategories;
+        var categoryQueryable = await Repository.GetQueryableAsync();
+        var resp = categoryQueryable.Where(s => s.IsActive).Select(s => new DropdownDto(s.Id.ToString(), s.DisplayName)).ToList();
+        return resp;
     }
 }

@@ -5,6 +5,9 @@ using BishalAgroSeed.CompanyInfos;
 using BishalAgroSeed.Configurations;
 using BishalAgroSeed.Customers;
 using BishalAgroSeed.Dtos;
+using BishalAgroSeed.FiscalYears;
+using BishalAgroSeed.NumberGenerations;
+using BishalAgroSeed.OpeningBalances;
 using BishalAgroSeed.Products;
 
 namespace BishalAgroSeed;
@@ -33,6 +36,16 @@ public class BishalAgroSeedApplicationAutoMapperProfile : Profile
 
         CreateMap<CreateUpdateProductDto, Product>();
         CreateMap<Product, ProductDto>();
+
+        CreateMap<CreateUpdateOpeningBalanceDto, OpeningBalance>();
+        CreateMap<OpeningBalance, OpeningBalanceDto>();
+
+        CreateMap<CreateUpdateNumberGenerationDto, NumberGeneration>();
+        CreateMap<NumberGeneration, NumberGenerationDto>();
+
+        CreateMap<CreateUpdateFiscalYearDto, FiscalYear>();
+        CreateMap<FiscalYear, FiscalYearDto>();
+
         CreateMap<Category, DropdownDto>()
             .ForMember(opt => opt.Value, opt => opt.MapFrom(dest => dest.Id.ToString()))
             .ForMember(opt => opt.Name, opt => opt.MapFrom(dest => dest.DisplayName));

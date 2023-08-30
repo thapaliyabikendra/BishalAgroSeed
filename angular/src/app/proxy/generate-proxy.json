@@ -3,6 +3,675 @@
     "app"
   ],
   "modules": {
+    "featureManagement": {
+      "rootPath": "featureManagement",
+      "remoteServiceName": "AbpFeatureManagement",
+      "controllers": {
+        "Volo.Abp.FeatureManagement.FeaturesController": {
+          "controllerName": "Features",
+          "controllerGroupName": "Features",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "Volo.Abp.FeatureManagement.FeaturesController",
+          "interfaces": [
+            {
+              "type": "Volo.Abp.FeatureManagement.IFeatureAppService",
+              "name": "IFeatureAppService",
+              "methods": [
+                {
+                  "name": "GetAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "providerName",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "providerKey",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Volo.Abp.FeatureManagement.GetFeatureListResultDto",
+                    "typeSimple": "Volo.Abp.FeatureManagement.GetFeatureListResultDto"
+                  }
+                },
+                {
+                  "name": "UpdateAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "providerName",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "providerKey",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "input",
+                      "typeAsString": "Volo.Abp.FeatureManagement.UpdateFeaturesDto, Volo.Abp.FeatureManagement.Application.Contracts",
+                      "type": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
+                      "typeSimple": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                },
+                {
+                  "name": "DeleteAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "providerName",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "providerKey",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "GetAsyncByProviderNameAndProviderKey": {
+              "uniqueName": "GetAsyncByProviderNameAndProviderKey",
+              "name": "GetAsync",
+              "httpMethod": "GET",
+              "url": "api/feature-management/features",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "providerName",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "providerKey",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "providerName",
+                  "name": "providerName",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "providerKey",
+                  "name": "providerKey",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.FeatureManagement.GetFeatureListResultDto",
+                "typeSimple": "Volo.Abp.FeatureManagement.GetFeatureListResultDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.Abp.FeatureManagement.IFeatureAppService"
+            },
+            "UpdateAsyncByProviderNameAndProviderKeyAndInput": {
+              "uniqueName": "UpdateAsyncByProviderNameAndProviderKeyAndInput",
+              "name": "UpdateAsync",
+              "httpMethod": "PUT",
+              "url": "api/feature-management/features",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "providerName",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "providerKey",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.Abp.FeatureManagement.UpdateFeaturesDto, Volo.Abp.FeatureManagement.Application.Contracts",
+                  "type": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
+                  "typeSimple": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "providerName",
+                  "name": "providerName",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "providerKey",
+                  "name": "providerKey",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
+                  "typeSimple": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.Abp.FeatureManagement.IFeatureAppService"
+            },
+            "DeleteAsyncByProviderNameAndProviderKey": {
+              "uniqueName": "DeleteAsyncByProviderNameAndProviderKey",
+              "name": "DeleteAsync",
+              "httpMethod": "DELETE",
+              "url": "api/feature-management/features",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "providerName",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "providerKey",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "providerName",
+                  "name": "providerName",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "providerKey",
+                  "name": "providerKey",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.Abp.FeatureManagement.IFeatureAppService"
+            }
+          }
+        }
+      }
+    },
+    "permissionManagement": {
+      "rootPath": "permissionManagement",
+      "remoteServiceName": "AbpPermissionManagement",
+      "controllers": {
+        "Volo.Abp.PermissionManagement.PermissionsController": {
+          "controllerName": "Permissions",
+          "controllerGroupName": "Permissions",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "Volo.Abp.PermissionManagement.PermissionsController",
+          "interfaces": [
+            {
+              "type": "Volo.Abp.PermissionManagement.IPermissionAppService",
+              "name": "IPermissionAppService",
+              "methods": [
+                {
+                  "name": "GetAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "providerName",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "providerKey",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Volo.Abp.PermissionManagement.GetPermissionListResultDto",
+                    "typeSimple": "Volo.Abp.PermissionManagement.GetPermissionListResultDto"
+                  }
+                },
+                {
+                  "name": "UpdateAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "providerName",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "providerKey",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "input",
+                      "typeAsString": "Volo.Abp.PermissionManagement.UpdatePermissionsDto, Volo.Abp.PermissionManagement.Application.Contracts",
+                      "type": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
+                      "typeSimple": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "GetAsyncByProviderNameAndProviderKey": {
+              "uniqueName": "GetAsyncByProviderNameAndProviderKey",
+              "name": "GetAsync",
+              "httpMethod": "GET",
+              "url": "api/permission-management/permissions",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "providerName",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "providerKey",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "providerName",
+                  "name": "providerName",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "providerKey",
+                  "name": "providerKey",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.PermissionManagement.GetPermissionListResultDto",
+                "typeSimple": "Volo.Abp.PermissionManagement.GetPermissionListResultDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.Abp.PermissionManagement.IPermissionAppService"
+            },
+            "UpdateAsyncByProviderNameAndProviderKeyAndInput": {
+              "uniqueName": "UpdateAsyncByProviderNameAndProviderKeyAndInput",
+              "name": "UpdateAsync",
+              "httpMethod": "PUT",
+              "url": "api/permission-management/permissions",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "providerName",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "providerKey",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.Abp.PermissionManagement.UpdatePermissionsDto, Volo.Abp.PermissionManagement.Application.Contracts",
+                  "type": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
+                  "typeSimple": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "providerName",
+                  "name": "providerName",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "providerKey",
+                  "name": "providerKey",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
+                  "typeSimple": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.Abp.PermissionManagement.IPermissionAppService"
+            }
+          }
+        }
+      }
+    },
+    "settingManagement": {
+      "rootPath": "settingManagement",
+      "remoteServiceName": "SettingManagement",
+      "controllers": {
+        "Volo.Abp.SettingManagement.EmailSettingsController": {
+          "controllerName": "EmailSettings",
+          "controllerGroupName": "EmailSettings",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "Volo.Abp.SettingManagement.EmailSettingsController",
+          "interfaces": [
+            {
+              "type": "Volo.Abp.SettingManagement.IEmailSettingsAppService",
+              "name": "IEmailSettingsAppService",
+              "methods": [
+                {
+                  "name": "GetAsync",
+                  "parametersOnMethod": [],
+                  "returnValue": {
+                    "type": "Volo.Abp.SettingManagement.EmailSettingsDto",
+                    "typeSimple": "Volo.Abp.SettingManagement.EmailSettingsDto"
+                  }
+                },
+                {
+                  "name": "UpdateAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "Volo.Abp.SettingManagement.UpdateEmailSettingsDto, Volo.Abp.SettingManagement.Application.Contracts",
+                      "type": "Volo.Abp.SettingManagement.UpdateEmailSettingsDto",
+                      "typeSimple": "Volo.Abp.SettingManagement.UpdateEmailSettingsDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                },
+                {
+                  "name": "SendTestEmailAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "Volo.Abp.SettingManagement.SendTestEmailInput, Volo.Abp.SettingManagement.Application.Contracts",
+                      "type": "Volo.Abp.SettingManagement.SendTestEmailInput",
+                      "typeSimple": "Volo.Abp.SettingManagement.SendTestEmailInput",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "GetAsync": {
+              "uniqueName": "GetAsync",
+              "name": "GetAsync",
+              "httpMethod": "GET",
+              "url": "api/setting-management/emailing",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "Volo.Abp.SettingManagement.EmailSettingsDto",
+                "typeSimple": "Volo.Abp.SettingManagement.EmailSettingsDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.Abp.SettingManagement.IEmailSettingsAppService"
+            },
+            "UpdateAsyncByInput": {
+              "uniqueName": "UpdateAsyncByInput",
+              "name": "UpdateAsync",
+              "httpMethod": "POST",
+              "url": "api/setting-management/emailing",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.Abp.SettingManagement.UpdateEmailSettingsDto, Volo.Abp.SettingManagement.Application.Contracts",
+                  "type": "Volo.Abp.SettingManagement.UpdateEmailSettingsDto",
+                  "typeSimple": "Volo.Abp.SettingManagement.UpdateEmailSettingsDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "Volo.Abp.SettingManagement.UpdateEmailSettingsDto",
+                  "typeSimple": "Volo.Abp.SettingManagement.UpdateEmailSettingsDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.Abp.SettingManagement.IEmailSettingsAppService"
+            },
+            "SendTestEmailAsyncByInput": {
+              "uniqueName": "SendTestEmailAsyncByInput",
+              "name": "SendTestEmailAsync",
+              "httpMethod": "POST",
+              "url": "api/setting-management/emailing/send-test-email",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.Abp.SettingManagement.SendTestEmailInput, Volo.Abp.SettingManagement.Application.Contracts",
+                  "type": "Volo.Abp.SettingManagement.SendTestEmailInput",
+                  "typeSimple": "Volo.Abp.SettingManagement.SendTestEmailInput",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "Volo.Abp.SettingManagement.SendTestEmailInput",
+                  "typeSimple": "Volo.Abp.SettingManagement.SendTestEmailInput",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.Abp.SettingManagement.IEmailSettingsAppService"
+            }
+          }
+        }
+      }
+    },
     "app": {
       "rootPath": "app",
       "remoteServiceName": "Default",
@@ -347,6 +1016,1026 @@
             }
           }
         },
+        "BishalAgroSeed.OpeningBalances.OpeningBalanceAppService": {
+          "controllerName": "OpeningBalance",
+          "controllerGroupName": "OpeningBalance",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "BishalAgroSeed.OpeningBalances.OpeningBalanceAppService",
+          "interfaces": [
+            {
+              "type": "BishalAgroSeed.OpeningBalances.IOpeningBalanceAppService",
+              "name": "IOpeningBalanceAppService",
+              "methods": [
+                {
+                  "name": "GetAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "BishalAgroSeed.OpeningBalances.OpeningBalanceDto",
+                    "typeSimple": "BishalAgroSeed.OpeningBalances.OpeningBalanceDto"
+                  }
+                },
+                {
+                  "name": "GetListAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto, Volo.Abp.Ddd.Application.Contracts",
+                      "type": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                      "typeSimple": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Volo.Abp.Application.Dtos.PagedResultDto<BishalAgroSeed.OpeningBalances.OpeningBalanceDto>",
+                    "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<BishalAgroSeed.OpeningBalances.OpeningBalanceDto>"
+                  }
+                },
+                {
+                  "name": "CreateAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "BishalAgroSeed.OpeningBalances.CreateUpdateOpeningBalanceDto, BishalAgroSeed.Application.Contracts",
+                      "type": "BishalAgroSeed.OpeningBalances.CreateUpdateOpeningBalanceDto",
+                      "typeSimple": "BishalAgroSeed.OpeningBalances.CreateUpdateOpeningBalanceDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "BishalAgroSeed.OpeningBalances.OpeningBalanceDto",
+                    "typeSimple": "BishalAgroSeed.OpeningBalances.OpeningBalanceDto"
+                  }
+                },
+                {
+                  "name": "UpdateAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "input",
+                      "typeAsString": "BishalAgroSeed.OpeningBalances.CreateUpdateOpeningBalanceDto, BishalAgroSeed.Application.Contracts",
+                      "type": "BishalAgroSeed.OpeningBalances.CreateUpdateOpeningBalanceDto",
+                      "typeSimple": "BishalAgroSeed.OpeningBalances.CreateUpdateOpeningBalanceDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "BishalAgroSeed.OpeningBalances.OpeningBalanceDto",
+                    "typeSimple": "BishalAgroSeed.OpeningBalances.OpeningBalanceDto"
+                  }
+                },
+                {
+                  "name": "DeleteAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "CreateAsyncByInput": {
+              "uniqueName": "CreateAsyncByInput",
+              "name": "CreateAsync",
+              "httpMethod": "POST",
+              "url": "api/app/opening-balance",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "BishalAgroSeed.OpeningBalances.CreateUpdateOpeningBalanceDto, BishalAgroSeed.Application.Contracts",
+                  "type": "BishalAgroSeed.OpeningBalances.CreateUpdateOpeningBalanceDto",
+                  "typeSimple": "BishalAgroSeed.OpeningBalances.CreateUpdateOpeningBalanceDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "BishalAgroSeed.OpeningBalances.CreateUpdateOpeningBalanceDto",
+                  "typeSimple": "BishalAgroSeed.OpeningBalances.CreateUpdateOpeningBalanceDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "BishalAgroSeed.OpeningBalances.OpeningBalanceDto",
+                "typeSimple": "BishalAgroSeed.OpeningBalances.OpeningBalanceDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Volo.Abp.Application.Services.ICreateAppService<BishalAgroSeed.OpeningBalances.OpeningBalanceDto,BishalAgroSeed.OpeningBalances.CreateUpdateOpeningBalanceDto>"
+            },
+            "UpdateAsyncByIdAndInput": {
+              "uniqueName": "UpdateAsyncByIdAndInput",
+              "name": "UpdateAsync",
+              "httpMethod": "PUT",
+              "url": "api/app/opening-balance/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "input",
+                  "typeAsString": "BishalAgroSeed.OpeningBalances.CreateUpdateOpeningBalanceDto, BishalAgroSeed.Application.Contracts",
+                  "type": "BishalAgroSeed.OpeningBalances.CreateUpdateOpeningBalanceDto",
+                  "typeSimple": "BishalAgroSeed.OpeningBalances.CreateUpdateOpeningBalanceDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "BishalAgroSeed.OpeningBalances.CreateUpdateOpeningBalanceDto",
+                  "typeSimple": "BishalAgroSeed.OpeningBalances.CreateUpdateOpeningBalanceDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "BishalAgroSeed.OpeningBalances.OpeningBalanceDto",
+                "typeSimple": "BishalAgroSeed.OpeningBalances.OpeningBalanceDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Volo.Abp.Application.Services.IUpdateAppService<BishalAgroSeed.OpeningBalances.OpeningBalanceDto,System.Guid,BishalAgroSeed.OpeningBalances.CreateUpdateOpeningBalanceDto>"
+            },
+            "DeleteAsyncById": {
+              "uniqueName": "DeleteAsyncById",
+              "name": "DeleteAsync",
+              "httpMethod": "DELETE",
+              "url": "api/app/opening-balance/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Volo.Abp.Application.Services.IDeleteAppService<System.Guid>"
+            },
+            "GetAsyncById": {
+              "uniqueName": "GetAsyncById",
+              "name": "GetAsync",
+              "httpMethod": "GET",
+              "url": "api/app/opening-balance/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "BishalAgroSeed.OpeningBalances.OpeningBalanceDto",
+                "typeSimple": "BishalAgroSeed.OpeningBalances.OpeningBalanceDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<BishalAgroSeed.OpeningBalances.OpeningBalanceDto,BishalAgroSeed.OpeningBalances.OpeningBalanceDto,System.Guid,Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto>"
+            },
+            "GetListAsyncByInput": {
+              "uniqueName": "GetListAsyncByInput",
+              "name": "GetListAsync",
+              "httpMethod": "GET",
+              "url": "api/app/opening-balance",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto, Volo.Abp.Ddd.Application.Contracts",
+                  "type": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                  "typeSimple": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.Application.Dtos.PagedResultDto<BishalAgroSeed.OpeningBalances.OpeningBalanceDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<BishalAgroSeed.OpeningBalances.OpeningBalanceDto>"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<BishalAgroSeed.OpeningBalances.OpeningBalanceDto,BishalAgroSeed.OpeningBalances.OpeningBalanceDto,System.Guid,Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto>"
+            }
+          }
+        },
+        "BishalAgroSeed.NumberGenerations.NumberGenerationAppService": {
+          "controllerName": "NumberGeneration",
+          "controllerGroupName": "NumberGeneration",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "BishalAgroSeed.NumberGenerations.NumberGenerationAppService",
+          "interfaces": [
+            {
+              "type": "BishalAgroSeed.NumberGenerations.INumberGenerationAppService",
+              "name": "INumberGenerationAppService",
+              "methods": [
+                {
+                  "name": "GetAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "BishalAgroSeed.NumberGenerations.NumberGenerationDto",
+                    "typeSimple": "BishalAgroSeed.NumberGenerations.NumberGenerationDto"
+                  }
+                },
+                {
+                  "name": "GetListAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto, Volo.Abp.Ddd.Application.Contracts",
+                      "type": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                      "typeSimple": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Volo.Abp.Application.Dtos.PagedResultDto<BishalAgroSeed.NumberGenerations.NumberGenerationDto>",
+                    "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<BishalAgroSeed.NumberGenerations.NumberGenerationDto>"
+                  }
+                },
+                {
+                  "name": "CreateAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "BishalAgroSeed.NumberGenerations.CreateUpdateNumberGenerationDto, BishalAgroSeed.Application.Contracts",
+                      "type": "BishalAgroSeed.NumberGenerations.CreateUpdateNumberGenerationDto",
+                      "typeSimple": "BishalAgroSeed.NumberGenerations.CreateUpdateNumberGenerationDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "BishalAgroSeed.NumberGenerations.NumberGenerationDto",
+                    "typeSimple": "BishalAgroSeed.NumberGenerations.NumberGenerationDto"
+                  }
+                },
+                {
+                  "name": "UpdateAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "input",
+                      "typeAsString": "BishalAgroSeed.NumberGenerations.CreateUpdateNumberGenerationDto, BishalAgroSeed.Application.Contracts",
+                      "type": "BishalAgroSeed.NumberGenerations.CreateUpdateNumberGenerationDto",
+                      "typeSimple": "BishalAgroSeed.NumberGenerations.CreateUpdateNumberGenerationDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "BishalAgroSeed.NumberGenerations.NumberGenerationDto",
+                    "typeSimple": "BishalAgroSeed.NumberGenerations.NumberGenerationDto"
+                  }
+                },
+                {
+                  "name": "DeleteAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "CreateAsyncByInput": {
+              "uniqueName": "CreateAsyncByInput",
+              "name": "CreateAsync",
+              "httpMethod": "POST",
+              "url": "api/app/number-generation",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "BishalAgroSeed.NumberGenerations.CreateUpdateNumberGenerationDto, BishalAgroSeed.Application.Contracts",
+                  "type": "BishalAgroSeed.NumberGenerations.CreateUpdateNumberGenerationDto",
+                  "typeSimple": "BishalAgroSeed.NumberGenerations.CreateUpdateNumberGenerationDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "BishalAgroSeed.NumberGenerations.CreateUpdateNumberGenerationDto",
+                  "typeSimple": "BishalAgroSeed.NumberGenerations.CreateUpdateNumberGenerationDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "BishalAgroSeed.NumberGenerations.NumberGenerationDto",
+                "typeSimple": "BishalAgroSeed.NumberGenerations.NumberGenerationDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Volo.Abp.Application.Services.ICreateAppService<BishalAgroSeed.NumberGenerations.NumberGenerationDto,BishalAgroSeed.NumberGenerations.CreateUpdateNumberGenerationDto>"
+            },
+            "UpdateAsyncByIdAndInput": {
+              "uniqueName": "UpdateAsyncByIdAndInput",
+              "name": "UpdateAsync",
+              "httpMethod": "PUT",
+              "url": "api/app/number-generation/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "input",
+                  "typeAsString": "BishalAgroSeed.NumberGenerations.CreateUpdateNumberGenerationDto, BishalAgroSeed.Application.Contracts",
+                  "type": "BishalAgroSeed.NumberGenerations.CreateUpdateNumberGenerationDto",
+                  "typeSimple": "BishalAgroSeed.NumberGenerations.CreateUpdateNumberGenerationDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "BishalAgroSeed.NumberGenerations.CreateUpdateNumberGenerationDto",
+                  "typeSimple": "BishalAgroSeed.NumberGenerations.CreateUpdateNumberGenerationDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "BishalAgroSeed.NumberGenerations.NumberGenerationDto",
+                "typeSimple": "BishalAgroSeed.NumberGenerations.NumberGenerationDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Volo.Abp.Application.Services.IUpdateAppService<BishalAgroSeed.NumberGenerations.NumberGenerationDto,System.Guid,BishalAgroSeed.NumberGenerations.CreateUpdateNumberGenerationDto>"
+            },
+            "DeleteAsyncById": {
+              "uniqueName": "DeleteAsyncById",
+              "name": "DeleteAsync",
+              "httpMethod": "DELETE",
+              "url": "api/app/number-generation/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Volo.Abp.Application.Services.IDeleteAppService<System.Guid>"
+            },
+            "GetAsyncById": {
+              "uniqueName": "GetAsyncById",
+              "name": "GetAsync",
+              "httpMethod": "GET",
+              "url": "api/app/number-generation/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "BishalAgroSeed.NumberGenerations.NumberGenerationDto",
+                "typeSimple": "BishalAgroSeed.NumberGenerations.NumberGenerationDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<BishalAgroSeed.NumberGenerations.NumberGenerationDto,BishalAgroSeed.NumberGenerations.NumberGenerationDto,System.Guid,Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto>"
+            },
+            "GetListAsyncByInput": {
+              "uniqueName": "GetListAsyncByInput",
+              "name": "GetListAsync",
+              "httpMethod": "GET",
+              "url": "api/app/number-generation",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto, Volo.Abp.Ddd.Application.Contracts",
+                  "type": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                  "typeSimple": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.Application.Dtos.PagedResultDto<BishalAgroSeed.NumberGenerations.NumberGenerationDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<BishalAgroSeed.NumberGenerations.NumberGenerationDto>"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<BishalAgroSeed.NumberGenerations.NumberGenerationDto,BishalAgroSeed.NumberGenerations.NumberGenerationDto,System.Guid,Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto>"
+            }
+          }
+        },
+        "BishalAgroSeed.FiscalYears.FiscalYearAppService": {
+          "controllerName": "FiscalYear",
+          "controllerGroupName": "FiscalYear",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "BishalAgroSeed.FiscalYears.FiscalYearAppService",
+          "interfaces": [
+            {
+              "type": "BishalAgroSeed.FiscalYears.IFiscalYearAppService",
+              "name": "IFiscalYearAppService",
+              "methods": [
+                {
+                  "name": "GetAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "BishalAgroSeed.FiscalYears.FiscalYearDto",
+                    "typeSimple": "BishalAgroSeed.FiscalYears.FiscalYearDto"
+                  }
+                },
+                {
+                  "name": "GetListAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto, Volo.Abp.Ddd.Application.Contracts",
+                      "type": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                      "typeSimple": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Volo.Abp.Application.Dtos.PagedResultDto<BishalAgroSeed.FiscalYears.FiscalYearDto>",
+                    "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<BishalAgroSeed.FiscalYears.FiscalYearDto>"
+                  }
+                },
+                {
+                  "name": "CreateAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "BishalAgroSeed.FiscalYears.CreateUpdateFiscalYearDto, BishalAgroSeed.Application.Contracts",
+                      "type": "BishalAgroSeed.FiscalYears.CreateUpdateFiscalYearDto",
+                      "typeSimple": "BishalAgroSeed.FiscalYears.CreateUpdateFiscalYearDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "BishalAgroSeed.FiscalYears.FiscalYearDto",
+                    "typeSimple": "BishalAgroSeed.FiscalYears.FiscalYearDto"
+                  }
+                },
+                {
+                  "name": "UpdateAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "input",
+                      "typeAsString": "BishalAgroSeed.FiscalYears.CreateUpdateFiscalYearDto, BishalAgroSeed.Application.Contracts",
+                      "type": "BishalAgroSeed.FiscalYears.CreateUpdateFiscalYearDto",
+                      "typeSimple": "BishalAgroSeed.FiscalYears.CreateUpdateFiscalYearDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "BishalAgroSeed.FiscalYears.FiscalYearDto",
+                    "typeSimple": "BishalAgroSeed.FiscalYears.FiscalYearDto"
+                  }
+                },
+                {
+                  "name": "DeleteAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "CreateAsyncByInput": {
+              "uniqueName": "CreateAsyncByInput",
+              "name": "CreateAsync",
+              "httpMethod": "POST",
+              "url": "api/app/fiscal-year",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "BishalAgroSeed.FiscalYears.CreateUpdateFiscalYearDto, BishalAgroSeed.Application.Contracts",
+                  "type": "BishalAgroSeed.FiscalYears.CreateUpdateFiscalYearDto",
+                  "typeSimple": "BishalAgroSeed.FiscalYears.CreateUpdateFiscalYearDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "BishalAgroSeed.FiscalYears.CreateUpdateFiscalYearDto",
+                  "typeSimple": "BishalAgroSeed.FiscalYears.CreateUpdateFiscalYearDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "BishalAgroSeed.FiscalYears.FiscalYearDto",
+                "typeSimple": "BishalAgroSeed.FiscalYears.FiscalYearDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Volo.Abp.Application.Services.ICreateAppService<BishalAgroSeed.FiscalYears.FiscalYearDto,BishalAgroSeed.FiscalYears.CreateUpdateFiscalYearDto>"
+            },
+            "UpdateAsyncByIdAndInput": {
+              "uniqueName": "UpdateAsyncByIdAndInput",
+              "name": "UpdateAsync",
+              "httpMethod": "PUT",
+              "url": "api/app/fiscal-year/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "input",
+                  "typeAsString": "BishalAgroSeed.FiscalYears.CreateUpdateFiscalYearDto, BishalAgroSeed.Application.Contracts",
+                  "type": "BishalAgroSeed.FiscalYears.CreateUpdateFiscalYearDto",
+                  "typeSimple": "BishalAgroSeed.FiscalYears.CreateUpdateFiscalYearDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "BishalAgroSeed.FiscalYears.CreateUpdateFiscalYearDto",
+                  "typeSimple": "BishalAgroSeed.FiscalYears.CreateUpdateFiscalYearDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "BishalAgroSeed.FiscalYears.FiscalYearDto",
+                "typeSimple": "BishalAgroSeed.FiscalYears.FiscalYearDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Volo.Abp.Application.Services.IUpdateAppService<BishalAgroSeed.FiscalYears.FiscalYearDto,System.Guid,BishalAgroSeed.FiscalYears.CreateUpdateFiscalYearDto>"
+            },
+            "DeleteAsyncById": {
+              "uniqueName": "DeleteAsyncById",
+              "name": "DeleteAsync",
+              "httpMethod": "DELETE",
+              "url": "api/app/fiscal-year/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Volo.Abp.Application.Services.IDeleteAppService<System.Guid>"
+            },
+            "GetAsyncById": {
+              "uniqueName": "GetAsyncById",
+              "name": "GetAsync",
+              "httpMethod": "GET",
+              "url": "api/app/fiscal-year/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "BishalAgroSeed.FiscalYears.FiscalYearDto",
+                "typeSimple": "BishalAgroSeed.FiscalYears.FiscalYearDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<BishalAgroSeed.FiscalYears.FiscalYearDto,BishalAgroSeed.FiscalYears.FiscalYearDto,System.Guid,Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto>"
+            },
+            "GetListAsyncByInput": {
+              "uniqueName": "GetListAsyncByInput",
+              "name": "GetListAsync",
+              "httpMethod": "GET",
+              "url": "api/app/fiscal-year",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto, Volo.Abp.Ddd.Application.Contracts",
+                  "type": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                  "typeSimple": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.Application.Dtos.PagedResultDto<BishalAgroSeed.FiscalYears.FiscalYearDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<BishalAgroSeed.FiscalYears.FiscalYearDto>"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<BishalAgroSeed.FiscalYears.FiscalYearDto,BishalAgroSeed.FiscalYears.FiscalYearDto,System.Guid,Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto>"
+            }
+          }
+        },
         "BishalAgroSeed.Customers.CustomerAppService": {
           "controllerName": "Customer",
           "controllerGroupName": "Customer",
@@ -490,7 +2179,7 @@
                 "type": "BishalAgroSeed.Customers.CustomerDto",
                 "typeSimple": "BishalAgroSeed.Customers.CustomerDto"
               },
-              "allowAnonymous": null,
+              "allowAnonymous": false,
               "implementFrom": "Volo.Abp.Application.Services.ICreateAppService<BishalAgroSeed.Customers.CustomerDto,BishalAgroSeed.Customers.CreateUpdateCustomerDto>"
             },
             "UpdateAsyncByIdAndInput": {
@@ -547,7 +2236,7 @@
                 "type": "BishalAgroSeed.Customers.CustomerDto",
                 "typeSimple": "BishalAgroSeed.Customers.CustomerDto"
               },
-              "allowAnonymous": null,
+              "allowAnonymous": false,
               "implementFrom": "Volo.Abp.Application.Services.IUpdateAppService<BishalAgroSeed.Customers.CustomerDto,System.Guid,BishalAgroSeed.Customers.CreateUpdateCustomerDto>"
             },
             "DeleteAsyncById": {
@@ -584,7 +2273,7 @@
                 "type": "System.Void",
                 "typeSimple": "System.Void"
               },
-              "allowAnonymous": null,
+              "allowAnonymous": false,
               "implementFrom": "Volo.Abp.Application.Services.IDeleteAppService<System.Guid>"
             },
             "GetAsyncById": {
@@ -621,7 +2310,7 @@
                 "type": "BishalAgroSeed.Customers.CustomerDto",
                 "typeSimple": "BishalAgroSeed.Customers.CustomerDto"
               },
-              "allowAnonymous": null,
+              "allowAnonymous": false,
               "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<BishalAgroSeed.Customers.CustomerDto,BishalAgroSeed.Customers.CustomerDto,System.Guid,Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto>"
             },
             "GetListAsyncByInput": {
@@ -682,7 +2371,7 @@
                 "type": "Volo.Abp.Application.Dtos.PagedResultDto<BishalAgroSeed.Customers.CustomerDto>",
                 "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<BishalAgroSeed.Customers.CustomerDto>"
               },
-              "allowAnonymous": null,
+              "allowAnonymous": false,
               "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<BishalAgroSeed.Customers.CustomerDto,BishalAgroSeed.Customers.CustomerDto,System.Guid,Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto>"
             }
           }
@@ -1380,6 +3069,23 @@
               "name": "ICategoryAppService",
               "methods": [
                 {
+                  "name": "GetCategoriesAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "filter",
+                      "typeAsString": "BishalAgroSeed.Categories.GetCategoryFilter, BishalAgroSeed.Application.Contracts",
+                      "type": "BishalAgroSeed.Categories.GetCategoryFilter",
+                      "typeSimple": "BishalAgroSeed.Categories.GetCategoryFilter",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Collections.Generic.List<BishalAgroSeed.Dtos.DropdownDto>",
+                    "typeSimple": "[BishalAgroSeed.Dtos.DropdownDto]"
+                  }
+                },
+                {
                   "name": "GetAsync",
                   "parametersOnMethod": [
                     {
@@ -1476,6 +3182,43 @@
             }
           ],
           "actions": {
+            "GetCategoriesAsyncByFilter": {
+              "uniqueName": "GetCategoriesAsyncByFilter",
+              "name": "GetCategoriesAsync",
+              "httpMethod": "GET",
+              "url": "api/app/category/categories",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "filter",
+                  "typeAsString": "BishalAgroSeed.Categories.GetCategoryFilter, BishalAgroSeed.Application.Contracts",
+                  "type": "BishalAgroSeed.Categories.GetCategoryFilter",
+                  "typeSimple": "BishalAgroSeed.Categories.GetCategoryFilter",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "filter",
+                  "name": "Id",
+                  "jsonName": null,
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "filter"
+                }
+              ],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<BishalAgroSeed.Dtos.DropdownDto>",
+                "typeSimple": "[BishalAgroSeed.Dtos.DropdownDto]"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "BishalAgroSeed.Categories.ICategoryAppService"
+            },
             "CreateAsyncByInput": {
               "uniqueName": "CreateAsyncByInput",
               "name": "CreateAsync",
@@ -2049,35 +3792,27 @@
         }
       }
     },
-    "featureManagement": {
-      "rootPath": "featureManagement",
-      "remoteServiceName": "AbpFeatureManagement",
+    "abp": {
+      "rootPath": "abp",
+      "remoteServiceName": "abp",
       "controllers": {
-        "Volo.Abp.FeatureManagement.FeaturesController": {
-          "controllerName": "Features",
-          "controllerGroupName": "Features",
+        "Pages.Abp.MultiTenancy.AbpTenantController": {
+          "controllerName": "AbpTenant",
+          "controllerGroupName": "AbpTenant",
           "isRemoteService": true,
           "isIntegrationService": false,
           "apiVersion": null,
-          "type": "Volo.Abp.FeatureManagement.FeaturesController",
+          "type": "Pages.Abp.MultiTenancy.AbpTenantController",
           "interfaces": [
             {
-              "type": "Volo.Abp.FeatureManagement.IFeatureAppService",
-              "name": "IFeatureAppService",
+              "type": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.IAbpTenantAppService",
+              "name": "IAbpTenantAppService",
               "methods": [
                 {
-                  "name": "GetAsync",
+                  "name": "FindTenantByNameAsync",
                   "parametersOnMethod": [
                     {
-                      "name": "providerName",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "providerKey",
+                      "name": "name",
                       "typeAsString": "System.String, System.Private.CoreLib",
                       "type": "System.String",
                       "typeSimple": "string",
@@ -2086,89 +3821,40 @@
                     }
                   ],
                   "returnValue": {
-                    "type": "Volo.Abp.FeatureManagement.GetFeatureListResultDto",
-                    "typeSimple": "Volo.Abp.FeatureManagement.GetFeatureListResultDto"
+                    "type": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto",
+                    "typeSimple": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto"
                   }
                 },
                 {
-                  "name": "UpdateAsync",
+                  "name": "FindTenantByIdAsync",
                   "parametersOnMethod": [
                     {
-                      "name": "providerName",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "providerKey",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "input",
-                      "typeAsString": "Volo.Abp.FeatureManagement.UpdateFeaturesDto, Volo.Abp.FeatureManagement.Application.Contracts",
-                      "type": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
-                      "typeSimple": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Void",
-                    "typeSimple": "System.Void"
-                  }
-                },
-                {
-                  "name": "DeleteAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "providerName",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "providerKey",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
                       "typeSimple": "string",
                       "isOptional": false,
                       "defaultValue": null
                     }
                   ],
                   "returnValue": {
-                    "type": "System.Void",
-                    "typeSimple": "System.Void"
+                    "type": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto",
+                    "typeSimple": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto"
                   }
                 }
               ]
             }
           ],
           "actions": {
-            "GetAsyncByProviderNameAndProviderKey": {
-              "uniqueName": "GetAsyncByProviderNameAndProviderKey",
-              "name": "GetAsync",
+            "FindTenantByNameAsyncByName": {
+              "uniqueName": "FindTenantByNameAsyncByName",
+              "name": "FindTenantByNameAsync",
               "httpMethod": "GET",
-              "url": "api/feature-management/features",
+              "url": "api/abp/multi-tenancy/tenants/by-name/{name}",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
-                  "name": "providerName",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "providerKey",
+                  "name": "name",
                   "typeAsString": "System.String, System.Private.CoreLib",
                   "type": "System.String",
                   "typeSimple": "string",
@@ -2178,85 +3864,189 @@
               ],
               "parameters": [
                 {
-                  "nameOnMethod": "providerName",
-                  "name": "providerName",
+                  "nameOnMethod": "name",
+                  "name": "name",
                   "jsonName": null,
                   "type": "System.String",
                   "typeSimple": "string",
                   "isOptional": false,
                   "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "providerKey",
-                  "name": "providerKey",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
                   "descriptorName": ""
                 }
               ],
               "returnValue": {
-                "type": "Volo.Abp.FeatureManagement.GetFeatureListResultDto",
-                "typeSimple": "Volo.Abp.FeatureManagement.GetFeatureListResultDto"
+                "type": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto",
+                "typeSimple": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto"
               },
               "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.FeatureManagement.IFeatureAppService"
+              "implementFrom": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.IAbpTenantAppService"
             },
-            "UpdateAsyncByProviderNameAndProviderKeyAndInput": {
-              "uniqueName": "UpdateAsyncByProviderNameAndProviderKeyAndInput",
-              "name": "UpdateAsync",
-              "httpMethod": "PUT",
-              "url": "api/feature-management/features",
+            "FindTenantByIdAsyncById": {
+              "uniqueName": "FindTenantByIdAsyncById",
+              "name": "FindTenantByIdAsync",
+              "httpMethod": "GET",
+              "url": "api/abp/multi-tenancy/tenants/by-id/{id}",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
-                  "name": "providerName",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
                   "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "providerKey",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "input",
-                  "typeAsString": "Volo.Abp.FeatureManagement.UpdateFeaturesDto, Volo.Abp.FeatureManagement.Application.Contracts",
-                  "type": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
-                  "typeSimple": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
               ],
               "parameters": [
                 {
-                  "nameOnMethod": "providerName",
-                  "name": "providerName",
+                  "nameOnMethod": "id",
+                  "name": "id",
                   "jsonName": null,
-                  "type": "System.String",
+                  "type": "System.Guid",
                   "typeSimple": "string",
                   "isOptional": false,
                   "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
                   "descriptorName": ""
-                },
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto",
+                "typeSimple": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.IAbpTenantAppService"
+            }
+          }
+        },
+        "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.AbpApplicationConfigurationController": {
+          "controllerName": "AbpApplicationConfiguration",
+          "controllerGroupName": "AbpApplicationConfiguration",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.AbpApplicationConfigurationController",
+          "interfaces": [
+            {
+              "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.IAbpApplicationConfigurationAppService",
+              "name": "IAbpApplicationConfigurationAppService",
+              "methods": [
                 {
-                  "nameOnMethod": "providerKey",
-                  "name": "providerKey",
+                  "name": "GetAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "options",
+                      "typeAsString": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationRequestOptions, Volo.Abp.AspNetCore.Mvc.Contracts",
+                      "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationRequestOptions",
+                      "typeSimple": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationRequestOptions",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationDto",
+                    "typeSimple": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationDto"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "GetAsyncByOptions": {
+              "uniqueName": "GetAsyncByOptions",
+              "name": "GetAsync",
+              "httpMethod": "GET",
+              "url": "api/abp/application-configuration",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "options",
+                  "typeAsString": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationRequestOptions, Volo.Abp.AspNetCore.Mvc.Contracts",
+                  "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationRequestOptions",
+                  "typeSimple": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationRequestOptions",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "options",
+                  "name": "IncludeLocalizationResources",
+                  "jsonName": null,
+                  "type": "System.Boolean",
+                  "typeSimple": "boolean",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "options"
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationDto",
+                "typeSimple": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.IAbpApplicationConfigurationAppService"
+            }
+          }
+        },
+        "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.AbpApplicationLocalizationController": {
+          "controllerName": "AbpApplicationLocalization",
+          "controllerGroupName": "AbpApplicationLocalization",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.AbpApplicationLocalizationController",
+          "interfaces": [
+            {
+              "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.IAbpApplicationLocalizationAppService",
+              "name": "IAbpApplicationLocalizationAppService",
+              "methods": [
+                {
+                  "name": "GetAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationRequestDto, Volo.Abp.AspNetCore.Mvc.Contracts",
+                      "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationRequestDto",
+                      "typeSimple": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationDto",
+                    "typeSimple": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationDto"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "GetAsyncByInput": {
+              "uniqueName": "GetAsyncByInput",
+              "name": "GetAsync",
+              "httpMethod": "GET",
+              "url": "api/abp/application-localization",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationRequestDto, Volo.Abp.AspNetCore.Mvc.Contracts",
+                  "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationRequestDto",
+                  "typeSimple": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "CultureName",
                   "jsonName": null,
                   "type": "System.String",
                   "typeSimple": "string",
@@ -2264,84 +4054,75 @@
                   "defaultValue": null,
                   "constraintTypes": null,
                   "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
+                  "descriptorName": "input"
                 },
                 {
                   "nameOnMethod": "input",
-                  "name": "input",
+                  "name": "OnlyDynamics",
                   "jsonName": null,
-                  "type": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
-                  "typeSimple": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
+                  "type": "System.Boolean",
+                  "typeSimple": "boolean",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
                 }
               ],
               "returnValue": {
-                "type": "System.Void",
-                "typeSimple": "System.Void"
+                "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationDto",
+                "typeSimple": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationDto"
               },
               "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.FeatureManagement.IFeatureAppService"
-            },
-            "DeleteAsyncByProviderNameAndProviderKey": {
-              "uniqueName": "DeleteAsyncByProviderNameAndProviderKey",
-              "name": "DeleteAsync",
-              "httpMethod": "DELETE",
-              "url": "api/feature-management/features",
+              "implementFrom": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.IAbpApplicationLocalizationAppService"
+            }
+          }
+        },
+        "Volo.Abp.AspNetCore.Mvc.ApiExploring.AbpApiDefinitionController": {
+          "controllerName": "AbpApiDefinition",
+          "controllerGroupName": "AbpApiDefinition",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "Volo.Abp.AspNetCore.Mvc.ApiExploring.AbpApiDefinitionController",
+          "interfaces": [],
+          "actions": {
+            "GetByModel": {
+              "uniqueName": "GetByModel",
+              "name": "Get",
+              "httpMethod": "GET",
+              "url": "api/abp/api-definition",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
-                  "name": "providerName",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "providerKey",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
+                  "name": "model",
+                  "typeAsString": "Volo.Abp.Http.Modeling.ApplicationApiDescriptionModelRequestDto, Volo.Abp.Http",
+                  "type": "Volo.Abp.Http.Modeling.ApplicationApiDescriptionModelRequestDto",
+                  "typeSimple": "Volo.Abp.Http.Modeling.ApplicationApiDescriptionModelRequestDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
               ],
               "parameters": [
                 {
-                  "nameOnMethod": "providerName",
-                  "name": "providerName",
+                  "nameOnMethod": "model",
+                  "name": "IncludeTypes",
                   "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
+                  "type": "System.Boolean",
+                  "typeSimple": "boolean",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
                   "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "providerKey",
-                  "name": "providerKey",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
+                  "descriptorName": "model"
                 }
               ],
               "returnValue": {
-                "type": "System.Void",
-                "typeSimple": "System.Void"
+                "type": "Volo.Abp.Http.Modeling.ApplicationApiDescriptionModel",
+                "typeSimple": "Volo.Abp.Http.Modeling.ApplicationApiDescriptionModel"
               },
               "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.FeatureManagement.IFeatureAppService"
+              "implementFrom": "Volo.Abp.AspNetCore.Mvc.ApiExploring.AbpApiDefinitionController"
             }
           }
         }
@@ -2831,222 +4612,6 @@
               },
               "allowAnonymous": null,
               "implementFrom": "Volo.Abp.Account.IProfileAppService"
-            }
-          }
-        }
-      }
-    },
-    "permissionManagement": {
-      "rootPath": "permissionManagement",
-      "remoteServiceName": "AbpPermissionManagement",
-      "controllers": {
-        "Volo.Abp.PermissionManagement.PermissionsController": {
-          "controllerName": "Permissions",
-          "controllerGroupName": "Permissions",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "Volo.Abp.PermissionManagement.PermissionsController",
-          "interfaces": [
-            {
-              "type": "Volo.Abp.PermissionManagement.IPermissionAppService",
-              "name": "IPermissionAppService",
-              "methods": [
-                {
-                  "name": "GetAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "providerName",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "providerKey",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "Volo.Abp.PermissionManagement.GetPermissionListResultDto",
-                    "typeSimple": "Volo.Abp.PermissionManagement.GetPermissionListResultDto"
-                  }
-                },
-                {
-                  "name": "UpdateAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "providerName",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "providerKey",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "input",
-                      "typeAsString": "Volo.Abp.PermissionManagement.UpdatePermissionsDto, Volo.Abp.PermissionManagement.Application.Contracts",
-                      "type": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
-                      "typeSimple": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Void",
-                    "typeSimple": "System.Void"
-                  }
-                }
-              ]
-            }
-          ],
-          "actions": {
-            "GetAsyncByProviderNameAndProviderKey": {
-              "uniqueName": "GetAsyncByProviderNameAndProviderKey",
-              "name": "GetAsync",
-              "httpMethod": "GET",
-              "url": "api/permission-management/permissions",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "providerName",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "providerKey",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "providerName",
-                  "name": "providerName",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "providerKey",
-                  "name": "providerKey",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Volo.Abp.PermissionManagement.GetPermissionListResultDto",
-                "typeSimple": "Volo.Abp.PermissionManagement.GetPermissionListResultDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.PermissionManagement.IPermissionAppService"
-            },
-            "UpdateAsyncByProviderNameAndProviderKeyAndInput": {
-              "uniqueName": "UpdateAsyncByProviderNameAndProviderKeyAndInput",
-              "name": "UpdateAsync",
-              "httpMethod": "PUT",
-              "url": "api/permission-management/permissions",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "providerName",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "providerKey",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "input",
-                  "typeAsString": "Volo.Abp.PermissionManagement.UpdatePermissionsDto, Volo.Abp.PermissionManagement.Application.Contracts",
-                  "type": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
-                  "typeSimple": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "providerName",
-                  "name": "providerName",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "providerKey",
-                  "name": "providerKey",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "jsonName": null,
-                  "type": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
-                  "typeSimple": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Void",
-                "typeSimple": "System.Void"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.PermissionManagement.IPermissionAppService"
             }
           }
         }
@@ -4322,342 +5887,6 @@
         }
       }
     },
-    "abp": {
-      "rootPath": "abp",
-      "remoteServiceName": "abp",
-      "controllers": {
-        "Pages.Abp.MultiTenancy.AbpTenantController": {
-          "controllerName": "AbpTenant",
-          "controllerGroupName": "AbpTenant",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "Pages.Abp.MultiTenancy.AbpTenantController",
-          "interfaces": [
-            {
-              "type": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.IAbpTenantAppService",
-              "name": "IAbpTenantAppService",
-              "methods": [
-                {
-                  "name": "FindTenantByNameAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "name",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto",
-                    "typeSimple": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto"
-                  }
-                },
-                {
-                  "name": "FindTenantByIdAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "id",
-                      "typeAsString": "System.Guid, System.Private.CoreLib",
-                      "type": "System.Guid",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto",
-                    "typeSimple": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto"
-                  }
-                }
-              ]
-            }
-          ],
-          "actions": {
-            "FindTenantByNameAsyncByName": {
-              "uniqueName": "FindTenantByNameAsyncByName",
-              "name": "FindTenantByNameAsync",
-              "httpMethod": "GET",
-              "url": "api/abp/multi-tenancy/tenants/by-name/{name}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "name",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "name",
-                  "name": "name",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto",
-                "typeSimple": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.IAbpTenantAppService"
-            },
-            "FindTenantByIdAsyncById": {
-              "uniqueName": "FindTenantByIdAsyncById",
-              "name": "FindTenantByIdAsync",
-              "httpMethod": "GET",
-              "url": "api/abp/multi-tenancy/tenants/by-id/{id}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto",
-                "typeSimple": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.IAbpTenantAppService"
-            }
-          }
-        },
-        "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.AbpApplicationConfigurationController": {
-          "controllerName": "AbpApplicationConfiguration",
-          "controllerGroupName": "AbpApplicationConfiguration",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.AbpApplicationConfigurationController",
-          "interfaces": [
-            {
-              "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.IAbpApplicationConfigurationAppService",
-              "name": "IAbpApplicationConfigurationAppService",
-              "methods": [
-                {
-                  "name": "GetAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "options",
-                      "typeAsString": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationRequestOptions, Volo.Abp.AspNetCore.Mvc.Contracts",
-                      "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationRequestOptions",
-                      "typeSimple": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationRequestOptions",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationDto",
-                    "typeSimple": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationDto"
-                  }
-                }
-              ]
-            }
-          ],
-          "actions": {
-            "GetAsyncByOptions": {
-              "uniqueName": "GetAsyncByOptions",
-              "name": "GetAsync",
-              "httpMethod": "GET",
-              "url": "api/abp/application-configuration",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "options",
-                  "typeAsString": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationRequestOptions, Volo.Abp.AspNetCore.Mvc.Contracts",
-                  "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationRequestOptions",
-                  "typeSimple": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationRequestOptions",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "options",
-                  "name": "IncludeLocalizationResources",
-                  "jsonName": null,
-                  "type": "System.Boolean",
-                  "typeSimple": "boolean",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": "options"
-                }
-              ],
-              "returnValue": {
-                "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationDto",
-                "typeSimple": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.IAbpApplicationConfigurationAppService"
-            }
-          }
-        },
-        "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.AbpApplicationLocalizationController": {
-          "controllerName": "AbpApplicationLocalization",
-          "controllerGroupName": "AbpApplicationLocalization",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.AbpApplicationLocalizationController",
-          "interfaces": [
-            {
-              "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.IAbpApplicationLocalizationAppService",
-              "name": "IAbpApplicationLocalizationAppService",
-              "methods": [
-                {
-                  "name": "GetAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "input",
-                      "typeAsString": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationRequestDto, Volo.Abp.AspNetCore.Mvc.Contracts",
-                      "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationRequestDto",
-                      "typeSimple": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationRequestDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationDto",
-                    "typeSimple": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationDto"
-                  }
-                }
-              ]
-            }
-          ],
-          "actions": {
-            "GetAsyncByInput": {
-              "uniqueName": "GetAsyncByInput",
-              "name": "GetAsync",
-              "httpMethod": "GET",
-              "url": "api/abp/application-localization",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "input",
-                  "typeAsString": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationRequestDto, Volo.Abp.AspNetCore.Mvc.Contracts",
-                  "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationRequestDto",
-                  "typeSimple": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "input",
-                  "name": "CultureName",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": "input"
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "OnlyDynamics",
-                  "jsonName": null,
-                  "type": "System.Boolean",
-                  "typeSimple": "boolean",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": "input"
-                }
-              ],
-              "returnValue": {
-                "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationDto",
-                "typeSimple": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.IAbpApplicationLocalizationAppService"
-            }
-          }
-        },
-        "Volo.Abp.AspNetCore.Mvc.ApiExploring.AbpApiDefinitionController": {
-          "controllerName": "AbpApiDefinition",
-          "controllerGroupName": "AbpApiDefinition",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "Volo.Abp.AspNetCore.Mvc.ApiExploring.AbpApiDefinitionController",
-          "interfaces": [],
-          "actions": {
-            "GetByModel": {
-              "uniqueName": "GetByModel",
-              "name": "Get",
-              "httpMethod": "GET",
-              "url": "api/abp/api-definition",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "model",
-                  "typeAsString": "Volo.Abp.Http.Modeling.ApplicationApiDescriptionModelRequestDto, Volo.Abp.Http",
-                  "type": "Volo.Abp.Http.Modeling.ApplicationApiDescriptionModelRequestDto",
-                  "typeSimple": "Volo.Abp.Http.Modeling.ApplicationApiDescriptionModelRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "model",
-                  "name": "IncludeTypes",
-                  "jsonName": null,
-                  "type": "System.Boolean",
-                  "typeSimple": "boolean",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": "model"
-                }
-              ],
-              "returnValue": {
-                "type": "Volo.Abp.Http.Modeling.ApplicationApiDescriptionModel",
-                "typeSimple": "Volo.Abp.Http.Modeling.ApplicationApiDescriptionModel"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.AspNetCore.Mvc.ApiExploring.AbpApiDefinitionController"
-            }
-          }
-        }
-      }
-    },
     "multi-tenancy": {
       "rootPath": "multi-tenancy",
       "remoteServiceName": "AbpTenantManagement",
@@ -5201,161 +6430,6 @@
               },
               "allowAnonymous": null,
               "implementFrom": "Volo.Abp.TenantManagement.ITenantAppService"
-            }
-          }
-        }
-      }
-    },
-    "settingManagement": {
-      "rootPath": "settingManagement",
-      "remoteServiceName": "SettingManagement",
-      "controllers": {
-        "Volo.Abp.SettingManagement.EmailSettingsController": {
-          "controllerName": "EmailSettings",
-          "controllerGroupName": "EmailSettings",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "Volo.Abp.SettingManagement.EmailSettingsController",
-          "interfaces": [
-            {
-              "type": "Volo.Abp.SettingManagement.IEmailSettingsAppService",
-              "name": "IEmailSettingsAppService",
-              "methods": [
-                {
-                  "name": "GetAsync",
-                  "parametersOnMethod": [],
-                  "returnValue": {
-                    "type": "Volo.Abp.SettingManagement.EmailSettingsDto",
-                    "typeSimple": "Volo.Abp.SettingManagement.EmailSettingsDto"
-                  }
-                },
-                {
-                  "name": "UpdateAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "input",
-                      "typeAsString": "Volo.Abp.SettingManagement.UpdateEmailSettingsDto, Volo.Abp.SettingManagement.Application.Contracts",
-                      "type": "Volo.Abp.SettingManagement.UpdateEmailSettingsDto",
-                      "typeSimple": "Volo.Abp.SettingManagement.UpdateEmailSettingsDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Void",
-                    "typeSimple": "System.Void"
-                  }
-                },
-                {
-                  "name": "SendTestEmailAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "input",
-                      "typeAsString": "Volo.Abp.SettingManagement.SendTestEmailInput, Volo.Abp.SettingManagement.Application.Contracts",
-                      "type": "Volo.Abp.SettingManagement.SendTestEmailInput",
-                      "typeSimple": "Volo.Abp.SettingManagement.SendTestEmailInput",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Void",
-                    "typeSimple": "System.Void"
-                  }
-                }
-              ]
-            }
-          ],
-          "actions": {
-            "GetAsync": {
-              "uniqueName": "GetAsync",
-              "name": "GetAsync",
-              "httpMethod": "GET",
-              "url": "api/setting-management/emailing",
-              "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
-              "returnValue": {
-                "type": "Volo.Abp.SettingManagement.EmailSettingsDto",
-                "typeSimple": "Volo.Abp.SettingManagement.EmailSettingsDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.SettingManagement.IEmailSettingsAppService"
-            },
-            "UpdateAsyncByInput": {
-              "uniqueName": "UpdateAsyncByInput",
-              "name": "UpdateAsync",
-              "httpMethod": "POST",
-              "url": "api/setting-management/emailing",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "input",
-                  "typeAsString": "Volo.Abp.SettingManagement.UpdateEmailSettingsDto, Volo.Abp.SettingManagement.Application.Contracts",
-                  "type": "Volo.Abp.SettingManagement.UpdateEmailSettingsDto",
-                  "typeSimple": "Volo.Abp.SettingManagement.UpdateEmailSettingsDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "jsonName": null,
-                  "type": "Volo.Abp.SettingManagement.UpdateEmailSettingsDto",
-                  "typeSimple": "Volo.Abp.SettingManagement.UpdateEmailSettingsDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Void",
-                "typeSimple": "System.Void"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.SettingManagement.IEmailSettingsAppService"
-            },
-            "SendTestEmailAsyncByInput": {
-              "uniqueName": "SendTestEmailAsyncByInput",
-              "name": "SendTestEmailAsync",
-              "httpMethod": "POST",
-              "url": "api/setting-management/emailing/send-test-email",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "input",
-                  "typeAsString": "Volo.Abp.SettingManagement.SendTestEmailInput, Volo.Abp.SettingManagement.Application.Contracts",
-                  "type": "Volo.Abp.SettingManagement.SendTestEmailInput",
-                  "typeSimple": "Volo.Abp.SettingManagement.SendTestEmailInput",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "jsonName": null,
-                  "type": "Volo.Abp.SettingManagement.SendTestEmailInput",
-                  "typeSimple": "Volo.Abp.SettingManagement.SendTestEmailInput",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Void",
-                "typeSimple": "System.Void"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.SettingManagement.IEmailSettingsAppService"
             }
           }
         }
@@ -10869,6 +11943,407 @@
       "genericArguments": null,
       "properties": []
     },
+    "BishalAgroSeed.OpeningBalances.CreateUpdateOpeningBalanceDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Amount",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "TranDate",
+          "jsonName": null,
+          "type": "System.DateTime",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "CustomerId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsReceivable",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "BishalAgroSeed.OpeningBalances.OpeningBalanceDto": {
+      "baseType": "Volo.Abp.Application.Dtos.AuditedEntityDto<System.Guid>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Amount",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "TranDate",
+          "jsonName": null,
+          "type": "System.DateTime",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "CustomerId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsReceivable",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "BishalAgroSeed.NumberGenerations.CreateUpdateNumberGenerationDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Prefix",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Number",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Suffix",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "NumberGenerationTypeId",
+          "jsonName": null,
+          "type": "BishalAgroSeed.NumberGenerationTypes.NumberGenerationTypes",
+          "typeSimple": "BishalAgroSeed.NumberGenerationTypes.NumberGenerationTypes",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "BishalAgroSeed.NumberGenerationTypes.NumberGenerationTypes": {
+      "baseType": "System.Enum",
+      "isEnum": true,
+      "enumNames": [
+        "CycleCount"
+      ],
+      "enumValues": [
+        1
+      ],
+      "genericArguments": null,
+      "properties": null
+    },
+    "BishalAgroSeed.NumberGenerations.NumberGenerationDto": {
+      "baseType": "Volo.Abp.Application.Dtos.AuditedEntityDto<System.Guid>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Prefix",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Number",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Suffix",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "NumberGenerationTypeId",
+          "jsonName": null,
+          "type": "BishalAgroSeed.NumberGenerationTypes.NumberGenerationTypes",
+          "typeSimple": "BishalAgroSeed.NumberGenerationTypes.NumberGenerationTypes",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "BishalAgroSeed.FiscalYears.CreateUpdateFiscalYearDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "DisplayName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": true,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FromDate",
+          "jsonName": null,
+          "type": "System.DateTime",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ToDate",
+          "jsonName": null,
+          "type": "System.DateTime",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsCurrent",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "BishalAgroSeed.FiscalYears.FiscalYearDto": {
+      "baseType": "Volo.Abp.Application.Dtos.FullAuditedEntityDto<System.Guid>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "DisplayName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FromDate",
+          "jsonName": null,
+          "type": "System.DateTime",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ToDate",
+          "jsonName": null,
+          "type": "System.DateTime",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsCurrent",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Volo.Abp.Application.Dtos.FullAuditedEntityDto<T0>": {
+      "baseType": "Volo.Abp.Application.Dtos.AuditedEntityDto<TPrimaryKey>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": [
+        "TPrimaryKey"
+      ],
+      "properties": [
+        {
+          "name": "IsDeleted",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DeleterId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DeletionTime",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "BishalAgroSeed.Customers.CreateUpdateCustomerDto": {
       "baseType": null,
       "isEnum": false,
@@ -11199,6 +12674,60 @@
         },
         {
           "name": "PanNo",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "BishalAgroSeed.Categories.GetCategoryFilter": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "BishalAgroSeed.Dtos.DropdownDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Value",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Name",
           "jsonName": null,
           "type": "System.String",
           "typeSimple": "string",

@@ -37,11 +37,25 @@ public class BishalAgroSeedPermissionDefinitionProvider : PermissionDefinitionPr
         companyInfoPermission.AddChild(BishalAgroSeedPermissions.CompanyInfos.Edit, L("Permissions:CompanyInfos.Edit"));
         companyInfoPermission.AddChild(BishalAgroSeedPermissions.CompanyInfos.Delete, L("Permissions:CompanyInfos.Delete"));
 
-
         var productPermission = bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.Products.Default, L("Permission:Products"));
         productPermission.AddChild(BishalAgroSeedPermissions.Products.Create, L("Permissions:Products.Create"));
         productPermission.AddChild(BishalAgroSeedPermissions.Products.Edit, L("Permissions:Products.Edit"));
         productPermission.AddChild(BishalAgroSeedPermissions.Products.Delete, L("Permissions:Products.Delete"));
+
+        var openingBalancePermission = bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.OpeningBalances.Default, L("Permission:OpeningBalances"));
+        openingBalancePermission.AddChild(BishalAgroSeedPermissions.OpeningBalances.Create, L("Permissions:OpeningBalances.Create"));
+        openingBalancePermission.AddChild(BishalAgroSeedPermissions.OpeningBalances.Edit, L("Permissions:OpeningBalances.Edit"));
+        openingBalancePermission.AddChild(BishalAgroSeedPermissions.OpeningBalances.Delete, L("Permissions:OpeningBalances.Delete"));
+
+        var numberGenerationPermission = bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.NumberGenerations.Default, L("Permission:NumberGenerations"));
+        numberGenerationPermission.AddChild(BishalAgroSeedPermissions.NumberGenerations.Create, L("Permissions:NumberGenerations.Create"));
+        numberGenerationPermission.AddChild(BishalAgroSeedPermissions.NumberGenerations.Edit, L("Permissions:NumberGenerations.Edit"));
+        numberGenerationPermission.AddChild(BishalAgroSeedPermissions.NumberGenerations.Delete, L("Permissions:NumberGenerations.Delete"));
+
+        var fiscalYearPermission = bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.FiscalYears.Default, L("Permission:FiscalYears"));
+        fiscalYearPermission.AddChild(BishalAgroSeedPermissions.FiscalYears.Create, L("Permissions:FiscalYears.Create"));
+        fiscalYearPermission.AddChild(BishalAgroSeedPermissions.FiscalYears.Edit, L("Permissions:FiscalYears.Edit"));
+        fiscalYearPermission.AddChild(BishalAgroSeedPermissions.FiscalYears.Delete, L("Permissions:FiscalYears.Delete"));
 
     }
     private static LocalizableString L(string name)

@@ -1,6 +1,4 @@
-﻿using System.Dynamic;
-
-namespace BishalAgroSeed.Permissions;
+﻿namespace BishalAgroSeed.Permissions;
 
 public static class BishalAgroSeedPermissions
 {
@@ -51,4 +49,27 @@ public static class BishalAgroSeedPermissions
         public const string Edit = Default + ".Edit";
         public const string Delete = Default + ".Delete";
     }
+    public static class OpeningBalances
+    {
+        public const string Default = GroupName + ".OpeningBalances";
+        public const string Create = Default + ".Create";
+        public const string Edit = Default + ".Edit";
+        public const string Delete = Default + ".Delete";
+    }
+    public static class NumberGenerations
+    {
+        public const string Default = GroupName + ".NumberGenerations";
+        public const string Create = Default + ".Create";
+        public const string Edit = Default + ".Edit";
+        public const string Delete = Default + ".Delete";
+    }
+
+    public static class FiscalYears
+    {
+        public const string Default = GroupName + ".FiscalYears";
+        public const string Create = Default + ".Create";
+        public const string Edit = Default + ".Edit";
+        public const string Delete = Default + ".Delete";
+    }
 }
+
