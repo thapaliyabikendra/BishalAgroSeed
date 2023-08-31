@@ -8,6 +8,8 @@ public class CreateUpdateProductDto
     [Required]
     public string DisplayName { get; set; }
     [Required]
+    public Guid CategoryId { get; set; }
+    [Required]
     public Guid BrandId { get; set; }
     [Required]
     public decimal Unit { get; set; }

@@ -73,6 +73,9 @@
     "IsVendor": "Is Vendor",
     "ParentName": "Parent Name",
     "PanNo": "Pan No",
-    "IsActive":  "Is Active"
+    "IsActive": "Is Active",
+    "UnitType": "Unit Type",
+    "UnitTypes": "Unit Types",
+    "ImgFileName": "FileName"
   }
 }

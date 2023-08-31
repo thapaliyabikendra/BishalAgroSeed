@@ -71,5 +71,9 @@ public static class BishalAgroSeedPermissions
         public const string Edit = Default + ".Edit";
         public const string Delete = Default + ".Delete";
     }
+    public static class UnitTypes
+    {
+        public const string Default = GroupName + ".UnitTypes";
+    }
 }
 

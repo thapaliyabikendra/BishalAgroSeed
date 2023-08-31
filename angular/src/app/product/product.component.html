@@ -1,1 +1,91 @@
-<p>product works!</p>
+<div class="card">
+    <div class="card-header">
+        <div class="row align-items-center">
+            <div class="col col-6">
+                <h5 class="card-title">{{ '::Menu:Products' | abpLocalization}}</h5>
+            </div>
+            <div class="col col-6 text-end">
+                <button class="btn btn-primary" type="button" (click)="create()"
+                    *abpPermission="'BishalAgroSeed.Products'">{{'::New' | abpLocalization}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <ngx-datatable [rows]="data.items" [count]="data.totalCount" [list]="list" default>
+            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div ngbDropdown container="body" class="d-inline-block">
+                        <button class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" ngbDropdownToggle>
+                            <i class="fa fa-cog me-1"></i> {{'::Actions' | abpLocalization}}
+                        </button>
+                        <div ngbDropdownMenu>
+                            <button (click)=" edit(row.id)" ngbDropdownItem
+                                *abpPermission="'BishalAgroSeed.Products.Edit'">
+                                {{'abpAccount::Edit' | abpLocalization}}
+                            </button>
+                            <button (click)="delete(row.id)" ngbDropdownItem
+                                *abpPermission="'BishalAgroSeed.Products.Delete'">
+                                {{ 'AbpAccount::Delete' | abpLocalization}}
+                            </button>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'::DisplayName' | abpLocalization" prop="displayName"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Category' | abpLocalization" prop="categoryName"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Brand' | abpLocalization" prop="brandName"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::UnitType' | abpLocalization" prop="unitTypeName"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Unit' | abpLocalization" prop="unit"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Price' | abpLocalization" prop="price"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::ImgFileName' | abpLocalization" prop="imgFileName"></ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+</div>
+
+<abp-modal [(visible)]="isModalOpen">
+    <ng-template #abpHeader>
+        <h5>{{(selected.id ? '::Edit' : '::New') | abpLocalization }}</h5>
+    </ng-template>
+
+    <ng-template #abpBody>
+        <form id="form" [formGroup]="form" (ngSubmit)="save()">
+            <div>
+                <label for="display-name" class="form-label">{{'::DisplayName' | abpLocalization}}</label> <span>*</span>
+                <input type="text" id="display-name" class="form-control" formControlName="displayName" autofocus />
+            </div>
+            <div class="mt-2">
+                <label class="form-label">{{'::Categories' | abpLocalization}}</label><span>*</span>
+                <ng-select [items]="categories" formControlName="categoryId" bindLabel="name" bindValue="value"></ng-select>
+            </div>
+            <div class="mt-2">
+                <label class="form-label">{{'::Brands' | abpLocalization}}</label><span>*</span>
+                <ng-select [items]="brands" formControlName="brandId" bindLabel="name" bindValue="value"></ng-select>
+            </div>
+            <div class="mt-2">
+                <label class="form-label">{{'::UnitTypes' | abpLocalization}}</label><span>*</span>
+                <ng-select [items]="unitTypes" formControlName="unitTypeId" bindLabel="name" bindValue="value"></ng-select>
+            </div>
+            <div class="mt-">
+                <label for="unit" class="form-label">{{'::Unit' | abpLocalization}}</label><span>*</span>
+                <input type="text" id="unit" class="form-control" formControlName="unit" />
+            </div>
+            <div class="mt-2" >
+                <label for="price" class="form-label">{{'::Price' | abpLocalization}}</label><span>*</span>
+                <input type="number" id="price" class="form-control" formControlName="price" />
+            </div>
+            <div class="mt-2 ">
+                <label for="description" class="form-label">{{'::Description' | abpLocalization}}</label>
+                <textarea rows='3' id="description" class="form-control" formControlName="description"></textarea>
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template #abpFooter>
+        <button type="button" class="btn btn-secondary" abpClose>
+            {{'::Cancel' | abpLocalization}}
+        </button>
+        <button class="btn btn-warning" form="form" [disabled]="form.invalid"> {{'::Save' | abpLocalization}}</button>
+    </ng-template>
+
+</abp-modal>

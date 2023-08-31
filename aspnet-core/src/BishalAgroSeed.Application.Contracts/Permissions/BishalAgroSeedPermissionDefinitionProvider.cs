@@ -57,6 +57,7 @@ public class BishalAgroSeedPermissionDefinitionProvider : PermissionDefinitionPr
         fiscalYearPermission.AddChild(BishalAgroSeedPermissions.FiscalYears.Edit, L("Permissions:FiscalYears.Edit"));
         fiscalYearPermission.AddChild(BishalAgroSeedPermissions.FiscalYears.Delete, L("Permissions:FiscalYears.Delete"));
 
+         bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.UnitTypes.Default, L("Permission:UnitTypes"));
     }
     private static LocalizableString L(string name)
     {

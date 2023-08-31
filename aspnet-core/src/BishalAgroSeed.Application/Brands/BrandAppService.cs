@@ -1,6 +1,10 @@
-﻿using BishalAgroSeed.Permissions;
+﻿using BishalAgroSeed.Dtos;
+using BishalAgroSeed.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
@@ -16,5 +20,12 @@ public class BrandAppService : CrudAppService<Brand, BrandDto, Guid, PagedAndSor
         CreatePolicyName = BishalAgroSeedPermissions.Brands.Create;
         CreatePolicyName = BishalAgroSeedPermissions.Brands.Edit;
         CreatePolicyName = BishalAgroSeedPermissions.Brands.Delete;
+    }
+
+    public async Task<List<DropdownDto>> GetBrands()
+    {
+        var brandQueryable = await Repository.GetQueryableAsync();
+        var resp = brandQueryable.Select(s => new DropdownDto(s.Id.ToString().ToLower(), s.DisplayName)).ToList();
+        return resp;
     }
 }

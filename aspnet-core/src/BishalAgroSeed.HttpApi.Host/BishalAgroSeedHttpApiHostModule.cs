@@ -75,6 +75,7 @@ public class BishalAgroSeedHttpApiHostModule : AbpModule
     private void ConfigureLocalization()
     {
         Configure<AbpLocalizationOptions>(options => {
+            options.Languages.Clear();
             options.Languages.Add(new LanguageInfo("en", "en", "English"));
         });
     }

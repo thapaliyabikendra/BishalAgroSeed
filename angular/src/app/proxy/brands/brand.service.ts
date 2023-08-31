@@ -2,6 +2,7 @@ import type { BrandDto, CreateUpdateBrandDto } from './models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
+import type { DropdownDto } from '../dtos/models';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +32,14 @@ export class BrandService {
     this.restService.request<any, BrandDto>({
       method: 'GET',
       url: `/api/app/brand/${id}`,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getBrands = (config?: Partial<Rest.Config>) =>
+    this.restService.request<any, DropdownDto[]>({
+      method: 'GET',
+      url: '/api/app/brand/brands',
     },
     { apiName: this.apiName,...config });
   

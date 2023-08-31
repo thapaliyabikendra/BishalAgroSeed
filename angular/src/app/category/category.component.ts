@@ -16,7 +16,7 @@ export class CategoryComponent implements OnInit {
   form: FormGroup;
   isModalOpen = false;
   selected = {} as CategoryDto;
-  categories: any;
+  categories: DropdownDto[] = [];
   constructor(
     private fb: FormBuilder,
     private service: CategoryService,
