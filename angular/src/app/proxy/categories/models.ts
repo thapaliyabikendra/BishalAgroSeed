@@ -3,6 +3,7 @@ import type { AuditedEntityDto } from '@abp/ng.core';
 export interface CategoryDto extends AuditedEntityDto<string> {
   displayName?: string;
   parentId?: string;
+  parentName?: string;
   isActive: boolean;
 }
 

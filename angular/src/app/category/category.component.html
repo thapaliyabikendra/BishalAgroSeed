@@ -40,7 +40,7 @@
     </div>
 </div>
 
-<abp-modal [(visible)]="isModalOpen">
+<abp-modal [(visible)]="isModalOpen" [options]="{size: 'md'}">
     <ng-template #abpHeader>
         <h5>{{(selected.id ? '::Edit' : '::New') | abpLocalization }}</h5>
     </ng-template>
@@ -48,12 +48,13 @@
     <ng-template #abpBody>
         <form id="form" [formGroup]="form" (ngSubmit)="save()">
             <div>
-                <label for="display-name" class="form-label">{{'::DisplayName' | abpLocalization}}</label> <span>*</span>
+                <label for="display-name" class="form-label">{{'::DisplayName' | abpLocalization}}</label>
+                <span>*</span>
                 <input type="text" id="display-name" class="form-control" formControlName="displayName" autofocus />
             </div>
             <div class="mt-2">
-                <label for="parent-name" class="form-label">{{'::ParentName' | abpLocalization}}</label>
-                <input type="text" id="parent-name" class="form-control" formControlName="parentId" />
+                <label class="form-label">{{'::ParentName' | abpLocalization}}</label>
+                <ng-select [items]="categories" formControlName="parentId" bindLabel="name" bindValue="value"></ng-select>
             </div>
             <div class="mt-2 form-check">
                 <label for="is-active" class="form-check-label">{{'::IsActive' | abpLocalization}}</label>

@@ -3,6 +3,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { ThemeSharedModule } from '@abp/ng.theme.shared';
 import { NgxValidateCoreModule } from '@ngx-validate/core';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [],
@@ -10,13 +11,15 @@ import { NgxValidateCoreModule } from '@ngx-validate/core';
     CoreModule,
     ThemeSharedModule,
     NgbDropdownModule,
-    NgxValidateCoreModule
+    NgxValidateCoreModule,
+    NgSelectModule
   ],
   exports: [
     CoreModule,
     ThemeSharedModule,
     NgbDropdownModule,
-    NgxValidateCoreModule
+    NgxValidateCoreModule,
+    NgSelectModule
   ],
   providers: []
 })

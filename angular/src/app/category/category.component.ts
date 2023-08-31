@@ -2,7 +2,8 @@ import { ListService, PagedResultDto } from '@abp/ng.core';
 import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CategoryDto, CategoryService, CreateUpdateCategoryDto } from '@proxy/categories';
+import { CategoryDto, CategoryService, CreateUpdateCategoryDto, GetCategoryFilter } from '@proxy/categories';
+import { DropdownDto } from '@proxy/dtos';
 
 @Component({
   selector: 'app-category',
@@ -15,6 +16,7 @@ export class CategoryComponent implements OnInit {
   form: FormGroup;
   isModalOpen = false;
   selected = {} as CategoryDto;
+  categories: any;
   constructor(
     private fb: FormBuilder,
     private service: CategoryService,
@@ -39,8 +41,12 @@ export class CategoryComponent implements OnInit {
   }
   create() {
     this.selected = {} as CategoryDto;
-    this.isModalOpen = true;
-    this.buildForm();
+    let filter = {} as GetCategoryFilter;
+    this.service.getCategories(filter).subscribe((res) => {
+      this.categories = res;
+      this.isModalOpen = true;
+      this.buildForm();
+    });
   }
 
   save() {
@@ -49,7 +55,7 @@ export class CategoryComponent implements OnInit {
     }
     const dto: CreateUpdateCategoryDto = {
       displayName: this.form.value.displayName,
-      parentId: this.form.value.paentId,
+      parentId: this.form.value.parentId,
       isActive: this.form.value.isActive
     };
     const request = this.selected.id ? this.service.update(this.selected.id, dto) : this.service.create(dto);
@@ -75,8 +81,12 @@ export class CategoryComponent implements OnInit {
   edit(id: any) {
     this.service.get(id).subscribe((res) => {
       this.selected = res;
-      this.buildForm();
-      this.isModalOpen = true;
+      let filter = { id: this.selected.id } as GetCategoryFilter;
+      this.service.getCategories(filter).subscribe((res) => {
+        this.categories = res;
+        this.buildForm();
+        this.isModalOpen = true;
+      });
     });
   }
 }
