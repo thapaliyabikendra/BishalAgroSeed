@@ -8,7 +8,7 @@ export interface CreateUpdateProductDto {
   unitTypeId: string;
   price: number;
   description?: string;
-  imgFileName?: string;
+  file: File;
 }
 
 export interface ProductDto extends AuditedEntityDto<string> {

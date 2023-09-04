@@ -43,11 +43,11 @@ export class ProductComponent implements OnInit {
     this.categoryService.getCategories(filter).subscribe((res) => {
       this.categories = res;
     });
-    
-    this.brandService.getBrands().subscribe((res) =>{
+
+    this.brandService.getBrands().subscribe((res) => {
       this.brands = res;
     });
-    this.service.getUnitTypes().subscribe((res) =>{
+    this.service.getUnitTypes().subscribe((res) => {
       this.unitTypes = res;
     });
   }
@@ -73,16 +73,28 @@ export class ProductComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    const dto: CreateUpdateProductDto = {
-      displayName: this.form.value.displayName,
-      categoryId: this.form.value.categoryId,
-      brandId: this.form.value.brandId,
-      unit: this.form.value.unit,
-      unitTypeId: this.form.value.unitTypeId,
-      price: this.form.value.price,
-      description: this.form.value.description
-    };
-    const request = this.selected.id ? this.service.update(this.selected.id, dto) : this.service.create(dto);
+    // const dto: CreateUpdateProductDto = {
+    //   displayName: this.form.value.displayName,
+    //   categoryId: this.form.value.categoryId,
+    //   brandId: this.form.value.brandId,
+    //   unit: this.form.value.unit,
+    //   unitTypeId: this.form.value.unitTypeId,
+    //   price: this.form.value.price,
+    //   description: this.form.value.description,
+    //   file: this.selectedFile
+    // };
+
+    const formData = new FormData();
+    formData.append("displayName", this.form.value.displayName);
+    formData.append("categoryId", this.form.value.categoryId);
+    formData.append("brandId", this.form.value.brandId);
+    formData.append("unit", this.form.value.unit);
+    formData.append("unitTypeId", this.form.value.unitTypeId);
+    formData.append("price", this.form.value.price);
+    formData.append("description", this.form.value.description);
+    formData.append("file", this.selectedFile);
+
+    const request = this.selected.id ? this.service.update(this.selected.id, formData) : this.service.create(formData);
     request.subscribe(() => {
       this.toast.success(this.selected.id ? '::UpdatedProduct' : '::CreatedProduct');
       this.isModalOpen = false;
@@ -106,5 +118,9 @@ export class ProductComponent implements OnInit {
       this.buildForm();
       this.isModalOpen = true;
     });
+  }
+  selectedFile: File;
+  upload(event: any) {
+    this.selectedFile = event.target.files[0];
   }
 }

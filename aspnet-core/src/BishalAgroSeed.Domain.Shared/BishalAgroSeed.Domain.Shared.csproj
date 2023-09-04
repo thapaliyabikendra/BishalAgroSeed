@@ -18,6 +18,7 @@
     <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Shared" Version="7.3.2" />
     <PackageReference Include="Volo.Abp.SettingManagement.Domain.Shared" Version="7.3.2" />
     <PackageReference Include="Volo.Abp.OpenIddict.Domain.Shared" Version="7.3.2" />
+    <PackageReference Include="Volo.Abp.BlobStoring" Version="7.3.2" />
   </ItemGroup>
 
   <ItemGroup>

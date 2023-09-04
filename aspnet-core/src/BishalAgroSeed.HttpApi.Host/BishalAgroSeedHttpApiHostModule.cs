@@ -28,6 +28,8 @@ using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
+using Volo.Abp.BlobStoring;
+using Volo.Abp.BlobStoring.FileSystem;
 
 namespace BishalAgroSeed;
 
@@ -40,9 +42,9 @@ namespace BishalAgroSeed;
     typeof(AbpAspNetCoreMvcUiLeptonXLiteThemeModule),
     typeof(AbpAccountWebOpenIddictModule),
     typeof(AbpAspNetCoreSerilogModule),
-    typeof(AbpSwashbuckleModule)
-)]
-public class BishalAgroSeedHttpApiHostModule : AbpModule
+    typeof(AbpSwashbuckleModule),
+    typeof(AbpBlobStoringFileSystemModule))]
+    public class BishalAgroSeedHttpApiHostModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
@@ -70,6 +72,20 @@ public class BishalAgroSeedHttpApiHostModule : AbpModule
         ConfigureCors(context, configuration);
         ConfigureSwaggerServices(context, configuration);
         ConfigureLocalization();
+        ConfigureBlobStorage();
+    }
+
+    private void ConfigureBlobStorage()
+    {
+        Configure<AbpBlobStoringOptions>(options =>
+        {
+            options.Containers.ConfigureDefault(container =>
+            {
+                container.UseFileSystem(fileSystem => {
+                    fileSystem.BasePath = "C:\\BishalAgroSeed\\Images";
+                });
+            });
+        });
     }
 
     private void ConfigureLocalization()

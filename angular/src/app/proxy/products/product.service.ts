@@ -11,7 +11,7 @@ export class ProductService {
   apiName = 'Default';
   
 
-  create = (input: CreateUpdateProductDto, config?: Partial<Rest.Config>) =>
+  create = (input: FormData, config?: Partial<Rest.Config>) =>
     this.restService.request<any, ProductDto>({
       method: 'POST',
       url: '/api/app/product',
@@ -53,7 +53,7 @@ export class ProductService {
     { apiName: this.apiName,...config });
   
 
-  update = (id: string, input: CreateUpdateProductDto, config?: Partial<Rest.Config>) =>
+  update = (id: string, input: FormData, config?: Partial<Rest.Config>) =>
     this.restService.request<any, ProductDto>({
       method: 'PUT',
       url: `/api/app/product/${id}`,

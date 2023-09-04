@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace BishalAgroSeed.Products;
@@ -17,5 +18,6 @@ public class CreateUpdateProductDto
     public Guid UnitTypeId { get; set; }
     [Required]
     public decimal Price { get; set; }
-    public string Description { get; set; }
+    public string? Description { get; set; }
+    public IFormFile? File { get; set; }
 }

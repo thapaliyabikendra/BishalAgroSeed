@@ -78,6 +78,11 @@
                 <label for="description" class="form-label">{{'::Description' | abpLocalization}}</label>
                 <textarea rows='3' id="description" class="form-control" formControlName="description"></textarea>
             </div>
+            <div class="mt-2" >
+                <label for="imgFileName" class="form-label">{{'::ImgFileName' | abpLocalization}}</label>
+                <input type="file" accept="image/*" id="imgFileName" class="form-control" formControlName="file" (change)="upload($event)" />
+            </div>
+
         </form>
     </ng-template>
 
