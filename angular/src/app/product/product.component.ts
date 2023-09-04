@@ -22,6 +22,8 @@ export class ProductComponent implements OnInit {
   categories: DropdownDto[] = [];
   brands: DropdownDto[] = [];
   unitTypes: DropdownDto[] = [];
+  isViewImageModalOpen: boolean;
+  base64Data:any;
   constructor(
     private fb: FormBuilder,
     private service: ProductService,
@@ -122,5 +124,12 @@ export class ProductComponent implements OnInit {
   selectedFile: File;
   upload(event: any) {
     this.selectedFile = event.target.files[0];
+  }
+
+  viewImage(id: any) {
+    this.service.getProductImage(id).subscribe((res) => {
+      this.base64Data = `data:image/*;base64,${res.content}`;
+      this.isViewImageModalOpen = true;
+    });
   }
 }

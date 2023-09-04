@@ -20,6 +20,11 @@
                             <i class="fa fa-cog me-1"></i> {{'::Actions' | abpLocalization}}
                         </button>
                         <div ngbDropdownMenu>
+                            <div *ngIf="row.imgFileName">
+                            <button (click)="viewImage(row.id)" ngbDropdownItem
+                                *abpPermission="'BishalAgroSeed.Products'">
+                                {{'abpAccount::ViewImage' | abpLocalization}}
+                            </button></div>
                             <button (click)=" edit(row.id)" ngbDropdownItem
                                 *abpPermission="'BishalAgroSeed.Products.Edit'">
                                 {{'abpAccount::Edit' | abpLocalization}}
@@ -51,12 +56,14 @@
     <ng-template #abpBody>
         <form id="form" [formGroup]="form" (ngSubmit)="save()">
             <div>
-                <label for="display-name" class="form-label">{{'::DisplayName' | abpLocalization}}</label> <span>*</span>
+                <label for="display-name" class="form-label">{{'::DisplayName' | abpLocalization}}</label>
+                <span>*</span>
                 <input type="text" id="display-name" class="form-control" formControlName="displayName" autofocus />
             </div>
             <div class="mt-2">
                 <label class="form-label">{{'::Categories' | abpLocalization}}</label><span>*</span>
-                <ng-select [items]="categories" formControlName="categoryId" bindLabel="name" bindValue="value"></ng-select>
+                <ng-select [items]="categories" formControlName="categoryId" bindLabel="name"
+                    bindValue="value"></ng-select>
             </div>
             <div class="mt-2">
                 <label class="form-label">{{'::Brands' | abpLocalization}}</label><span>*</span>
@@ -64,13 +71,14 @@
             </div>
             <div class="mt-2">
                 <label class="form-label">{{'::UnitTypes' | abpLocalization}}</label><span>*</span>
-                <ng-select [items]="unitTypes" formControlName="unitTypeId" bindLabel="name" bindValue="value"></ng-select>
+                <ng-select [items]="unitTypes" formControlName="unitTypeId" bindLabel="name"
+                    bindValue="value"></ng-select>
             </div>
             <div class="mt-">
                 <label for="unit" class="form-label">{{'::Unit' | abpLocalization}}</label><span>*</span>
                 <input type="text" id="unit" class="form-control" formControlName="unit" />
             </div>
-            <div class="mt-2" >
+            <div class="mt-2">
                 <label for="price" class="form-label">{{'::Price' | abpLocalization}}</label><span>*</span>
                 <input type="number" id="price" class="form-control" formControlName="price" />
             </div>
@@ -78,9 +86,10 @@
                 <label for="description" class="form-label">{{'::Description' | abpLocalization}}</label>
                 <textarea rows='3' id="description" class="form-control" formControlName="description"></textarea>
             </div>
-            <div class="mt-2" >
+            <div class="mt-2">
                 <label for="imgFileName" class="form-label">{{'::ImgFileName' | abpLocalization}}</label>
-                <input type="file" accept="image/*" id="imgFileName" class="form-control" formControlName="file" (change)="upload($event)" />
+                <input type="file" accept="image/*" id="imgFileName" class="form-control" formControlName="file"
+                    (change)="upload($event)" />
             </div>
 
         </form>
@@ -93,4 +102,13 @@
         <button class="btn btn-warning" form="form" [disabled]="form.invalid"> {{'::Save' | abpLocalization}}</button>
     </ng-template>
 
+</abp-modal>
+
+<abp-modal [(visible)]="isViewImageModalOpen" [options]="{size:'lg'}">
+    <ng-template #abpHeader>
+        <h5>{{'::ViewImage' | abpLocalization }}</h5>
+    </ng-template>
+    <ng-template #abpBody>
+        <img [src]="base64Data" />
+    </ng-template>
 </abp-modal>
