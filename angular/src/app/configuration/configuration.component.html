@@ -56,11 +56,11 @@
     <ng-template #abpBody>
         <form id="form" [formGroup]="form" (ngSubmit)="save()">
             <div class="form-group">
-                <label for="key">{{'::Key' | abpLocalization}}</label> <span>*</span>
+                <label for="key">{{'::Key' | abpLocalization}}</label>  <span>*</span>
                 <input type="text" id="key" class="form-control" formControlName="key" autofocus/>
             </div>
             <div class="form-group mt-1">
-                <label for="Value">{{'::Value' | abpLocalization}}</label><span>*</span>
+                <label for="Value">{{'::Value' | abpLocalization}}</label> <span>*</span>
                 <input type="text" id="value" class="form-control" formControlName="value" />
             </div>
             <div class="from-group mt-1">

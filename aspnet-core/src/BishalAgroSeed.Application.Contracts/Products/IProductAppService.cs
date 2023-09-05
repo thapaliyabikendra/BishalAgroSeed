@@ -9,6 +9,7 @@ using Volo.Abp.Application.Services;
 namespace BishalAgroSeed.Products;
 public interface IProductAppService : ICrudAppService<ProductDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateProductDto>
 {
-    public  Task<List<DropdownDto>> GetUnitTypesAsync();
+    public  Task<List<GetUnitTypeDto>> GetUnitTypesAsync();
     public Task<FileBlobDto> GetProductImageAsync(Guid id);
+    
 }

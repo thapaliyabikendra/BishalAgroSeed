@@ -5,7 +5,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BrandService } from '@proxy/brands';
 import { CategoryDto, CategoryService, GetCategoryFilter } from '@proxy/categories';
 import { DropdownDto } from '@proxy/dtos';
-import { CreateUpdateProductDto, ProductDto, ProductService } from '@proxy/products';
+import { CreateUpdateProductDto, GetUnitTypeDto, ProductDto, ProductService } from '@proxy/products';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-product',
@@ -21,9 +22,10 @@ export class ProductComponent implements OnInit {
   selected = {} as ProductDto;
   categories: DropdownDto[] = [];
   brands: DropdownDto[] = [];
-  unitTypes: DropdownDto[] = [];
+  unitTypes: GetUnitTypeDto[] = [];
   isViewImageModalOpen: boolean;
   base64Data:any;
+  unitTypeDescription: string= "";
   constructor(
     private fb: FormBuilder,
     private service: ProductService,
@@ -42,15 +44,15 @@ export class ProductComponent implements OnInit {
     });
 
     let filter = {} as GetCategoryFilter;
-    this.categoryService.getCategories(filter).subscribe((res) => {
-      this.categories = res;
-    });
-
-    this.brandService.getBrands().subscribe((res) => {
-      this.brands = res;
-    });
-    this.service.getUnitTypes().subscribe((res) => {
-      this.unitTypes = res;
+    forkJoin([
+      this.categoryService.getCategories(filter),
+      this.brandService.getBrands(),
+      this.service.getUnitTypes()
+    ])
+    .subscribe((res) => {
+      this.categories = res[0];
+      this.brands = res[1];
+      this.unitTypes = res[2];
     });
   }
 
@@ -66,6 +68,7 @@ export class ProductComponent implements OnInit {
     });
   }
   create() {
+    this.unitTypeDescription = "";
     this.selected = {} as ProductDto;
     this.isModalOpen = true;
     this.buildForm();
@@ -115,8 +118,10 @@ export class ProductComponent implements OnInit {
     });
   }
   edit(id: any) {
+    this.unitTypeDescription = "";
     this.service.get(id).subscribe((res) => {
       this.selected = res;
+      this.unitTypeDescription = res.unitTypeDescription;
       this.buildForm();
       this.isModalOpen = true;
     });
@@ -131,5 +136,8 @@ export class ProductComponent implements OnInit {
       this.base64Data = `data:image/*;base64,${res.content}`;
       this.isViewImageModalOpen = true;
     });
+  }
+  changeUnitType(unitType: any){
+    this.unitTypeDescription = unitType.description;
   }
 }

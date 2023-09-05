@@ -99,6 +99,7 @@ public class ProductAppService : CrudAppService<Product, ProductDto, Guid, Paged
                             CategoryName = c.DisplayName,
                             BrandName = b.DisplayName,
                             UnitTypeName = u.DisplayName,
+                            UnitTypeDescription = u.Description,
                             Unit = p.Unit,
                             UnitTypeId = p.UnitTypeId,
                             Price = p.Price,
@@ -135,13 +136,12 @@ public class ProductAppService : CrudAppService<Product, ProductDto, Guid, Paged
     }
 
     [Authorize(BishalAgroSeedPermissions.UnitTypes.Default)]
-    public async Task<List<DropdownDto>> GetUnitTypesAsync()
+    public async Task<List<GetUnitTypeDto>> GetUnitTypesAsync()
     {
         var unitTypeQueryable = await _unitTypeRepository.GetQueryableAsync();
-        var resp = unitTypeQueryable.Select(s => new DropdownDto(s.Id.ToString().ToLower(), s.DisplayName)).ToList();
+        var resp = unitTypeQueryable.Select(s => new GetUnitTypeDto { Id = s.Id, DisplayName = s.DisplayName, Description = s.Description }).ToList();
         return resp;
     }
-
     public async override Task DeleteAsync(Guid id)
     {
         var result = await Repository.FirstOrDefaultAsync(s => s.Id == id);
@@ -154,5 +154,29 @@ public class ProductAppService : CrudAppService<Product, ProductDto, Guid, Paged
         }
         await base.DeleteAsync(id);
         await _blobContainer.DeleteAsync(id.ToString());
+    }
+
+    public async override Task<ProductDto> GetAsync(Guid id)
+    {
+        var _products = await Repository.GetQueryableAsync();
+        var _unitType = await _unitTypeRepository.GetQueryableAsync();
+        var data = (
+                        from p in _products
+                        join u in _unitType on p.UnitTypeId equals u.Id
+                        where p.Id == id
+                        select new ProductDto
+                        {
+                            Id = p.Id,
+                            DisplayName = p.DisplayName,
+                            CategoryId = p.CategoryId,
+                            BrandId = p.BrandId,
+                            UnitTypeDescription = u.Description,
+                            Unit = p.Unit,
+                            UnitTypeId = p.UnitTypeId,
+                            Price = p.Price,
+                            ImgFileName = p.ImgFileName
+                        }).FirstOrDefault();
+
+        return data;
     }
 }

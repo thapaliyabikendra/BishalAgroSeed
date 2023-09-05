@@ -35,7 +35,11 @@ public class BishalAgroSeedApplicationAutoMapperProfile : Profile
         CreateMap<CompanyInfo, CompanyInfoDto>();
 
         CreateMap<CreateUpdateProductDto, Product>()
-            .ForMember(dest => dest.ImgFileName, opt => opt.MapFrom(src => src.File == null ? null : src.File.FileName));
+            .ForMember(dest => dest.ImgFileName, opt =>
+            {
+                opt.MapFrom(src => src.File.FileName);
+                opt.Condition(c => c.File != null);
+            });
         CreateMap<Product, ProductDto>();
 
         CreateMap<CreateUpdateOpeningBalanceDto, OpeningBalance>();
@@ -47,7 +51,7 @@ public class BishalAgroSeedApplicationAutoMapperProfile : Profile
         CreateMap<CreateUpdateFiscalYearDto, FiscalYear>();
         CreateMap<FiscalYear, FiscalYearDto>();
 
-        CreateMap<Category, DropdownDto>()
+        CreateMap<Category, Dtos.DropdownDto>()
             .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Id.ToString()))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.DisplayName));
     }

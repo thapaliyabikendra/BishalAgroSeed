@@ -12,6 +12,7 @@ public class ProductDto : AuditedEntityDto<Guid>
     public decimal Unit { get; set; }
     public Guid UnitTypeId { get; set; }
     public string UnitTypeName { get; set; }
+    public string UnitTypeDescription { get; set; }
     public decimal Price { get; set; }
     public string Description { get; set; }
 

@@ -11,6 +11,12 @@ export interface CreateUpdateProductDto {
   file: File;
 }
 
+export interface GetUnitTypeDto {
+  id?: string;
+  displayName?: string;
+  description?: string;
+}
+
 export interface ProductDto extends AuditedEntityDto<string> {
   displayName?: string;
   categoryId?: string;
@@ -20,6 +26,7 @@ export interface ProductDto extends AuditedEntityDto<string> {
   unit: number;
   unitTypeId?: string;
   unitTypeName?: string;
+  unitTypeDescription?: string;
   price: number;
   description?: string;
   imgFileName?: string;

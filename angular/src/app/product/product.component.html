@@ -57,29 +57,32 @@
         <form id="form" [formGroup]="form" (ngSubmit)="save()">
             <div>
                 <label for="display-name" class="form-label">{{'::DisplayName' | abpLocalization}}</label>
-                <span>*</span>
+                 <span>*</span>
                 <input type="text" id="display-name" class="form-control" formControlName="displayName" autofocus />
             </div>
             <div class="mt-2">
-                <label class="form-label">{{'::Categories' | abpLocalization}}</label><span>*</span>
+                <label class="form-label">{{'::Categories' | abpLocalization}}</label> <span>*</span>
                 <ng-select [items]="categories" formControlName="categoryId" bindLabel="name"
                     bindValue="value"></ng-select>
             </div>
             <div class="mt-2">
-                <label class="form-label">{{'::Brands' | abpLocalization}}</label><span>*</span>
+                <label class="form-label">{{'::Brands' | abpLocalization}}</label> <span>*</span>
                 <ng-select [items]="brands" formControlName="brandId" bindLabel="name" bindValue="value"></ng-select>
             </div>
             <div class="mt-2">
-                <label class="form-label">{{'::UnitTypes' | abpLocalization}}</label><span>*</span>
-                <ng-select [items]="unitTypes" formControlName="unitTypeId" bindLabel="name"
-                    bindValue="value"></ng-select>
+                <label class="form-label">{{'::UnitTypes' | abpLocalization}}</label> <span>*</span>
+                <ng-select [items]="unitTypes" formControlName="unitTypeId" bindLabel="displayName"
+                    bindValue="id" (change)="changeUnitType($event)"></ng-select>
             </div>
             <div class="mt-">
-                <label for="unit" class="form-label">{{'::Unit' | abpLocalization}}</label><span>*</span>
+                <label for="unit" class="form-label">{{'::Unit' | abpLocalization}}</label> <span>*</span>
+                <div class="input-group">
                 <input type="text" id="unit" class="form-control" formControlName="unit" />
+                <span class="input-group-text">{{unitTypeDescription}}</span>
+            </div>
             </div>
             <div class="mt-2">
-                <label for="price" class="form-label">{{'::Price' | abpLocalization}}</label><span>*</span>
+                <label for="price" class="form-label">{{'::Price' | abpLocalization}}</label> <span>*</span>
                 <input type="number" id="price" class="form-control" formControlName="price" />
             </div>
             <div class="mt-2 ">
@@ -88,7 +91,7 @@
             </div>
             <div class="mt-2">
                 <label for="imgFileName" class="form-label">{{'::ImgFileName' | abpLocalization}}</label>
-                <input type="file" accept="image/*" id="imgFileName" class="form-control" formControlName="file"
+                <input type="file" accept="image/*" id="imgFileName" class="form-control"
                     (change)="upload($event)" />
             </div>
 
