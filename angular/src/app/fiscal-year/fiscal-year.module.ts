@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { FiscalYearRoutingModule } from './fiscal-year-routing.module';
 import { FiscalYearComponent } from './fiscal-year.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { FiscalYearComponent } from './fiscal-year.component';
   ],
   imports: [
     CommonModule,
-    FiscalYearRoutingModule
+    FiscalYearRoutingModule,
+    SharedModule
   ]
 })
 export class FiscalYearModule { }
