@@ -11,5 +11,6 @@ export interface OpeningBalanceDto extends AuditedEntityDto<string> {
   amount: number;
   tranDate?: string;
   customerId?: string;
+  customerName?: string;
   isReceivable: boolean;
 }

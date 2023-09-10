@@ -80,7 +80,7 @@
     "ContactNo": "Contact No",
     "IsCustomer": "Is Customer",
     "IsVendor": "Is Vendor",
-    "ParentName": "Parent Name",
+    "ParentName": "Parent",
     "PanNo": "Pan No",
     "IsActive": "Is Active",
     "UnitType": "Unit Type",
@@ -88,6 +88,9 @@
     "ImgFileName": "FileName",
     "FromDate": "From Date",
     "ToDate": "To Date",
-    "IsCurrent": "Is Current"
+    "IsCurrent": "Is Current",
+    "TranDate": "Tran Date",
+    "CustomerName": "Customer",
+    "IsReceivable": "Is Receivable"
   }
 }

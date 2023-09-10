@@ -31,15 +31,14 @@ export class FiscalYearComponent implements OnInit {
   }
 
   buildForm() {
-    console.log(this.selected);
     this.form = this.fb.group({
       displayName: [this.selected.displayName, Validators.required],
-      fromDate: [this.selected.fromDate?.split('T')[0]],
-      toDate: [this.selected.toDate?.split('T')[0]],
+      fromDate: [this.selected.fromDate?.split('T')[0], Validators.required],
+      toDate: [this.selected.toDate?.split('T')[0], Validators.required],
       isCurrent: [this.selected.isCurrent],
-
     });
   }
+
   create() {
     this.selected = {} as FiscalYearDto;
     this.isModalOpen = true;

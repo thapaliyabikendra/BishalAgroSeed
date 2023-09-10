@@ -2,11 +2,11 @@
     <div class="card-header">
         <div class="row align-items-center">
             <div class="col col-6">
-                <h5 class="card-title">{{ '::Menu:OpeningBalances' | abpLocalization}}</h5>
+                <h5 class="card-title">{{ '::Menu:NumberGenerations' | abpLocalization}}</h5>
             </div>
             <div class="col col-6 text-end">
                 <button class="btn btn-primary" type="button" (click)="create()"
-                    *abpPermission="'BishalAgroSeed.OpeningBalances'">{{'::New' | abpLocalization}}</button>
+                    *abpPermission="'BishalAgroSeed.NumberGenerations'">{{'::New' | abpLocalization}}</button>
             </div>
         </div>
     </div>
@@ -21,26 +21,23 @@
                         </button>
                         <div ngbDropdownMenu>
                             <button (click)=" edit(row.id)" ngbDropdownItem
-                                *abpPermission="'BishalAgroSeed.OpeningBalances.Edit'">
+                                *abpPermission="'BishalAgroSeed.NumberGenerations.Edit'">
                                 {{'abpAccount::Edit' | abpLocalization}}
                             </button>
                             <button (click)="delete(row.id)" ngbDropdownItem
-                                *abpPermission="'BishalAgroSeed.OpeningBalances.Delete'">
+                                *abpPermission="'BishalAgroSeed.NumberGenerations.Delete'">
                                 {{ 'AbpAccount::Delete' | abpLocalization}}
                             </button>
                         </div>
                     </div>
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column [name]="'::Amount' | abpLocalization" prop="amount"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::TranDate' | abpLocalization" prop="tranDate">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{row.tranDate | date : 'YYYY/MM/dd'}}
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column [name]="'::CustomerName' | abpLocalization" prop="customerName"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::IsReceivable' | abpLocalization"
-                prop="isReceivable"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Prefix' | abpLocalization" prop="prefix"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Number' | abpLocalization" prop="number"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Suffix' | abpLocalization" prop="suffix"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::NumberGenerationTypeId' | abpLocalization" prop="NumberGenerationTypeId"></ngx-datatable-column>
+
+
         </ngx-datatable>
     </div>
 </div>
@@ -53,20 +50,20 @@
     <ng-template #abpBody>
         <form id="form" [formGroup]="form" (ngSubmit)="save()">
             <div>
-                <label for="amount" class="form-label">{{'::Amount' | abpLocalization}}</label> <span>*</span>
-                <input type="number" id="amount" class="form-control" formControlName="amount" autofocus />
-            </div>
-            <div class="mt-2">
-                <label for="tran-date" class="form-label">{{'::TranDate' | abpLocalization}}</label> <span>*</span>
-                <input type="date" id="tran-date" class="form-control" formControlName="tranDate" />
-            </div>
-            <div class="mt-2">
-                <label for="customerId" class="form-check-label">{{'::Customer' | abpLocalization}}</label>&nbsp;<span>*</span>
-                <ng-select id="customerId" [items]="customers" formControlName="customerId" bindLabel="name" bindValue="value"></ng-select>
+                <label for="prefix" class="form-label">{{'::Prefix' | abpLocalization}}</label>  <span>*</span>
+                <input type="text" id="prefix" class="form-control" formControlName="prefix" autofocus />
             </div>
             <div class="mt-2 form-check">
-                <label for="is-active" class="form-check-label">{{'::IsReceivable' | abpLocalization}}</label>
-                <input type="checkbox" id="is-active" class="form-check-input" formControlName="isReceivable" />
+                <label for="number" class="form-check-label">{{'::Number' | abpLocalization}}</label> <span>*</span>
+                <input type="text" id="number" class="form-control" formControlName="number" />
+            </div>
+            <div class="mt-2 form-check">
+                <label for="suffix" class="form-check-label">{{'::Suffix' | abpLocalization}}</label>
+                <input type="text" id="suffix" class="form-control" formControlName="suffix" autofocus/>
+            </div>
+            <div class="mt-2 form-check">
+                <label for="numberGenerationTypeId" class="form-check-label">{{'::NumberGenerationTypeId' | abpLocalization}}</label>
+                <input type="text" id="numberGenerationTypeId" class="form-control" formControlName="numberGenerationTypeId" autofocus/>
             </div>
         </form>
     </ng-template>
@@ -79,3 +76,6 @@
     </ng-template>
 
 </abp-modal>
+
+
+

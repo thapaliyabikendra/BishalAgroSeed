@@ -2,6 +2,7 @@ import type { CreateUpdateCustomerDto, CustomerDto } from './models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
+import type { DropdownDto } from '../dtos/models';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +32,14 @@ export class CustomerService {
     this.restService.request<any, CustomerDto>({
       method: 'GET',
       url: `/api/app/customer/${id}`,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getCustomers = (config?: Partial<Rest.Config>) =>
+    this.restService.request<any, DropdownDto[]>({
+      method: 'GET',
+      url: '/api/app/customer/customers',
     },
     { apiName: this.apiName,...config });
   

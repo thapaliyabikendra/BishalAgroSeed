@@ -64,6 +64,27 @@ function configureRoutes(routesService: RoutesService) {
         order: 8,
         layout: eLayoutType.application,
       },
+      {
+        path: '/fiscal-years',
+        name: '::Menu:FiscalYears',
+        iconClass: 'fas fa-home',
+        order: 9,
+        layout: eLayoutType.application,
+      },
+      {
+        path: '/opening-balances',
+        name: '::Menu:OpeningBalances',
+        iconClass: 'fas fa-home',
+        order: 10,
+        layout: eLayoutType.application,
+      },
+      {
+        path: '/number-generations',
+        name: '::Menu:NumberGenerations',
+        iconClass: 'fas fa-home',
+        order: 11,
+        layout: eLayoutType.application,
+      },
     ]);
   };
 }
