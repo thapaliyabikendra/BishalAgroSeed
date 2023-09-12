@@ -22,8 +22,8 @@ public class OpeningBalanceAppService : CrudAppService<OpeningBalance, OpeningBa
         GetPolicyName = BishalAgroSeedPermissions.OpeningBalances.Default;
         GetListPolicyName = BishalAgroSeedPermissions.OpeningBalances.Default;
         CreatePolicyName = BishalAgroSeedPermissions.OpeningBalances.Create;
-        CreatePolicyName = BishalAgroSeedPermissions.OpeningBalances.Edit;
-        CreatePolicyName = BishalAgroSeedPermissions.OpeningBalances.Delete;
+        UpdatePolicyName = BishalAgroSeedPermissions.OpeningBalances.Edit;
+        DeletePolicyName = BishalAgroSeedPermissions.OpeningBalances.Delete;
         _customerRepository = customerRepository;
     }
 

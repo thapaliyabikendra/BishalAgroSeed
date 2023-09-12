@@ -22,8 +22,8 @@ public class CategoryAppService : CrudAppService<Category, CategoryDto, Guid, Pa
         GetPolicyName = BishalAgroSeedPermissions.Categories.Default;
         GetListPolicyName = BishalAgroSeedPermissions.Categories.Default;
         CreatePolicyName = BishalAgroSeedPermissions.Categories.Create;
-        CreatePolicyName = BishalAgroSeedPermissions.Categories.Edit;
-        CreatePolicyName = BishalAgroSeedPermissions.Categories.Delete;
+        UpdatePolicyName = BishalAgroSeedPermissions.Categories.Edit;
+        DeletePolicyName = BishalAgroSeedPermissions.Categories.Delete;
     }
 
     public override async Task<CategoryDto> CreateAsync(CreateUpdateCategoryDto input)

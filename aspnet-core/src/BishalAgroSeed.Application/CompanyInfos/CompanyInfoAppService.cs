@@ -16,8 +16,9 @@ public class CompanyInfoAppService : CrudAppService<CompanyInfo, CompanyInfoDto,
     public CompanyInfoAppService(IRepository<CompanyInfo, Guid> repository) : base(repository)
     {
         GetPolicyName = BishalAgroSeedPermissions.CompanyInfos.Default;
-        GetListPolicyName = BishalAgroSeedPermissions.CompanyInfos.Create;
-        CreatePolicyName = BishalAgroSeedPermissions.CompanyInfos.Edit;
-        CreatePolicyName = BishalAgroSeedPermissions.CompanyInfos.Delete;
+        GetListPolicyName = BishalAgroSeedPermissions.CompanyInfos.Default;
+        CreatePolicyName = BishalAgroSeedPermissions.CompanyInfos.Create;
+        UpdatePolicyName = BishalAgroSeedPermissions.CompanyInfos.Edit;
+        DeletePolicyName = BishalAgroSeedPermissions.CompanyInfos.Delete;
     }
 }

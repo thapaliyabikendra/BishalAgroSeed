@@ -18,8 +18,8 @@ public class BrandAppService : CrudAppService<Brand, BrandDto, Guid, PagedAndSor
         GetPolicyName = BishalAgroSeedPermissions.Brands.Default;
         GetListPolicyName = BishalAgroSeedPermissions.Brands.Default;
         CreatePolicyName = BishalAgroSeedPermissions.Brands.Create;
-        CreatePolicyName = BishalAgroSeedPermissions.Brands.Edit;
-        CreatePolicyName = BishalAgroSeedPermissions.Brands.Delete;
+        UpdatePolicyName = BishalAgroSeedPermissions.Brands.Edit;
+        DeletePolicyName = BishalAgroSeedPermissions.Brands.Delete;
     }
 
     public async Task<List<DropdownDto>> GetBrands()

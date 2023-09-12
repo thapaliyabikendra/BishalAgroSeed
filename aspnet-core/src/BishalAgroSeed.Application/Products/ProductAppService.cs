@@ -38,9 +38,10 @@ public class ProductAppService : CrudAppService<Product, ProductDto, Guid, Paged
         ) : base(repository)
     {
         GetPolicyName = BishalAgroSeedPermissions.Products.Default;
-        GetListPolicyName = BishalAgroSeedPermissions.Products.Create;
-        CreatePolicyName = BishalAgroSeedPermissions.Products.Edit;
-        CreatePolicyName = BishalAgroSeedPermissions.Products.Delete;
+        GetListPolicyName = BishalAgroSeedPermissions.Products.Default;
+        CreatePolicyName = BishalAgroSeedPermissions.Products.Create;
+        UpdatePolicyName = BishalAgroSeedPermissions.Products.Edit;
+        DeletePolicyName = BishalAgroSeedPermissions.Products.Delete;
         _unitTypeRepository = unitTypeRepository;
         _categoryRepository = categoryRepository;
         _brandRepository = brandRepository;
