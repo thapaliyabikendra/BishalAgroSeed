@@ -10,4 +10,5 @@ public class NumberGenerationDto: AuditedEntityDto<Guid>
     public int Number { get; set; }
     public string Suffix { get; set; }
     public NumberGenerationTypes.NumberGenerationTypes NumberGenerationTypeId { get; set; }
+    public string NumberGenerationTypeName { get; set; }
 }

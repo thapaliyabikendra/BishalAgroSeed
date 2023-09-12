@@ -91,6 +91,7 @@
     "IsCurrent": "Is Current",
     "TranDate": "Tran Date",
     "CustomerName": "Customer",
-    "IsReceivable": "Is Receivable"
+    "IsReceivable": "Is Receivable",
+    "NumberGenerationType" :"Number Genration Type"
   }
 }

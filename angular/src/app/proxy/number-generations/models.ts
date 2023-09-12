@@ -13,4 +13,5 @@ export interface NumberGenerationDto extends AuditedEntityDto<string> {
   number: number;
   suffix?: string;
   numberGenerationTypeId: NumberGenerationTypes;
+  numberGenerationTypeName?: string;
 }

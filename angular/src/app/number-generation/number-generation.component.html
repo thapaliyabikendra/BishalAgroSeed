@@ -35,9 +35,7 @@
             <ngx-datatable-column [name]="'::Prefix' | abpLocalization" prop="prefix"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::Number' | abpLocalization" prop="number"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::Suffix' | abpLocalization" prop="suffix"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::NumberGenerationTypeId' | abpLocalization" prop="NumberGenerationTypeId"></ngx-datatable-column>
-
-
+            <ngx-datatable-column [name]="'::NumberGenerationType' | abpLocalization" prop="numberGenerationTypeName"></ngx-datatable-column>
         </ngx-datatable>
     </div>
 </div>
@@ -53,17 +51,17 @@
                 <label for="prefix" class="form-label">{{'::Prefix' | abpLocalization}}</label>  <span>*</span>
                 <input type="text" id="prefix" class="form-control" formControlName="prefix" autofocus />
             </div>
-            <div class="mt-2 form-check">
-                <label for="number" class="form-check-label">{{'::Number' | abpLocalization}}</label> <span>*</span>
-                <input type="text" id="number" class="form-control" formControlName="number" />
+            <div class="mt-2">
+                <label for="number" class="form-label">{{'::Number' | abpLocalization}}</label> <span>*</span>
+                <input type="number" id="number" class="form-control" formControlName="number" />
             </div>
-            <div class="mt-2 form-check">
-                <label for="suffix" class="form-check-label">{{'::Suffix' | abpLocalization}}</label>
+            <div class="mt-2">
+                <label for="suffix" class="form-label">{{'::Suffix' | abpLocalization}}</label>
                 <input type="text" id="suffix" class="form-control" formControlName="suffix" autofocus/>
             </div>
-            <div class="mt-2 form-check">
-                <label for="numberGenerationTypeId" class="form-check-label">{{'::NumberGenerationTypeId' | abpLocalization}}</label>
-                <input type="text" id="numberGenerationTypeId" class="form-control" formControlName="numberGenerationTypeId" autofocus/>
+            <div class="mt-2">
+                <label for="numberGenerationTypeId" class="form-label">{{'::NumberGenerationType' | abpLocalization}}</label>
+                <ng-select id="numberGenerationTypeId" [items]="numberGenerationTypes" formControlName="numberGenerationTypeId" bindLabel="name" bindValue="value"></ng-select>
             </div>
         </form>
     </ng-template>

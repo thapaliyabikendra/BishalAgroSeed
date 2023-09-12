@@ -75,5 +75,11 @@ public static class BishalAgroSeedPermissions
     {
         public const string Default = GroupName + ".UnitTypes";
     }
+
+    public static class NumberGenerationTypes
+    {
+        public const string Default = GroupName + ".NumberGenerationTypes";
+    }
 }
+
 

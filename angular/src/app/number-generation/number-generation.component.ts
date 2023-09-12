@@ -2,6 +2,7 @@ import { ListService, PagedResultDto } from '@abp/ng.core';
 import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DropdownDto } from '@proxy/dtos';
 import { NumberGenerationDto, NumberGenerationService } from '@proxy/number-generations';
 
 @Component({
@@ -15,6 +16,7 @@ export class NumberGenerationComponent implements OnInit {
   form: FormGroup;
   isModalOpen = false;
   selected = {} as NumberGenerationDto;
+  numberGenerationTypes  = [] as DropdownDto[];
   constructor(
     private fb: FormBuilder,
     private service: NumberGenerationService,
@@ -28,16 +30,18 @@ export class NumberGenerationComponent implements OnInit {
     this.list.hookToQuery(streamCreator).subscribe((resp) => {
     this.data = resp;
   });
+  this.service.getNumberGenerationTypes().subscribe((resp) => {
+    this.numberGenerationTypes = resp;
+  });
 
   }
 
   buildForm() {
     this.form = this.fb.group({
       prefix: [this.selected.prefix, Validators.required],
-      number: [this.selected.number],
-      suffix: [this.selected.suffix],
-      numberGenerationTypeId: [this.selected.numberGenerationTypeId],
-
+      number: [this.selected.number, Validators.required],
+      suffix: [this.selected.suffix, Validators.required],
+      numberGenerationTypeId: [this.selected.numberGenerationTypeId?.toString(), Validators.required]
     });
   }
   create() {
@@ -51,7 +55,7 @@ export class NumberGenerationComponent implements OnInit {
       return;
     }
     const dto: NumberGenerationDto = {
-      prefix: this.form.value.perfix,
+      prefix: this.form.value.prefix,
       number: this.form.value.number,
       suffix: this.form.value.suffix,
       numberGenerationTypeId: this.form.value.numberGenerationTypeId
