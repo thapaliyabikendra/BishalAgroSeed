@@ -7,6 +7,7 @@ using BishalAgroSeed.Data;
 using Serilog;
 using Volo.Abp;
 using Volo.Abp.Data;
+using BishalAgroSeed.NumberGenerations;
 
 namespace BishalAgroSeed.DbMigrator;
 
@@ -28,6 +29,7 @@ public class DbMigratorHostedService : IHostedService
            options.Services.ReplaceConfiguration(_configuration);
            options.UseAutofac();
            options.Services.AddLogging(c => c.AddSerilog());
+           options.Services.Configure<NumberGeneration>(_configuration.GetSection("NumberGeneration"));
            options.AddDataMigrationEnvironment();
         }))
         {
