@@ -3,7 +3,7 @@ using BishalAgroSeed.Categories;
 using BishalAgroSeed.CompanyInfos;
 using BishalAgroSeed.Configurations;
 using BishalAgroSeed.Customers;
-using BishalAgroSeed.CycleCountNumbers;
+using BishalAgroSeed.CycleCountDetails;
 using BishalAgroSeed.CycleCounts;
 using BishalAgroSeed.DateTimes;
 using BishalAgroSeed.FiscalYears;
@@ -86,8 +86,8 @@ public class BishalAgroSeedDbContext :
     public DbSet<TransactionPayment> TransactionPayments { get; set; }
     public DbSet<InventoryCount> InventoryCounts { get; set; }
     public DbSet<NumberGeneration> NumberGenerations { get; set; }
-    public DbSet<CycleCountNumber> CycleCountNumbers { get; set; }
     public DbSet<CycleCount> CycleCounts { get; set; }
+    public DbSet<CycleCountDetail> CycleCountDetails { get; set; }
     public DbSet<FiscalYear> FiscalYears { get; set; }
 
     public BishalAgroSeedDbContext(DbContextOptions<BishalAgroSeedDbContext> options)

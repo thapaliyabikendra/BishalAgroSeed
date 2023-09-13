@@ -4,6 +4,7 @@ using BishalAgroSeed.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -12,9 +13,11 @@ using Volo.Abp.EntityFrameworkCore;
 namespace BishalAgroSeed.Migrations
 {
     [DbContext(typeof(BishalAgroSeedDbContext))]
-    partial class BishalAgroSeedDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230912152656_added CycleCountDetail")]
+    partial class addedCycleCountDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
