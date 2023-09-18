@@ -57,11 +57,15 @@ public class BishalAgroSeedPermissionDefinitionProvider : PermissionDefinitionPr
         fiscalYearPermission.AddChild(BishalAgroSeedPermissions.FiscalYears.Edit, L("Permissions:FiscalYears.Edit"));
         fiscalYearPermission.AddChild(BishalAgroSeedPermissions.FiscalYears.Delete, L("Permissions:FiscalYears.Delete"));
 
-         bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.UnitTypes.Default, L("Permission:UnitTypes"));
+        var cycleCountPermission = bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.CycleCounts.Default, L("Permission:CycleCounts"));
+        cycleCountPermission.AddChild(BishalAgroSeedPermissions.CycleCounts.Create, L("Permissions:CycleCounts.Create"));
+        cycleCountPermission.AddChild(BishalAgroSeedPermissions.CycleCounts.Edit, L("Permissions:CycleCounts.Edit"));
+        cycleCountPermission.AddChild(BishalAgroSeedPermissions.CycleCounts.Close, L("Permissions:CycleCounts.Close"));
 
+        bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.UnitTypes.Default, L("Permission:UnitTypes"));
         bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.NumberGenerationTypes.Default, L("Permission:NumberGenerationTypes"));
-
     }
+
     private static LocalizableString L(string name)
     {
         return LocalizableString.Create<BishalAgroSeedResource>(name);

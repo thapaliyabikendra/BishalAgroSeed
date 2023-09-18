@@ -8,7 +8,7 @@ namespace BishalAgroSeed.CycleCountDetails;
 public class CycleCountDetail : FullAuditedAggregateRoot<Guid>
 {
     public CycleCountDetail() { }
-    public CycleCountDetail(Guid id, Guid productId, Guid cycleCountId, decimal systemQuantity, decimal? physicalQuantity, string? remarks) : base(id)
+    public CycleCountDetail(Guid id, Guid productId, Guid cycleCountId, int systemQuantity, int? physicalQuantity, string? remarks) : base(id)
     {
         ProductId = productId;
         CycleCountId = cycleCountId;
@@ -22,7 +22,7 @@ public class CycleCountDetail : FullAuditedAggregateRoot<Guid>
     public Guid CycleCountId { get; set; }
     [ForeignKey("CycleCountId")]
     public CycleCount CycleCount { get; set; }
-    public decimal SystemQuantity { get; set; }
-    public decimal? PhysicalQuantity { get; set; }
+    public int SystemQuantity { get; set; }
+    public int? PhysicalQuantity { get; set; }
     public string? Remarks { get; set; }
 }

@@ -17,7 +17,7 @@ public class TransactionPayment : FullAuditedAggregateRoot<Guid>
 
     }
     public Guid TransactionId { get; set; }
-    [ForeignKey("TrasactionId")]
+    [ForeignKey("TransactionId")]
     public virtual Transaction Transaction { get; set; }
     public PaymentTypes.PaymentType PaymentTypeId { get; set; }
     public string? ChequeNo { get; set; }

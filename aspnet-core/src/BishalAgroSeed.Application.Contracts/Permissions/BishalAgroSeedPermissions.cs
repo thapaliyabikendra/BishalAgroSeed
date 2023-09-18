@@ -80,6 +80,11 @@ public static class BishalAgroSeedPermissions
     {
         public const string Default = GroupName + ".NumberGenerationTypes";
     }
+    public static class CycleCounts
+    {
+        public const string Default = GroupName + ".CycleCounts";
+        public const string Create = Default + ".Create";
+        public const string Edit = Default + ".Edit";
+        public const string Close = Default + ".Close";
+    }
 }
-
-

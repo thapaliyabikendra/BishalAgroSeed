@@ -10,19 +10,18 @@ public class CycleCount: FullAuditedAggregateRoot<Guid>
     {
     }
 
-    public CycleCount(Guid id, string cciNumber, bool isClosed, DateTime? closedDate, Guid? closedBy, IdentityUser user): base(id)
+    public CycleCount(Guid id, string cciNumber, bool isClosed, DateTime? closedDate, Guid? closedBy): base(id)
     {
         CCINumber = cciNumber;
         IsClosed = isClosed;
         ClosedDate = closedDate;
         ClosedBy = closedBy;
-        User = user;
     }
 
     public string CCINumber { get; set; }
-    public bool IsClosed { get; set; }
+    public bool IsClosed { get; set; } = false;
     public DateTime? ClosedDate { get; set; }
     public Guid? ClosedBy { get; set; }
     [ForeignKey("CloseBy")]
-    public IdentityUser User { get; set; }
+    public IdentityUser ClosedByUser { get; set; }
 }
