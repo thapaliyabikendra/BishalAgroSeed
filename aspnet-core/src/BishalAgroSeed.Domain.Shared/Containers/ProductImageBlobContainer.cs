@@ -1,7 +1,7 @@
 ﻿using Volo.Abp.BlobStoring;
 
 namespace BishalAgroSeed.Containers;
-[BlobContainerName("bishal-agro-seed-product-image")]
+[BlobContainerName("product-image")]
 public class ProductImageBlobContainer
 {
 }

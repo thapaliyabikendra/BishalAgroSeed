@@ -12,6 +12,7 @@ using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
+using Volo.Abp.BlobStoring.Database;
 
 namespace BishalAgroSeed;
 
@@ -23,7 +24,8 @@ namespace BishalAgroSeed;
     typeof(AbpOpenIddictDomainSharedModule),
     typeof(AbpPermissionManagementDomainSharedModule),
     typeof(AbpSettingManagementDomainSharedModule),
-    typeof(AbpTenantManagementDomainSharedModule)    
+    typeof(AbpTenantManagementDomainSharedModule),
+    typeof(BlobStoringDatabaseDomainModule)
     )]
 public class BishalAgroSeedDomainSharedModule : AbpModule
 {

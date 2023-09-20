@@ -1,4 +1,5 @@
 ﻿using BishalAgroSeed.CycleCountDetails;
+using BishalAgroSeed.Dtos;
 using BishalAgroSeed.NumberGenerations;
 using BishalAgroSeed.Permissions;
 using BishalAgroSeed.Products;
@@ -53,18 +54,6 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         _transactionDetailRepository = transactionDetailRepository;
         _identityUserRepository = identityUserRepository;
         _logger = logger;
-    }
-
-    [Authorize(BishalAgroSeedPermissions.CycleCounts.Edit)]
-    public Task BulkUpdateCycleCountDetailByExcelAsync(UpdateCycleCountDetailFileDto input)
-    {
-        throw new NotImplementedException();
-    }
-
-    [Authorize(BishalAgroSeedPermissions.CycleCounts.Edit)]
-    public Task BulkUpdateCycleCountDetailUpdateAsync(List<UpdateCycleCountDetailDto> input)
-    {
-        throw new NotImplementedException();
     }
 
     [Authorize(BishalAgroSeedPermissions.CycleCounts.Close)]
@@ -256,5 +245,120 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         _logger.LogInformation($"CycleCountAppService.GetCycleCountDetailListByFilterAsync - Ended");
 
         return new PagedResultDto<CycleCountDetailDto>(totalCount, data);
+    }
+
+    [Authorize(BishalAgroSeedPermissions.CycleCounts.Edit)]
+    public async Task BulkUpdateCycleCountDetailAsync([Required] Guid cycleCountId, [Required] List<UpdateCycleCountDetailDto> input)
+    {
+        _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Started");
+
+        if (!(await _cycleCountRepository.AnyAsync(s => s.Id == cycleCountId)))
+        {
+            var msg = "Cycle Count not found.";
+            _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Validation : {msg}");
+            throw new AbpValidationException(msg, new List<ValidationResult>()
+            {
+                new  ValidationResult(msg, new [] {"cycleCountId"})
+            });
+        }
+
+        if (!input.Any()) {
+            var msg = "Cycle Count Detail Update data not found.";
+            _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Validation : {msg}");
+            throw new AbpValidationException(msg, new List<ValidationResult>()
+            {
+                new  ValidationResult(msg, new [] {"cycleCountId"})
+            });
+        }
+
+        // SN initialize 
+        input = input.Select((item, index) =>
+        new UpdateCycleCountDetailDto
+        {
+            SN = index + 1,
+            Id = item.Id,
+            PhysicalQuantity = item.PhysicalQuantity,
+            Remarks = item.Remarks,
+        }).ToList();
+
+        List<ValidationResult> valResults = new List<ValidationResult>();
+        var valTitle = "Bulk Update Cycle Count Detail Validations";
+
+        // Id required validation
+        var valIdIsRequired = (from s in input
+                               where s.Id == null
+                               select new ValidationResult($"Row {s.SN} - Id is required.", new[] { "id"})
+                               ).ToList();
+        valResults.AddRange(valIdIsRequired);
+
+        // Physical Quantity required validation
+        var valPhysicalQuantityIsRequired = 
+            (from s in input
+            where s.PhysicalQuantity == null
+             select new ValidationResult($"Row {s.SN} - Physical Quantity is required.", new[] { "physicalQuantity" })
+            ).ToList();
+        valResults.AddRange(valPhysicalQuantityIsRequired);
+
+        // Invalid Physical Quantity validation
+        var valPhysicalQuantityIsInvalid =
+            (from s in input
+             where s.PhysicalQuantity != null && s.PhysicalQuantity < 0
+             select new ValidationResult($"Row {s.SN} - Physical Quantity is invalid.", new[] { "physicalQuantity" })
+             ).ToList();
+        valResults.AddRange(valPhysicalQuantityIsInvalid);
+
+        if (valResults.Any()) {
+            _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Throw Validation exception");
+            throw new AbpValidationException(valTitle, valResults);
+        }
+
+        var cycleCountDetailQueryable = await _cycleCountDetailRepository.GetQueryableAsync();
+        var cycleCountDetails = cycleCountDetailQueryable.Where(s => s.CycleCountId == cycleCountId).ToList();
+
+        if(!cycleCountDetails.Any())
+        {
+            var msg = "Cycle Count Detail data not found.";
+            _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Validation : {msg}");
+            throw new AbpValidationException(msg, new List<ValidationResult>()
+            {
+                new  ValidationResult(msg, new [] {"cycleCountDetailId"})
+            });
+        }
+
+        var cycleCountDetailsUpdate = (from ccd in cycleCountDetails
+                                       join inp in input on ccd.Id equals inp.Id
+                                       select UpdateCycleCountDetailAsync(ccd, inp)).ToList();
+        if (!cycleCountDetails.Any())
+        {
+            var msg = "Cycle Count Detail Update data not found.";
+            _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Validation : {msg}");
+            throw new AbpValidationException(msg, new List<ValidationResult>()
+            {
+                new  ValidationResult(msg, new [] {"cycleCountDetailId"})
+            });
+        }
+        await _cycleCountDetailRepository.UpdateManyAsync(cycleCountDetailsUpdate);
+        _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Bulk Updated Cycle Count Detail");
+
+        _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Ended");
+    }
+
+    [Authorize(BishalAgroSeedPermissions.CycleCounts.Default)]
+    public Task<FileBlobDto> DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    [Authorize(BishalAgroSeedPermissions.CycleCounts.Edit)]
+    public Task BulkUpdateCycleCountDetailByExcelAsync(UpdateCycleCountDetailFileDto input)
+    {
+        throw new NotImplementedException();
+    }
+
+    private static CycleCountDetail UpdateCycleCountDetailAsync(CycleCountDetail ccd, UpdateCycleCountDetailDto inp)
+    {
+        ccd.PhysicalQuantity = inp.PhysicalQuantity;
+        ccd.Remarks = inp.Remarks;
+        return ccd;
     }
 }

@@ -19,6 +19,8 @@ using BishalAgroSeed.UnitTypes;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
+using Volo.Abp.BlobStoring.Database;
+using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
@@ -35,11 +37,13 @@ namespace BishalAgroSeed.EntityFrameworkCore;
 
 [ReplaceDbContext(typeof(IIdentityDbContext))]
 [ReplaceDbContext(typeof(ITenantManagementDbContext))]
+[ReplaceDbContext(typeof(IBlobStoringDbContext))]
 [ConnectionStringName("Default")]
 public class BishalAgroSeedDbContext :
     AbpDbContext<BishalAgroSeedDbContext>,
     IIdentityDbContext,
-    ITenantManagementDbContext
+    ITenantManagementDbContext,
+    IBlobStoringDbContext
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
 
@@ -90,6 +94,10 @@ public class BishalAgroSeedDbContext :
     public DbSet<CycleCountDetail> CycleCountDetails { get; set; }
     public DbSet<FiscalYear> FiscalYears { get; set; }
 
+    public DbSet<DatabaseBlobContainer> BlobContainers { get; set; }
+
+    public DbSet<DatabaseBlob> Blobs { get; set; }
+
     public BishalAgroSeedDbContext(DbContextOptions<BishalAgroSeedDbContext> options)
         : base(options)
     {
@@ -110,6 +118,7 @@ public class BishalAgroSeedDbContext :
         builder.ConfigureOpenIddict();
         builder.ConfigureFeatureManagement();
         builder.ConfigureTenantManagement();
+        builder.ConfigureBlobStoring();
 
         /* Configure your own tables/entities inside here */
 
