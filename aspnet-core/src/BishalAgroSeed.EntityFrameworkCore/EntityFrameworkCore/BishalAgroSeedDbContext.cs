@@ -1,4 +1,4 @@
-﻿using BishalAgroSeed.Brands;
+using BishalAgroSeed.Brands;
 using BishalAgroSeed.Categories;
 using BishalAgroSeed.CompanyInfos;
 using BishalAgroSeed.Configurations;

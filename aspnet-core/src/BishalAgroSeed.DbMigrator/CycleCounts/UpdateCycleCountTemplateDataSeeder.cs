@@ -1,4 +1,5 @@
-﻿using BishalAgroSeed.Containers;
+﻿using BishalAgroSeed.Constants;
+using BishalAgroSeed.Containers;
 using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
@@ -24,13 +25,12 @@ public class UpdateDateCountTemplateDataSeeder : IDataSeedContributor, ITransien
 
     public async Task SeedAsync(DataSeedContext context)
     {
-        var fileName = "UpdateCycleCountTemplate.xlsx";
-        var path = Path.Combine(Environment.CurrentDirectory, "CycleCounts", fileName);
+        var path = Path.Combine(Environment.CurrentDirectory, "CycleCounts", Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME);
         if (File.Exists(path)) {
             using (var memoryStream = new MemoryStream()) {
                 var file = File.OpenRead(path);
                 await file.CopyToAsync(memoryStream);
-                await _fileContainer.SaveAsync(fileName, memoryStream, true);
+                await _fileContainer.SaveAsync(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME, memoryStream, true);
             }
         }
     }

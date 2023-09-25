@@ -1,4 +1,4 @@
-﻿using BishalAgroSeed.Localization;
+using BishalAgroSeed.Localization;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.FeatureManagement;
@@ -25,9 +25,9 @@ namespace BishalAgroSeed;
     typeof(AbpPermissionManagementDomainSharedModule),
     typeof(AbpSettingManagementDomainSharedModule),
     typeof(AbpTenantManagementDomainSharedModule),
-    typeof(BlobStoringDatabaseDomainModule)
+    typeof(BlobStoringDatabaseDomainSharedModule)
     )]
-public class BishalAgroSeedDomainSharedModule : AbpModule
+    public class BishalAgroSeedDomainSharedModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {

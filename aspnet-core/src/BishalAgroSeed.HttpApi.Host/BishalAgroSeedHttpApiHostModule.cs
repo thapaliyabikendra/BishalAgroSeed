@@ -30,6 +30,7 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.BlobStoring.FileSystem;
+using Volo.Abp.BlobStoring.Database;
 
 namespace BishalAgroSeed;
 
@@ -81,9 +82,10 @@ namespace BishalAgroSeed;
         {
             options.Containers.ConfigureDefault(container =>
             {
-                container.UseFileSystem(fileSystem => {
-                    fileSystem.BasePath = "C:\\BishalAgroSeed\\Images";
-                });
+                //container.UseFileSystem(fileSystem => {
+                //    fileSystem.BasePath = "C:\\BishalAgroSeed\\Images";
+                //});
+                container.UseDatabase();
             });
         });
     }

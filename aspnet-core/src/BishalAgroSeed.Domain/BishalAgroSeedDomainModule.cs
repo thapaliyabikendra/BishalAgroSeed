@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using BishalAgroSeed.MultiTenancy;
 using Volo.Abp.AuditLogging;
@@ -14,6 +14,7 @@ using Volo.Abp.PermissionManagement.Identity;
 using Volo.Abp.PermissionManagement.OpenIddict;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
+using Volo.Abp.BlobStoring.Database;
 
 namespace BishalAgroSeed;
 
@@ -28,9 +29,10 @@ namespace BishalAgroSeed;
     typeof(AbpPermissionManagementDomainIdentityModule),
     typeof(AbpSettingManagementDomainModule),
     typeof(AbpTenantManagementDomainModule),
-    typeof(AbpEmailingModule)
+    typeof(AbpEmailingModule),
+    typeof(BlobStoringDatabaseDomainModule)
 )]
-public class BishalAgroSeedDomainModule : AbpModule
+    public class BishalAgroSeedDomainModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {

@@ -1,4 +1,6 @@
-﻿using BishalAgroSeed.CycleCountDetails;
+﻿using BishalAgroSeed.Constants;
+using BishalAgroSeed.Containers;
+using BishalAgroSeed.CycleCountDetails;
 using BishalAgroSeed.Dtos;
 using BishalAgroSeed.NumberGenerations;
 using BishalAgroSeed.Permissions;
@@ -7,6 +9,7 @@ using BishalAgroSeed.TransactionDetails;
 using BishalAgroSeed.Transactions;
 using BishalAgroSeed.TranscationTypes;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -16,6 +19,7 @@ using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.BlobStoring;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Identity;
 using Volo.Abp.Validation;
@@ -33,6 +37,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
     private readonly IRepository<TransactionDetail, Guid> _transactionDetailRepository;
     private readonly IRepository<IdentityUser, Guid> _identityUserRepository;
     private readonly ILogger<CycleCountAppService> _logger;
+    private readonly IBlobContainer<TemplateFileContainer> _templateFileContainer;
 
     public CycleCountAppService(
         IRepository<NumberGeneration, Guid> numberGenerationRepository,
@@ -43,7 +48,9 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         IRepository<TransactionType, Guid> transactionTypeRepository,
         IRepository<TransactionDetail, Guid> transactionDetailRepository,
         IRepository<IdentityUser, Guid> identityUserRepository,
-        ILogger<CycleCountAppService> logger)
+        ILogger<CycleCountAppService> logger,
+        IBlobContainer<TemplateFileContainer> templateFileContainer)
+
     {
         _numberGenerationRepository = numberGenerationRepository;
         _cycleCountRepository = cycleCountRepository;
@@ -54,6 +61,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         _transactionDetailRepository = transactionDetailRepository;
         _identityUserRepository = identityUserRepository;
         _logger = logger;
+        _templateFileContainer = templateFileContainer;
     }
 
     [Authorize(BishalAgroSeedPermissions.CycleCounts.Close)]
@@ -262,7 +270,8 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
             });
         }
 
-        if (!input.Any()) {
+        if (!input.Any())
+        {
             var msg = "Cycle Count Detail Update data not found.";
             _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Validation : {msg}");
             throw new AbpValidationException(msg, new List<ValidationResult>()
@@ -287,14 +296,14 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         // Id required validation
         var valIdIsRequired = (from s in input
                                where s.Id == null
-                               select new ValidationResult($"Row {s.SN} - Id is required.", new[] { "id"})
+                               select new ValidationResult($"Row {s.SN} - Id is required.", new[] { "id" })
                                ).ToList();
         valResults.AddRange(valIdIsRequired);
 
         // Physical Quantity required validation
-        var valPhysicalQuantityIsRequired = 
+        var valPhysicalQuantityIsRequired =
             (from s in input
-            where s.PhysicalQuantity == null
+             where s.PhysicalQuantity == null
              select new ValidationResult($"Row {s.SN} - Physical Quantity is required.", new[] { "physicalQuantity" })
             ).ToList();
         valResults.AddRange(valPhysicalQuantityIsRequired);
@@ -307,7 +316,8 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
              ).ToList();
         valResults.AddRange(valPhysicalQuantityIsInvalid);
 
-        if (valResults.Any()) {
+        if (valResults.Any())
+        {
             _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Throw Validation exception");
             throw new AbpValidationException(valTitle, valResults);
         }
@@ -315,7 +325,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         var cycleCountDetailQueryable = await _cycleCountDetailRepository.GetQueryableAsync();
         var cycleCountDetails = cycleCountDetailQueryable.Where(s => s.CycleCountId == cycleCountId).ToList();
 
-        if(!cycleCountDetails.Any())
+        if (!cycleCountDetails.Any())
         {
             var msg = "Cycle Count Detail data not found.";
             _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Validation : {msg}");
@@ -344,9 +354,24 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
     }
 
     [Authorize(BishalAgroSeedPermissions.CycleCounts.Default)]
-    public Task<FileBlobDto> DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync()
+    [HttpGet]
+    public async Task<FileBlobDto> DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync()
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"CycleCountAppService.DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync - Started");
+        if (!(await _templateFileContainer.ExistsAsync(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME)))
+        {
+            var msg = "Template not found";
+            _logger.LogInformation($"CycleCountAppService.DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync - Validation : {msg}");
+            throw new AbpValidationException(msg, new List<ValidationResult>()
+            {
+                new ValidationResult(msg, new [] {"fileName"})
+            });
+        }
+        var content = await _templateFileContainer.GetAllBytesAsync(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME);
+        _logger.LogInformation($"CycleCountAppService.DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync - Downloaded Bulk Update Cycle Count Detail");
+
+        _logger.LogInformation($"CycleCountAppService.DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync - Ended");
+        return new FileBlobDto(content, Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME);
     }
 
     [Authorize(BishalAgroSeedPermissions.CycleCounts.Edit)]
