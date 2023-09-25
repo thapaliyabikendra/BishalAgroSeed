@@ -1,6 +1,7 @@
 ﻿using BishalAgroSeed.Dtos;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 
@@ -58,5 +59,5 @@ public interface ICycleCountAppService
     /// </summary>
     /// <param name="input">Update excel file dto</param>
     /// <returns></returns>
-    public Task BulkUpdateCycleCountDetailByExcelAsync(UpdateCycleCountDetailFileDto input);
+    public Task BulkUpdateCycleCountDetailByExcelAsync(Guid cycleCountId, UpdateCycleCountDetailFileDto input);
 }

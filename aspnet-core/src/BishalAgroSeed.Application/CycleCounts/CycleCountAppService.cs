@@ -2,20 +2,26 @@
 using BishalAgroSeed.Containers;
 using BishalAgroSeed.CycleCountDetails;
 using BishalAgroSeed.Dtos;
+using BishalAgroSeed.FileUploadExtensions;
 using BishalAgroSeed.NumberGenerations;
+using BishalAgroSeed.Options;
 using BishalAgroSeed.Permissions;
 using BishalAgroSeed.Products;
 using BishalAgroSeed.TransactionDetails;
 using BishalAgroSeed.Transactions;
 using BishalAgroSeed.TranscationTypes;
+using ExcelMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Linq.Dynamic.Core;
+using System.Reflection;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -38,6 +44,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
     private readonly IRepository<IdentityUser, Guid> _identityUserRepository;
     private readonly ILogger<CycleCountAppService> _logger;
     private readonly IBlobContainer<TemplateFileContainer> _templateFileContainer;
+    private readonly BulkUploadCycleCountOption _bulkUploadCycleCountOption;
 
     public CycleCountAppService(
         IRepository<NumberGeneration, Guid> numberGenerationRepository,
@@ -49,7 +56,8 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         IRepository<TransactionDetail, Guid> transactionDetailRepository,
         IRepository<IdentityUser, Guid> identityUserRepository,
         ILogger<CycleCountAppService> logger,
-        IBlobContainer<TemplateFileContainer> templateFileContainer)
+        IBlobContainer<TemplateFileContainer> templateFileContainer,
+        IOptions<BulkUploadCycleCountOption> bulkUploadCycleCountOption)
 
     {
         _numberGenerationRepository = numberGenerationRepository;
@@ -62,6 +70,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         _identityUserRepository = identityUserRepository;
         _logger = logger;
         _templateFileContainer = templateFileContainer;
+        _bulkUploadCycleCountOption = bulkUploadCycleCountOption.Value;
     }
 
     [Authorize(BishalAgroSeedPermissions.CycleCounts.Close)]
@@ -260,6 +269,93 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
     {
         _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Started");
 
+        await BulkUpdateCycleCountDetailDataAsync(cycleCountId, input);
+
+        _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Ended");
+    }
+
+    [Authorize(BishalAgroSeedPermissions.CycleCounts.Default)]
+    [HttpGet]
+    public async Task<FileBlobDto> DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync()
+    {
+        _logger.LogInformation($"CycleCountAppService.DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync - Started");
+        if (!(await _templateFileContainer.ExistsAsync(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME)))
+        {
+            var msg = "Template not found";
+            _logger.LogInformation($"CycleCountAppService.DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync - Validation : {msg}");
+            throw new AbpValidationException(msg, new List<ValidationResult>()
+            {
+                new ValidationResult(msg, new [] {"fileName"})
+            });
+        }
+        var content = await _templateFileContainer.GetAllBytesAsync(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME);
+        _logger.LogInformation($"CycleCountAppService.DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync - Downloaded Bulk Update Cycle Count Detail");
+
+        _logger.LogInformation($"CycleCountAppService.DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync - Ended");
+        return new FileBlobDto(content, Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME);
+    }
+
+    [Authorize(BishalAgroSeedPermissions.CycleCounts.Edit)]
+    public async Task BulkUpdateCycleCountDetailByExcelAsync([Required] Guid cycleCountId, [Required][FromForm] UpdateCycleCountDetailFileDto input)
+    {
+        try
+        {
+            _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailByExcelAsync - Started");
+
+            var fileExtension = new FileInfo(input.File.FileName).Extension;
+            if (!BulkCycleCountUpdateFileExtension.Allowed.Any(s => string.Equals(s, fileExtension, StringComparison.OrdinalIgnoreCase)))
+            {
+                var msg = $"{fileExtension} Unsupported File Extension.";
+                _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailByExcelAsync - Validation : {msg}");
+                throw new AbpValidationException(msg, new List<ValidationResult>()
+                {
+                    new  ValidationResult(msg, new [] {"fileName"})
+                });
+            }
+            
+            if(input.File.Length > (_bulkUploadCycleCountOption.FileSizeLimitInKB * 1024))
+            {
+                var msg = "File Size Exceeded.";
+                _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailByExcelAsync - Validation : {msg}");
+                throw new AbpValidationException(msg, new List<ValidationResult>()
+                {
+                    new  ValidationResult(msg, new [] {"size"})
+                });
+            }
+
+            using var stream = new MemoryStream();
+            await input.File.CopyToAsync(stream);
+            stream.Position = 0;
+
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            using var importer = new ExcelImporter(stream);
+            ExcelSheet sheet = importer.ReadSheet();
+            var cycleCounts = sheet.ReadRows<UpdateCycleCountDetailDto>()
+                .Where(s => !string.IsNullOrWhiteSpace(s.ProductName));
+
+            await BulkUpdateCycleCountDetailDataAsync(cycleCountId, cycleCounts.ToList(), isFileUpload: true);
+
+            _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailByExcelAsync - Ended");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailByExcelAsync - Exception : {ex.ToString()}");
+            throw;
+        }
+    }
+
+    private static CycleCountDetail UpdateCycleCountDetailAsync(CycleCountDetail ccd, UpdateCycleCountDetailDto inp)
+    {
+        ccd.PhysicalQuantity = inp.PhysicalQuantity;
+        ccd.Remarks = inp.Remarks;
+        return ccd;
+    }
+
+
+    private async Task BulkUpdateCycleCountDetailDataAsync([Required] Guid cycleCountId, [Required] List<UpdateCycleCountDetailDto> input, bool isFileUpload = false)
+    {
+        _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Started");
+
         if (!(await _cycleCountRepository.AnyAsync(s => s.Id == cycleCountId)))
         {
             var msg = "Cycle Count not found.";
@@ -286,24 +382,57 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         {
             SN = index + 1,
             Id = item.Id,
+            ProductName = item.ProductName?.Trim(),
+            PhysicalQuantityName = item.PhysicalQuantityName?.Trim(),
             PhysicalQuantity = item.PhysicalQuantity,
-            Remarks = item.Remarks,
+            Remarks = item.Remarks.Trim(),
         }).ToList();
 
+        var productQueryable= await _productRepository.GetQueryableAsync();
+        var products = productQueryable.Select(s => new { 
+            s.Id,
+            ProductName = s.DisplayName
+        }).ToList();
         List<ValidationResult> valResults = new List<ValidationResult>();
         var valTitle = "Bulk Update Cycle Count Detail Validations";
 
-        // Id required validation
-        var valIdIsRequired = (from s in input
-                               where s.Id == null
-                               select new ValidationResult($"Row {s.SN} - Id is required.", new[] { "id" })
-                               ).ToList();
-        valResults.AddRange(valIdIsRequired);
+        if (isFileUpload) {
+            input = (from s in input
+                        join p in products on s.ProductName?.ToLower() equals p.ProductName?.ToLower() into pg
+                        from pj in pg.DefaultIfEmpty()
+                        select new UpdateCycleCountDetailDto
+                        {
+                            SN = s.SN,
+                            Id = pj == null ? null : pj.Id,
+                            ProductName = s.ProductName,
+                            PhysicalQuantityName = s.PhysicalQuantityName,
+                            PhysicalQuantity = int.TryParse(s.PhysicalQuantityName, out int physicalQuantity) ? physicalQuantity : null,
+                            Remarks = s.Remarks
+                        }).ToList();
+        }
+
+        if (isFileUpload)
+        {
+            // Product Name validation
+            var valIdIsRequired = (from s in input
+                                   where s.Id == null
+                                   select new ValidationResult($"Row {s.SN} - {s.ProductName} Invalid Product Name.", new[] { "productName" })
+                                   ).ToList();
+            valResults.AddRange(valIdIsRequired);
+        }
+        else {
+            // Id required validation
+            var valIdIsRequired = (from s in input
+                                   where s.Id == null
+                                   select new ValidationResult($"Row {s.SN} - Id is required.", new[] { "id" })
+                                   ).ToList();
+            valResults.AddRange(valIdIsRequired);
+        }
 
         // Physical Quantity required validation
         var valPhysicalQuantityIsRequired =
             (from s in input
-             where s.PhysicalQuantity == null
+             where (!isFileUpload && s.PhysicalQuantity == null) || (isFileUpload && string.IsNullOrWhiteSpace(s.PhysicalQuantityName))
              select new ValidationResult($"Row {s.SN} - Physical Quantity is required.", new[] { "physicalQuantity" })
             ).ToList();
         valResults.AddRange(valPhysicalQuantityIsRequired);
@@ -311,7 +440,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         // Invalid Physical Quantity validation
         var valPhysicalQuantityIsInvalid =
             (from s in input
-             where s.PhysicalQuantity != null && s.PhysicalQuantity < 0
+             where (s.PhysicalQuantity != null && s.PhysicalQuantity < 0) || (s.PhysicalQuantity == null && !string.IsNullOrWhiteSpace(s.PhysicalQuantityName))
              select new ValidationResult($"Row {s.SN} - Physical Quantity is invalid.", new[] { "physicalQuantity" })
              ).ToList();
         valResults.AddRange(valPhysicalQuantityIsInvalid);
@@ -351,39 +480,5 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Bulk Updated Cycle Count Detail");
 
         _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Ended");
-    }
-
-    [Authorize(BishalAgroSeedPermissions.CycleCounts.Default)]
-    [HttpGet]
-    public async Task<FileBlobDto> DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync()
-    {
-        _logger.LogInformation($"CycleCountAppService.DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync - Started");
-        if (!(await _templateFileContainer.ExistsAsync(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME)))
-        {
-            var msg = "Template not found";
-            _logger.LogInformation($"CycleCountAppService.DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync - Validation : {msg}");
-            throw new AbpValidationException(msg, new List<ValidationResult>()
-            {
-                new ValidationResult(msg, new [] {"fileName"})
-            });
-        }
-        var content = await _templateFileContainer.GetAllBytesAsync(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME);
-        _logger.LogInformation($"CycleCountAppService.DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync - Downloaded Bulk Update Cycle Count Detail");
-
-        _logger.LogInformation($"CycleCountAppService.DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync - Ended");
-        return new FileBlobDto(content, Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME);
-    }
-
-    [Authorize(BishalAgroSeedPermissions.CycleCounts.Edit)]
-    public Task BulkUpdateCycleCountDetailByExcelAsync(UpdateCycleCountDetailFileDto input)
-    {
-        throw new NotImplementedException();
-    }
-
-    private static CycleCountDetail UpdateCycleCountDetailAsync(CycleCountDetail ccd, UpdateCycleCountDetailDto inp)
-    {
-        ccd.PhysicalQuantity = inp.PhysicalQuantity;
-        ccd.Remarks = inp.Remarks;
-        return ccd;
     }
 }

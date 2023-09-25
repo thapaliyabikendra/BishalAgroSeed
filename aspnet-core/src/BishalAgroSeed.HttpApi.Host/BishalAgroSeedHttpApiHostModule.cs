@@ -31,6 +31,8 @@ using Volo.Abp.VirtualFileSystem;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.BlobStoring.FileSystem;
 using Volo.Abp.BlobStoring.Database;
+using BishalAgroSeed.NumberGenerations;
+using BishalAgroSeed.Options;
 
 namespace BishalAgroSeed;
 
@@ -74,6 +76,7 @@ namespace BishalAgroSeed;
         ConfigureSwaggerServices(context, configuration);
         ConfigureLocalization();
         ConfigureBlobStorage();
+        context.Services.Configure<BulkUploadCycleCountOption>(configuration.GetSection("FileUpload:BulkCycleCount"));
     }
 
     private void ConfigureBlobStorage()
