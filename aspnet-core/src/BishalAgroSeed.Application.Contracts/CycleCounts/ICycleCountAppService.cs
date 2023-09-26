@@ -45,6 +45,7 @@ public interface ICycleCountAppService
     /// <summary>
     ///  Performs bulk updates on cycle count details using a list of update objects.
     /// </summary>
+    /// <param name="cycleCountId">Cycle Count Id</param>
     /// <param name="input">List of update dto</param>
     public Task BulkUpdateCycleCountDetailAsync(Guid cycleCountId, List<UpdateCycleCountDetailDto> input);
 
@@ -57,7 +58,14 @@ public interface ICycleCountAppService
     /// <summary>
     /// Performs bulk updates on cycle count details using data from an Excel file.
     /// </summary>
-    /// <param name="input">Update excel file dto</param>
+    /// <param name="input">Excel file dto</param>
     /// <returns></returns>
     public Task BulkUpdateCycleCountDetailByExcelAsync(UpdateCycleCountDetailFileDto input);
+
+    /// <summary>
+    /// Exports a Cycle Count Detail excel file
+    /// </summary>
+    /// <param name="filter">Filtering criteria</param>
+    /// <returns>Downloads a excel file</returns>
+    public Task<FileBlobDto> ExportCycleCountDetailExcelAsync(CycleCountDetailFilter filter);
 }

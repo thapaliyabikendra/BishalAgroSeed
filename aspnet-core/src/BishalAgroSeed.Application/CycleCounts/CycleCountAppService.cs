@@ -7,6 +7,7 @@ using BishalAgroSeed.NumberGenerations;
 using BishalAgroSeed.Options;
 using BishalAgroSeed.Permissions;
 using BishalAgroSeed.Products;
+using BishalAgroSeed.Services;
 using BishalAgroSeed.TransactionDetails;
 using BishalAgroSeed.Transactions;
 using BishalAgroSeed.TranscationTypes;
@@ -21,7 +22,6 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Reflection;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -44,8 +44,14 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
     private readonly IRepository<IdentityUser, Guid> _identityUserRepository;
     private readonly ILogger<CycleCountAppService> _logger;
     private readonly IBlobContainer<TemplateFileContainer> _templateFileContainer;
+    private readonly IExcelService _excelService;
     private readonly BulkUploadCycleCountOption _bulkUploadCycleCountOption;
-
+    private static readonly Dictionary<string, Func<CycleCountDetailDto, object>> mapConfig = new Dictionary<string, Func<CycleCountDetailDto, object>>
+    {
+        { "Product Name", item => item.ProductName},
+        { "Physical Quantity", item => item.PhysicalQuantity},
+        { "Remarks", item => item.Remarks},
+    };
     public CycleCountAppService(
         IRepository<NumberGeneration, Guid> numberGenerationRepository,
         IRepository<CycleCount, Guid> cycleCountRepository,
@@ -57,8 +63,8 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         IRepository<IdentityUser, Guid> identityUserRepository,
         ILogger<CycleCountAppService> logger,
         IBlobContainer<TemplateFileContainer> templateFileContainer,
-        IOptions<BulkUploadCycleCountOption> bulkUploadCycleCountOption)
-
+        IOptions<BulkUploadCycleCountOption> bulkUploadCycleCountOption,
+        IExcelService excelService)
     {
         _numberGenerationRepository = numberGenerationRepository;
         _cycleCountRepository = cycleCountRepository;
@@ -70,6 +76,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         _identityUserRepository = identityUserRepository;
         _logger = logger;
         _templateFileContainer = templateFileContainer;
+        _excelService = excelService;
         _bulkUploadCycleCountOption = bulkUploadCycleCountOption.Value;
     }
 
@@ -228,40 +235,27 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
     [Authorize(BishalAgroSeedPermissions.CycleCounts.Default)]
     public async Task<PagedResultDto<CycleCountDetailDto>> GetCycleCountDetailListByFilterAsync(PagedAndSortedResultRequestDto input, CycleCountDetailFilter filter)
     {
-        _logger.LogInformation($"CycleCountAppService.GetCycleCountDetailListByFilterAsync - Started");
-
-        // Trim
-        filter.ProductName = filter.ProductName?.Trim()?.ToLower();
-        filter.Remarks = filter.Remarks?.Trim()?.ToLower();
-
-        if (string.IsNullOrWhiteSpace(input.Sorting))
+        try
         {
-            input.Sorting = $"CreationTime desc";
+            _logger.LogInformation($"CycleCountAppService.GetCycleCountDetailListByFilterAsync - Started");
+
+            if (string.IsNullOrWhiteSpace(input.Sorting))
+            {
+                input.Sorting = $"CreationTime desc";
+            }
+
+            var queryable = await GetCycleCountDetailDataByFilterAsync(filter);
+
+            var totalCount = queryable.Count();
+            var data = queryable.OrderBy(input.Sorting).Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+
+            _logger.LogInformation($"CycleCountAppService.GetCycleCountDetailListByFilterAsync - Ended");
+            return new PagedResultDto<CycleCountDetailDto>(totalCount, data);
         }
-
-        var cycleCountDetails = await _cycleCountDetailRepository.GetQueryableAsync();
-        var products = await _productRepository.GetQueryableAsync();
-        var queryable = (from cc in cycleCountDetails
-                         join p in products on cc.ProductId equals p.Id
-                         where cc.Id == filter.CycleCountId
-                         select new CycleCountDetailDto
-                         {
-                             Id = cc.Id,
-                             ProductId = cc.ProductId,
-                             ProductName = p.DisplayName,
-                             CycleCountId = cc.CycleCountId,
-                             SystemQuantity = cc.SystemQuantity,
-                             PhysicalQuantity = cc.PhysicalQuantity,
-                             Remarks = cc.Remarks
-                         })
-                         .WhereIf(!string.IsNullOrWhiteSpace(filter.ProductName), s => s.ProductName.ToLower().Contains(filter.ProductName))
-                         .WhereIf(!string.IsNullOrWhiteSpace(filter.Remarks), s => s.Remarks.ToLower().Contains(filter.Remarks));
-
-        var totalCount = queryable.Count();
-        var data = queryable.Skip(input.SkipCount).Take(input.MaxResultCount).OrderBy(input.Sorting).ToList();
-        _logger.LogInformation($"CycleCountAppService.GetCycleCountDetailListByFilterAsync - Ended");
-
-        return new PagedResultDto<CycleCountDetailDto>(totalCount, data);
+        catch (Exception ex) {
+            _logger.LogInformation($"CycleCountAppService.GetCycleCountDetailListByFilterAsync - Exception : {ex.ToString()}");
+            throw;
+        }
     }
 
     [Authorize(BishalAgroSeedPermissions.CycleCounts.Edit)]
@@ -278,8 +272,9 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
     [HttpGet]
     public async Task<FileBlobDto> DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync()
     {
+        var fileName = string.Format(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME, "");
         _logger.LogInformation($"CycleCountAppService.DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync - Started");
-        if (!(await _templateFileContainer.ExistsAsync(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME)))
+        if (!(await _templateFileContainer.ExistsAsync(fileName)))
         {
             var msg = "Template not found";
             _logger.LogInformation($"CycleCountAppService.DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync - Validation : {msg}");
@@ -288,11 +283,43 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
                 new ValidationResult(msg, new [] {"fileName"})
             });
         }
-        var content = await _templateFileContainer.GetAllBytesAsync(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME);
+        var content = await _templateFileContainer.GetAllBytesAsync(fileName);
         _logger.LogInformation($"CycleCountAppService.DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync - Downloaded Bulk Update Cycle Count Detail");
 
         _logger.LogInformation($"CycleCountAppService.DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync - Ended");
-        return new FileBlobDto(content, Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME);
+        return new FileBlobDto(content, fileName);
+    }
+
+    [Authorize(BishalAgroSeedPermissions.CycleCounts.Default)]
+    [HttpGet]
+    public async Task<FileBlobDto> ExportCycleCountDetailExcelAsync(CycleCountDetailFilter filter)
+    {
+        try
+        {
+            _logger.LogInformation($"CycleCountAppService.ExportCycleCountDetailExcelAsync - Started");
+
+            if (!(await _cycleCountRepository.AnyAsync(s => s.Id == filter.CycleCountId)))
+            {
+                var msg = "Cycle Count not found.";
+                _logger.LogInformation($"CycleCountAppService.ExportCycleCountDetailExcelAsync - Validation : {msg}");
+                throw new AbpValidationException(msg, new List<ValidationResult>()
+                {
+                    new  ValidationResult(msg, new [] {"cycleCountId"})
+                });
+            }
+            var data = await GetCycleCountDetailDataByFilterAsync(filter);
+
+            var content = await _excelService.ExportAsync(data.ToList(), mapConfig);
+            var fileName = string.Format(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME, $" {DateTime.Now.ToString(@"yyyy/MM/dd HH:mm")}");
+
+            _logger.LogInformation($"CycleCountAppService.ExportCycleCountDetailExcelAsync - Ended");
+            return new FileBlobDto(content, fileName);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation($"CycleCountAppService.ExportCycleCountDetailExcelAsync - Exception : {ex.ToString()}");
+            throw;
+        }
     }
 
     [Authorize(BishalAgroSeedPermissions.CycleCounts.Edit)]
@@ -482,5 +509,45 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Bulk Updated Cycle Count Detail");
 
         _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Ended");
+    }
+
+
+    public async Task<IQueryable<CycleCountDetailDto>> GetCycleCountDetailDataByFilterAsync(CycleCountDetailFilter filter)
+    {
+        try
+        {
+            _logger.LogInformation($"CycleCountAppService.GetCycleCountDetailDataByFilterAsync - Started");
+
+            // Trim
+            filter.ProductName = filter.ProductName?.Trim()?.ToLower();
+            filter.Remarks = filter.Remarks?.Trim()?.ToLower();
+
+            var cycleCountDetails = await _cycleCountDetailRepository.GetQueryableAsync();
+            var products = await _productRepository.GetQueryableAsync();
+            var queryable = (from cc in cycleCountDetails
+                             join p in products on cc.ProductId equals p.Id
+                             where cc.Id == filter.CycleCountId
+                             select new CycleCountDetailDto
+                             {
+                                 Id = cc.Id,
+                                 ProductId = cc.ProductId,
+                                 ProductName = p.DisplayName,
+                                 CycleCountId = cc.CycleCountId,
+                                 SystemQuantity = cc.SystemQuantity,
+                                 PhysicalQuantity = cc.PhysicalQuantity,
+                                 Remarks = cc.Remarks
+                             })
+                             .WhereIf(!string.IsNullOrWhiteSpace(filter.ProductName), s => s.ProductName.ToLower().Contains(filter.ProductName))
+                             .WhereIf(!string.IsNullOrWhiteSpace(filter.Remarks), s => s.Remarks.ToLower().Contains(filter.Remarks))
+                             .OrderBy(s => s.ProductName);
+
+            _logger.LogInformation($"CycleCountAppService.GetCycleCountDetailDataByFilterAsync - Ended");
+            return queryable;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation($"CycleCountAppService.GetCycleCountDetailDataByFilterAsync - Exception : {ex.ToString()}");
+            throw;
+        }
     }
 }

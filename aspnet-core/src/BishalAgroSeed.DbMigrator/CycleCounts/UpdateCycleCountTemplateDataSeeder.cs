@@ -25,12 +25,13 @@ public class UpdateDateCountTemplateDataSeeder : IDataSeedContributor, ITransien
 
     public async Task SeedAsync(DataSeedContext context)
     {
-        var path = Path.Combine(Environment.CurrentDirectory, "CycleCounts", Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME);
+        var fileName = string.Format(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME, "");
+        var path = Path.Combine(Environment.CurrentDirectory, "CycleCounts", fileName);
         if (File.Exists(path)) {
             using (var memoryStream = new MemoryStream()) {
                 var file = File.OpenRead(path);
                 await file.CopyToAsync(memoryStream);
-                await _fileContainer.SaveAsync(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME, memoryStream, true);
+                await _fileContainer.SaveAsync(fileName, memoryStream, true);
             }
         }
     }
