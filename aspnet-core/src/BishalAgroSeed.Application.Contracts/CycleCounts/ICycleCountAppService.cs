@@ -59,5 +59,5 @@ public interface ICycleCountAppService
     /// </summary>
     /// <param name="input">Update excel file dto</param>
     /// <returns></returns>
-    public Task BulkUpdateCycleCountDetailByExcelAsync(Guid cycleCountId, UpdateCycleCountDetailFileDto input);
+    public Task BulkUpdateCycleCountDetailByExcelAsync(UpdateCycleCountDetailFileDto input);
 }

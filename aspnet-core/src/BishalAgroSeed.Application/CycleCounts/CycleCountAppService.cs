@@ -296,7 +296,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
     }
 
     [Authorize(BishalAgroSeedPermissions.CycleCounts.Edit)]
-    public async Task BulkUpdateCycleCountDetailByExcelAsync([Required] Guid cycleCountId, [Required][FromForm] UpdateCycleCountDetailFileDto input)
+    public async Task BulkUpdateCycleCountDetailByExcelAsync([Required][FromForm] UpdateCycleCountDetailFileDto input)
     {
         try
         {
@@ -312,8 +312,8 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
                     new  ValidationResult(msg, new [] {"fileName"})
                 });
             }
-            
-            if(input.File.Length > (_bulkUploadCycleCountOption.FileSizeLimitInKB * 1024))
+
+            if (input.File.Length > (_bulkUploadCycleCountOption.FileSizeLimitInKB * 1024))
             {
                 var msg = "File Size Exceeded.";
                 _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailByExcelAsync - Validation : {msg}");
@@ -333,7 +333,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
             var cycleCounts = sheet.ReadRows<UpdateCycleCountDetailDto>()
                 .Where(s => !string.IsNullOrWhiteSpace(s.ProductName));
 
-            await BulkUpdateCycleCountDetailDataAsync(cycleCountId, cycleCounts.ToList(), isFileUpload: true);
+            await BulkUpdateCycleCountDetailDataAsync(input.CycleCountId, cycleCounts.ToList(), isFileUpload: true);
 
             _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailByExcelAsync - Ended");
         }
@@ -350,7 +350,6 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         ccd.Remarks = inp.Remarks;
         return ccd;
     }
-
 
     private async Task BulkUpdateCycleCountDetailDataAsync([Required] Guid cycleCountId, [Required] List<UpdateCycleCountDetailDto> input, bool isFileUpload = false)
     {
@@ -388,27 +387,29 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
             Remarks = item.Remarks.Trim(),
         }).ToList();
 
-        var productQueryable= await _productRepository.GetQueryableAsync();
-        var products = productQueryable.Select(s => new { 
+        var productQueryable = await _productRepository.GetQueryableAsync();
+        var products = productQueryable.Select(s => new
+        {
             s.Id,
             ProductName = s.DisplayName
         }).ToList();
         List<ValidationResult> valResults = new List<ValidationResult>();
         var valTitle = "Bulk Update Cycle Count Detail Validations";
 
-        if (isFileUpload) {
+        if (isFileUpload)
+        {
             input = (from s in input
-                        join p in products on s.ProductName?.ToLower() equals p.ProductName?.ToLower() into pg
-                        from pj in pg.DefaultIfEmpty()
-                        select new UpdateCycleCountDetailDto
-                        {
-                            SN = s.SN,
-                            Id = pj == null ? null : pj.Id,
-                            ProductName = s.ProductName,
-                            PhysicalQuantityName = s.PhysicalQuantityName,
-                            PhysicalQuantity = int.TryParse(s.PhysicalQuantityName, out int physicalQuantity) ? physicalQuantity : null,
-                            Remarks = s.Remarks
-                        }).ToList();
+                     join p in products on s.ProductName?.ToLower() equals p.ProductName?.ToLower() into pg
+                     from pj in pg.DefaultIfEmpty()
+                     select new UpdateCycleCountDetailDto
+                     {
+                         SN = s.SN,
+                         Id = pj == null ? null : pj.Id,
+                         ProductName = s.ProductName,
+                         PhysicalQuantityName = s.PhysicalQuantityName,
+                         PhysicalQuantity = int.TryParse(s.PhysicalQuantityName, out int physicalQuantity) ? physicalQuantity : null,
+                         Remarks = s.Remarks
+                     }).ToList();
         }
 
         if (isFileUpload)
@@ -420,7 +421,8 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
                                    ).ToList();
             valResults.AddRange(valIdIsRequired);
         }
-        else {
+        else
+        {
             // Id required validation
             var valIdIsRequired = (from s in input
                                    where s.Id == null
