@@ -111,11 +111,21 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         var numberGeneration = await _numberGenerationRepository.FirstOrDefaultAsync(s => s.NumberGenerationTypeId == NumberGenerationTypes.NumberGenerationTypes.CycleCount);
         if (numberGeneration == null)
         {
-            var msg = "Cycle Count Number Generation is not setup!!";
+            var msg = "Cycle Count Number Generation is not setup !!";
             _logger.LogInformation($"CycleCountAppService.CreateAsync - Validation : {msg}");
             throw new AbpValidationException(msg, new List<ValidationResult>()
             {
                 new  ValidationResult(msg, new [] {"numberGeneration"})
+            });
+        }
+
+        if ((await _cycleCountRepository.AnyAsync(s => !s.IsClosed)))
+        {
+            var msg = "Open Cycle Count exists !!";
+            _logger.LogInformation($"CycleCountAppService.CreateAsync - Validation : {msg}");
+            throw new AbpValidationException(msg, new List<ValidationResult>()
+            {
+                new  ValidationResult(msg, new [] {"isClose"})
             });
         }
 
@@ -382,13 +392,31 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
     {
         _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Started");
 
-        if (!(await _cycleCountRepository.AnyAsync(s => s.Id == cycleCountId)))
+        var cycleCountQueryable = await _cycleCountRepository.GetQueryableAsync();
+        var cycleCount = cycleCountQueryable
+        .Select(s => new
+        {
+            s.Id,
+            s.IsClosed
+        }).FirstOrDefault(s => s.Id == cycleCountId);
+
+        if (cycleCount == null)
         {
             var msg = "Cycle Count not found.";
             _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Validation : {msg}");
             throw new AbpValidationException(msg, new List<ValidationResult>()
             {
                 new  ValidationResult(msg, new [] {"cycleCountId"})
+            });
+        }
+
+        if (cycleCount.IsClosed)
+        {
+            var msg = "Cycle Count already closed !!";
+            _logger.LogInformation($"CycleCountAppService.CreateAsync - Validation : {msg}");
+            throw new AbpValidationException(msg, new List<ValidationResult>()
+            {
+                new  ValidationResult(msg, new [] {"isClose"})
             });
         }
 

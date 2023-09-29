@@ -21,13 +21,13 @@ export class CompanyInfoComponent implements OnInit {
     private toast: ToasterService,
     public readonly list: ListService,
     private confirmation: ConfirmationService
-  ){ }
+  ) { }
 
   ngOnInit(): void {
     const streamCreator = (query) => this.service.getList(query);
     this.list.hookToQuery(streamCreator).subscribe((resp) => {
-    this.data = resp;
-  });
+      this.data = resp;
+    });
 
   }
 
@@ -46,7 +46,7 @@ export class CompanyInfoComponent implements OnInit {
     this.buildForm();
   }
 
-   save(){
+  save() {
     if (this.form.invalid) {
       return;
     }
@@ -55,40 +55,31 @@ export class CompanyInfoComponent implements OnInit {
       address: this.form.value.address,
       contactNo: this.form.value.contactNo,
       panNo: this.form.value.panNo
-   };
+    };
 
-   const request = this.selected.id ? this.service.update(this.selected.id, dto) : this.service.create(dto);
-   request.subscribe(() => {
-     this.toast.success(this.selected.id ? '::UpdatedCompanyInfo' : '::CreatedCompanyInfo');
-     this.isModalOpen = false;
-     this.form.reset();
-     this.list.get();
-   });
- }
- delete(id: any) {
-   this.confirmation.warn ('::AreYouSureToDelete', 'AbpAccount::AreYouSure').subscribe((status) => {
-     if (status === Confirmation.Status.confirm) {
-       this.service.delete(id).subscribe(() => {
-         this.toast.success('::DeletedCompanyInfo');
-         this.list.get();
-       });
-     }
-   });
- }
- edit(id: any) {
-   this.service.get(id).subscribe((res) => {
-     this.selected = res;
-     this.buildForm();
-     this.isModalOpen = true;
-   });
- }
-
-
+    const request = this.selected.id ? this.service.update(this.selected.id, dto) : this.service.create(dto);
+    request.subscribe(() => {
+      this.toast.success(this.selected.id ? '::UpdatedCompanyInfo' : '::CreatedCompanyInfo');
+      this.isModalOpen = false;
+      this.form.reset();
+      this.list.get();
+    });
+  }
+  delete(id: any) {
+    this.confirmation.warn('::AreYouSureToDelete', 'AbpAccount::AreYouSure').subscribe((status) => {
+      if (status === Confirmation.Status.confirm) {
+        this.service.delete(id).subscribe(() => {
+          this.toast.success('::DeletedCompanyInfo');
+          this.list.get();
+        });
+      }
+    });
+  }
+  edit(id: any) {
+    this.service.get(id).subscribe((res) => {
+      this.selected = res;
+      this.buildForm();
+      this.isModalOpen = true;
+    });
+  }
 }
-
-
-
-
-
-
-

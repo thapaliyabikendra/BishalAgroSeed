@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { CycleCountRoutingModule } from './cycle-count-routing.module';
 import { CycleCountComponent } from './cycle-count.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { CycleCountComponent } from './cycle-count.component';
   ],
   imports: [
     CommonModule,
-    CycleCountRoutingModule
+    CycleCountRoutingModule,
+    SharedModule
   ]
 })
 export class CycleCountModule { }

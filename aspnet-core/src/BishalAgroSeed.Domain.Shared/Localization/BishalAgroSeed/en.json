@@ -52,6 +52,10 @@
     "Permission:FiscalYears.Create": "Create",
     "Permission:FiscalYears.Edit": "Edit",
     "Permission:FiscalYears.Delete": "Delete",
+    "Permission:CycleCounts": "CycleCounts",
+    "Permission:CycleCounts.Create": "Create",
+    "Permission:CycleCounts.Edit": "Edit",
+    "Permission:CycleCounts.Close": "Close",
     "CreatedConfiguration": "Configuration created successfully.",
     "UpdatedConfiguration": "Configuration updated successfully.",
     "DeletedConfiguration": "Configuration deleted successfully.",
@@ -76,6 +80,9 @@
     "CreatedNumberGeneration": "Number Generation created successfully.",
     "UpdatedNumberGeneration": "Number Generation updated successfully.",
     "DeletedNumberGeneration": "Number Generation deleted successfully.",
+    "Request": "Request",
+    "Modify": "Modify",
+    "Close": "Close",
     "DisplayName": "Display Name",
     "ContactNo": "Contact No",
     "IsCustomer": "Is Customer",
@@ -92,6 +99,13 @@
     "TranDate": "Tran Date",
     "CustomerName": "Customer",
     "IsReceivable": "Is Receivable",
-    "NumberGenerationType" :"Number Genration Type"
+    "NumberGenerationType": "Number Genration Type",
+    "PyhsicalQuantity": "Physical Quantity",
+    "SystemQuantity": "System Quantity",
+    "CCINumber": "CCI NUmber",
+    "IsClosed": "Is Closed",
+    "CloseDate": "Close Date",
+    "ClosedByName": "Closed By",
+    "CreationOn": "Created At"
   }
 }

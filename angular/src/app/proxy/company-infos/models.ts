@@ -7,6 +7,13 @@ export interface CompanyInfoDto extends AuditedEntityDto<string> {
   panNo?: string;
 }
 
+export interface CompanyInfoFilter {
+  displayName?: string;
+  address?: string;
+  contactNo?: string;
+  panNo?: string;
+}
+
 export interface CreateUpdateCompanyInfoDto {
   displayName: string;
   address?: string;

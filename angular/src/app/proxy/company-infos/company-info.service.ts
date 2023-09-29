@@ -1,4 +1,4 @@
-import type { CompanyInfoDto, CreateUpdateCompanyInfoDto } from './models';
+import type { CompanyInfoDto, CompanyInfoFilter, CreateUpdateCompanyInfoDto } from './models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -40,6 +40,15 @@ export class CompanyInfoService {
       method: 'GET',
       url: '/api/app/company-info',
       params: { sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getListByFilter = (input: PagedAndSortedResultRequestDto, filter: CompanyInfoFilter, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, PagedResultDto<CompanyInfoDto>>({
+      method: 'GET',
+      url: '/api/app/company-info/by-filter',
+      params: { sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount, displayName: filter.displayName, address: filter.address, contactNo: filter.contactNo, panNo: filter.panNo },
     },
     { apiName: this.apiName,...config });
   
