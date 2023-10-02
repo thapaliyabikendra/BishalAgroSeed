@@ -10,7 +10,50 @@
         </div>
     </div>
     <div [ngClass]="showFilter ? '' : 'd-none'" class="card-body">
+        <div class="row">
+            <div class="col-2 form-group mb-1">
+                <label for="cciNumberFilter">{{ '::CCINumber' | abpLocalization}}</label>
+                <input id="cciNumberFilter" type="text" class="form-control" [(ngModel)]="filter.cciNumber" />
+            </div>
 
+            <div class="col-2 form-group mb-1">
+                <label for="isClosedFilter">{{ '::IsClosed' | abpLocalization}}</label>
+                <ng-select id="isClosedFilter" [(ngModel)]="filter.isClosed">
+                    <ng-option value="true">Yes</ng-option>
+                    <ng-option value="false">No</ng-option>
+                </ng-select>
+            </div>
+            <div class="col-2 form-group mb-1">
+                <label for="closedFromDateFilter">{{ '::ClosedFromDate' | abpLocalization}}</label>
+                <input id="closedFromDateFilter" type="date" class="form-control" [(ngModel)]="filter.closedFromDate" />
+            </div>
+            <div class="col-2 form-group mb-1">
+                <label for="closedToDateFilter">{{ '::ClosedToDate' | abpLocalization}}</label>
+                <input id="closedToDateFilter" type="date" class="form-control" [(ngModel)]="filter.closedToDate" />
+            </div>
+            <div class="col-2 form-group mb-1">
+                <label for="closedByNameFilter">{{ '::ClosedByName' | abpLocalization}}</label>
+                <input id="closedByNameFilter" type="text" class="form-control" [(ngModel)]="filter.closedByName" />
+            </div>
+            <div class="col-2 form-group mb-1">
+                <label for="openedFromDateFilter">{{ '::OpenedFromDate' | abpLocalization}}</label>
+                <input id="openedFromDateFilter" type="date" class="form-control" [(ngModel)]="filter.openedFromDate" />
+            </div>
+            <div class="col-2 form-group mb-1">
+                <label for="openedToDateFilter">{{ '::OpenedToDate' | abpLocalization}}</label>
+                <input id="openedToDateFilter" type="date" class="form-control" [(ngModel)]="filter.openedToDate" />
+            </div>
+
+            <div class="col-3">
+                <br />
+                <button class="btn btn-secondary" (click)="getData()">
+                    {{'::Search' | abpLocalization}}
+                </button>
+                <button class="btn btn-warning ms-1" (click)="clearFilter()">
+                    {{'::CLear' | abpLocalization}}
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 

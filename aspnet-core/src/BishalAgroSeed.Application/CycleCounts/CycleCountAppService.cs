@@ -46,11 +46,11 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
     private readonly IBlobContainer<TemplateFileContainer> _templateFileContainer;
     private readonly IExcelService _excelService;
     private readonly BulkUploadCycleCountOption _bulkUploadCycleCountOption;
-    private static readonly Dictionary<string, Func<CycleCountDetailDto, object>> mapConfig = new Dictionary<string, Func<CycleCountDetailDto, object>>
+    private static readonly Dictionary<string, Func<CycleCountDetailDto, object>> _mapConfig = new()
     {
         { "Product Name", item => item.ProductName},
         { "Physical Quantity", item => item.PhysicalQuantity},
-        { "Remarks", item => item.Remarks},
+        { "Remarks", item => item.Remarks ?? ""},
     };
     public CycleCountAppService(
         IRepository<NumberGeneration, Guid> numberGenerationRepository,
@@ -98,7 +98,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         cycleCount.ClosedDate = DateTime.Now;
         cycleCount.ClosedBy = CurrentUser.Id;
         await _cycleCountRepository.UpdateAsync(cycleCount);
-        _logger.LogInformation($"CycleCountAppService.CloseAsync - Updated CycleCount entity with Id : {cycleCount.Id}");
+        _logger.LogInformation("CycleCountAppService.CloseAsync - Updated CycleCount entity with Id : {CycleCountId}", cycleCount.Id);
 
         _logger.LogInformation($"CycleCountAppService.CloseAsync - Ended");
     }
@@ -192,7 +192,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
                                 CCINumber = cc.CCINumber,
                                 IsClosed = cc.IsClosed,
                                 ClosedDate = cc.ClosedDate,
-                                ClosedByName = uj == null ? null : uj.Name + " " + uj.Surname,
+                                ClosedByName = uj == null ? "" : uj.Name + " " + uj.Surname,
                                 CreationTime = cc.CreationTime
                             }).FirstOrDefault();
 
@@ -224,7 +224,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
                              CCINumber = cc.CCINumber,
                              IsClosed = cc.IsClosed,
                              ClosedDate = cc.ClosedDate,
-                             ClosedByName = uj == null ? null : uj.Name + " " + uj.Surname,
+                             ClosedByName = uj == null ? "" : uj.Name + " " + uj.Surname,
                              CreationTime = cc.CreationTime
                          })
                          .WhereIf(!string.IsNullOrWhiteSpace(filter.CCINumber), s => s.CCINumber.ToLower().Contains(filter.CCINumber))
@@ -263,7 +263,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
             return new PagedResultDto<CycleCountDetailDto>(totalCount, data);
         }
         catch (Exception ex) {
-            _logger.LogInformation($"CycleCountAppService.GetCycleCountDetailListByFilterAsync - Exception : {ex.ToString()}");
+            _logger.LogInformation($"CycleCountAppService.GetCycleCountDetailListByFilterAsync - Exception : {ex}");
             throw;
         }
     }
@@ -287,7 +287,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         if (!(await _templateFileContainer.ExistsAsync(fileName)))
         {
             var msg = "Template not found";
-            _logger.LogInformation($"CycleCountAppService.DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync - Validation : {msg}");
+            _logger.LogInformation("CycleCountAppService.DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync - Validation : {Msg}", msg);
             throw new AbpValidationException(msg, new List<ValidationResult>()
             {
                 new ValidationResult(msg, new [] {"fileName"})
@@ -319,15 +319,15 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
             }
             var data = await GetCycleCountDetailDataByFilterAsync(filter);
 
-            var content = await _excelService.ExportAsync(data.ToList(), mapConfig);
-            var fileName = string.Format(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME, $" {DateTime.Now.ToString(@"yyyy/MM/dd HH:mm")}");
+            var content = await _excelService.ExportAsync(data.ToList(), _mapConfig);
+            var fileName = string.Format(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME, $"{DateTime.Now:yyyy/MM/dd HH:mm}");
 
             _logger.LogInformation($"CycleCountAppService.ExportCycleCountDetailExcelAsync - Ended");
             return new FileBlobDto(content, fileName);
         }
         catch (Exception ex)
         {
-            _logger.LogInformation($"CycleCountAppService.ExportCycleCountDetailExcelAsync - Exception : {ex.ToString()}");
+            _logger.LogInformation($"CycleCountAppService.ExportCycleCountDetailExcelAsync - Exception : {ex}");
             throw;
         }
     }
@@ -340,7 +340,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
             _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailByExcelAsync - Started");
 
             var fileExtension = new FileInfo(input.File.FileName).Extension;
-            if (!BulkCycleCountUpdateFileExtension.Allowed.Any(s => string.Equals(s, fileExtension, StringComparison.OrdinalIgnoreCase)))
+            if (!Array.Exists(BulkCycleCountUpdateFileExtension.Allowed, s => string.Equals(s, fileExtension, StringComparison.OrdinalIgnoreCase)))
             {
                 var msg = $"{fileExtension} Unsupported File Extension.";
                 _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailByExcelAsync - Validation : {msg}");
@@ -376,7 +376,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         }
         catch (Exception ex)
         {
-            _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailByExcelAsync - Exception : {ex.ToString()}");
+            _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailByExcelAsync - Exception : {ex}");
             throw;
         }
     }
@@ -436,10 +436,10 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         {
             SN = index + 1,
             Id = item.Id,
-            ProductName = item.ProductName?.Trim(),
-            PhysicalQuantityName = item.PhysicalQuantityName?.Trim(),
+            ProductName = item.ProductName.Trim(),
+            PhysicalQuantityName = item.PhysicalQuantityName.Trim(),
             PhysicalQuantity = item.PhysicalQuantity,
-            Remarks = item.Remarks.Trim(),
+            Remarks = item.Remarks?.Trim(),
         }).ToList();
 
         var productQueryable = await _productRepository.GetQueryableAsync();
@@ -448,7 +448,8 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
             s.Id,
             ProductName = s.DisplayName
         }).ToList();
-        List<ValidationResult> valResults = new List<ValidationResult>();
+
+        var valResults = new List<ValidationResult>();
         var valTitle = "Bulk Update Cycle Count Detail Validations";
 
         if (isFileUpload)
@@ -459,7 +460,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
                      select new UpdateCycleCountDetailDto
                      {
                          SN = s.SN,
-                         Id = pj == null ? null : pj.Id,
+                         Id = pj?.Id,
                          ProductName = s.ProductName,
                          PhysicalQuantityName = s.PhysicalQuantityName,
                          PhysicalQuantity = int.TryParse(s.PhysicalQuantityName, out int physicalQuantity) ? physicalQuantity : null,
@@ -574,7 +575,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         }
         catch (Exception ex)
         {
-            _logger.LogInformation($"CycleCountAppService.GetCycleCountDetailDataByFilterAsync - Exception : {ex.ToString()}");
+            _logger.LogInformation($"CycleCountAppService.GetCycleCountDetailDataByFilterAsync - Exception : {ex}");
             throw;
         }
     }

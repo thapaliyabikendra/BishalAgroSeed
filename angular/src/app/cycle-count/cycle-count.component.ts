@@ -41,4 +41,12 @@ export class CycleCountComponent implements OnInit {
   toggleFilter() {
     this.showFilter = !this.showFilter;
   }
+
+  getData() {
+    this.list.get();
+  }
+
+  clearFilter(){
+    this.filter = {};
+  }
 }

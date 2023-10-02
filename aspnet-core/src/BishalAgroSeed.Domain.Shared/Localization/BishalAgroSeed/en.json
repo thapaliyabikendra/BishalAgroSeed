@@ -102,10 +102,14 @@
     "NumberGenerationType": "Number Genration Type",
     "PyhsicalQuantity": "Physical Quantity",
     "SystemQuantity": "System Quantity",
-    "CCINumber": "CCI NUmber",
+    "CCINumber": "CCI Number",
     "IsClosed": "Is Closed",
     "CloseDate": "Close Date",
     "ClosedByName": "Closed By",
-    "CreationOn": "Created At"
+    "CreationOn": "Created At",
+    "OpenedFromDate": "Opened From Date",
+    "OpenedToDate": "Opened To Date",
+    "ClosedFromDate": "Closed From Date",
+    "ClosedToDate": "Closed To Date"
   }
 }
