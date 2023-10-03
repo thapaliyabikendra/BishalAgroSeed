@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BrandService } from '@proxy/brands';
 import { CategoryDto, CategoryService, GetCategoryFilter } from '@proxy/categories';
 import { DropdownDto } from '@proxy/dtos';
-import { CreateUpdateProductDto, GetUnitTypeDto, ProductDto, ProductService } from '@proxy/products';
+import { CreateUpdateProductDto, GetUnitTypeDto, ProductDto, ProductFilter, ProductService } from '@proxy/products';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -17,6 +17,8 @@ import { forkJoin } from 'rxjs';
 
 export class ProductComponent implements OnInit {
   data = { items: [], totalCount: 0 } as PagedResultDto<ProductDto>;
+  filter = {} as ProductFilter;
+  showFilter = false as Boolean;
   form: FormGroup;
   isModalOpen = false;
   selected = {} as ProductDto;
@@ -38,14 +40,14 @@ export class ProductComponent implements OnInit {
 
 
   ngOnInit(): void {
-    const streamCreator = (query) => this.service.getList(query);
+    const streamCreator = (query) => this.service.getListByFilter(query, this.filter);
     this.list.hookToQuery(streamCreator).subscribe((resp) => {
       this.data = resp;
     });
 
-    let filter = {} as GetCategoryFilter;
+    let categoryFilter = {} as GetCategoryFilter;
     forkJoin([
-      this.categoryService.getCategories(filter),
+      this.categoryService.getCategories(categoryFilter),
       this.brandService.getBrands(),
       this.service.getUnitTypes()
     ])
@@ -54,6 +56,19 @@ export class ProductComponent implements OnInit {
       this.brands = res[1];
       this.unitTypes = res[2];
     });
+  }
+
+  toggleFilter() {
+    this.showFilter = !this.showFilter;
+  }
+
+  getData() {
+    this.list.get();
+  }
+
+  clearFilter(){
+    this.filter = {};
+    this.getData();
   }
 
   buildForm() {

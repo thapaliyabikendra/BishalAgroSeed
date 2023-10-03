@@ -30,4 +30,15 @@ export interface ProductDto extends AuditedEntityDto<string> {
   price: number;
   description?: string;
   imgFileName?: string;
+  creationTime?: string;
+}
+
+export interface ProductFilter {
+  displayName?: string;
+  categoryName?: string;
+  brandName?: string;
+  unitTypeName?: string;
+  priceFrom?: number;
+  priceTo?: number;
+  description?: string;
 }

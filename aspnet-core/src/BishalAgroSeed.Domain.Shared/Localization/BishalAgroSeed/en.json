@@ -110,6 +110,12 @@
     "OpenedFromDate": "Opened From Date",
     "OpenedToDate": "Opened To Date",
     "ClosedFromDate": "Closed From Date",
-    "ClosedToDate": "Closed To Date"
+    "ClosedToDate": "Closed To Date",
+    "CategoryName": "Category",
+    "BrandName": "Brand",
+    "UnitTypeName": "Unit Type",
+    "PriceName": "Price Name",
+    "PriceFrom": "Price From",
+    "PriceTo": "Price To"
   }
 }
