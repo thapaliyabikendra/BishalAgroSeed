@@ -1,12 +1,14 @@
 ﻿using BishalAgroSeed.Brands;
 using BishalAgroSeed.Categories;
 using BishalAgroSeed.Containers;
+using BishalAgroSeed.CycleCounts;
 using BishalAgroSeed.Dtos;
 using BishalAgroSeed.Permissions;
 using BishalAgroSeed.UnitTypes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +21,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Identity;
 using Volo.Abp.Validation;
 
 namespace BishalAgroSeed.Products;
@@ -28,12 +31,14 @@ public class ProductAppService : CrudAppService<Product, ProductDto, Guid, Paged
     private readonly IRepository<UnitType, Guid> _unitTypeRepository;
     private readonly IRepository<Category, Guid> _categoryRepository;
     private readonly IRepository<Brand, Guid> _brandRepository;
+    private readonly ILogger<ProductAppService> _logger;
     private readonly IBlobContainer<ProductImageBlobContainer> _blobContainer;
 
     public ProductAppService(IRepository<Product, Guid> repository,
         IRepository<UnitType, Guid> unitTypeRepository,
         IRepository<Category, Guid> categoryRepository,
         IRepository<Brand, Guid> brandRepository,
+         ILogger<ProductAppService> logger,
         IBlobContainer<ProductImageBlobContainer> blobContainer
         ) : base(repository)
     {
@@ -46,6 +51,7 @@ public class ProductAppService : CrudAppService<Product, ProductDto, Guid, Paged
         _categoryRepository = categoryRepository;
         _brandRepository = brandRepository;
         _blobContainer = blobContainer;
+        _logger = logger;
     }
 
     public override async Task<ProductDto> CreateAsync([FromForm] CreateUpdateProductDto input)
@@ -179,5 +185,62 @@ public class ProductAppService : CrudAppService<Product, ProductDto, Guid, Paged
                         }).FirstOrDefault();
 
         return data;
+    }
+
+    [Authorize(BishalAgroSeedPermissions.Products.Default)]
+    public async Task<PagedResultDto<ProductDto>> GetListByFilterAsync(PagedAndSortedResultRequestDto input, ProductFilter filter)
+    {
+        _logger.LogInformation($"ProductAppService.GetListByFilterAsync - Started");
+
+        // Trim
+        filter.DisplayName = filter.DisplayName?.Trim()?.ToLower();
+        filter.CategoryName = filter.CategoryName?.Trim()?.ToLower();
+        filter.BrandName = filter.BrandName?.Trim()?.ToLower();
+        filter.UnitTypeName = filter.UnitTypeName?.Trim()?.ToLower();
+        filter.Description = filter.Description?.Trim()?.ToLower();
+
+
+        if (string.IsNullOrWhiteSpace(input.Sorting))
+        {
+            input.Sorting = $"CreationTime desc";
+        }
+
+        var _categories = await _categoryRepository.GetQueryableAsync();
+        var _products = await Repository.GetQueryableAsync();
+        var _unitType = await _unitTypeRepository.GetQueryableAsync();
+        var _brands = await _brandRepository.GetQueryableAsync();
+        var queryable = (from p in _products
+                         join c in _categories on p.CategoryId equals c.Id
+                         join b in _brands on p.BrandId equals b.Id
+                         join u in _unitType on p.UnitTypeId equals u.Id
+                         select new ProductDto
+                         {
+                             Id = p.Id,
+                             DisplayName = p.DisplayName,
+                             CategoryId = p.CategoryId,
+                             BrandId = p.BrandId,
+                             CategoryName = c.DisplayName,
+                             BrandName = b.DisplayName,
+                             UnitTypeName = u.DisplayName,
+                             UnitTypeDescription = u.Description,
+                             Unit = p.Unit,
+                             UnitTypeId = p.UnitTypeId,
+                             Price = p.Price,
+                             ImgFileName = p.ImgFileName,
+                             CreationTime = p.CreationTime,
+                         })
+                         .WhereIf(!string.IsNullOrWhiteSpace(filter.DisplayName), s => s.DisplayName.ToLower().Contains(filter.DisplayName))
+                         .WhereIf(!string.IsNullOrWhiteSpace(filter.CategoryName), s => s.CategoryName.ToLower().Contains(filter.CategoryName))
+                         .WhereIf(!string.IsNullOrWhiteSpace(filter.BrandName), s => s.BrandName.ToLower().Contains(filter.BrandName))
+                         .WhereIf(!string.IsNullOrWhiteSpace(filter.UnitTypeName), s => s.UnitTypeName.ToLower().Contains(filter.UnitTypeName))
+                         .WhereIf(filter.PriceFrom.HasValue, s => s.Price >= filter.PriceFrom.Value)
+                         .WhereIf(filter.PriceTo.HasValue, s => s.Price <= filter.PriceTo.Value)
+                         .WhereIf(!string.IsNullOrWhiteSpace(filter.Description), s => s.Description.ToLower().Contains(filter.Description));
+
+        var totalCount = queryable.Count();
+        var data = queryable.Skip(input.SkipCount).Take(input.MaxResultCount).OrderBy(input.Sorting).ToList();
+
+        _logger.LogInformation($"ProductAppService.GetListByFilterAsync - Ended");
+        return new PagedResultDto<ProductDto>(totalCount, data);
     }
 }

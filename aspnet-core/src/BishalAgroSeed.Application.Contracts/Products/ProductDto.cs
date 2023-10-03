@@ -17,4 +17,6 @@ public class ProductDto : AuditedEntityDto<Guid>
     public string Description { get; set; }
 
     public string ImgFileName { get; set; }
+    public DateTime CreationTime { get; set; }
+
 }
