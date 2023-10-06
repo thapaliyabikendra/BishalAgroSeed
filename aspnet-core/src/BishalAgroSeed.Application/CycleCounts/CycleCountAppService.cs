@@ -50,7 +50,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
     {
         { "Product Name", item => item.ProductName},
         { "Physical Quantity", item => item.PhysicalQuantity},
-        { "Remarks", item => item.Remarks ?? ""},
+        { "Remarks", item => item.Remarks},
     };
     public CycleCountAppService(
         IRepository<NumberGeneration, Guid> numberGenerationRepository,
@@ -437,8 +437,8 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         {
             SN = index + 1,
             Id = item.Id,
-            ProductName = item.ProductName.Trim(),
-            PhysicalQuantityName = item.PhysicalQuantityName.Trim(),
+            ProductName = item.ProductName?.Trim(),
+            PhysicalQuantityName = item.PhysicalQuantityName?.Trim(),
             PhysicalQuantity = item.PhysicalQuantity,
             Remarks = item.Remarks?.Trim(),
         }).ToList();

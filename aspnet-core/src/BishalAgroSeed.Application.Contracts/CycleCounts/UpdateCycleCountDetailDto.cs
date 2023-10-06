@@ -15,11 +15,11 @@ public class UpdateCycleCountDetailDto
 
     [JsonIgnore]
     [ExcelColumnName("Product Name")]
-    public string ProductName { get; set; }
+    public string? ProductName { get; set; }
 
     [JsonIgnore]
     [ExcelColumnName("Physical Quantity")]
-    public string PhysicalQuantityName { get; set; }
+    public string? PhysicalQuantityName { get; set; }
 
     [ExcelIgnore]
     public int? PhysicalQuantity { get; set; }
