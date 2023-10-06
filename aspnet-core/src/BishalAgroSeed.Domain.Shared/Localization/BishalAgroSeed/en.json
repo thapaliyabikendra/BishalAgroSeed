@@ -16,6 +16,7 @@
     "Menu:OpeningBalances": "Opening Balances",
     "Menu:NumberGenerations": "Number Generations",
     "Menu:FiscalYears": "Fiscal Years",
+    "Menu:CycleCountDetails": "Cycle Count Details",
     "Permission:Configurations": "Configurations",
     "Permission:Configurations.Create": "Create",
     "Permission:Configurations.Edit": "Edit",
@@ -29,7 +30,7 @@
     "Permission:Brands.Edit": "Edit",
     "Permission:Brands.Delete": "Delete",
     "Permission:Categories": "Categories",
-    "Permission:Categores.Create": "Create",
+    "Permission:Categories.Create": "Create",
     "Permission:Categories.Edit": "Edit",
     "Permission:Categories.Delete": "Delete",
     "Permission:CompanyInfos": "Company Infos",
@@ -56,6 +57,8 @@
     "Permission:CycleCounts.Create": "Create",
     "Permission:CycleCounts.Edit": "Edit",
     "Permission:CycleCounts.Close": "Close",
+    "Permission:UnitTypes": "Unit Types",
+    "Permission:NumberGenerationTypes": "Number Generation Types",
     "CreatedConfiguration": "Configuration created successfully.",
     "UpdatedConfiguration": "Configuration updated successfully.",
     "DeletedConfiguration": "Configuration deleted successfully.",
@@ -100,7 +103,7 @@
     "CustomerName": "Customer",
     "IsReceivable": "Is Receivable",
     "NumberGenerationType": "Number Genration Type",
-    "PyhsicalQuantity": "Physical Quantity",
+    "PhysicalQuantity": "Physical Quantity",
     "SystemQuantity": "System Quantity",
     "CCINumber": "CCI Number",
     "IsClosed": "Is Closed",
@@ -117,6 +120,9 @@
     "PriceName": "Price Name",
     "PriceFrom": "Price From",
     "PriceTo": "Price To",
-    "PressOKToContinue": "Press OK To Continue"
+    "PressOKToContinue": "Press OK To Continue",
+    "ProductName": "Product"
+
+
   }
 }

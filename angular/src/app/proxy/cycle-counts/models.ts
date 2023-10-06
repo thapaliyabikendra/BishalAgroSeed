@@ -2,7 +2,7 @@ export interface CycleCountDetailDto {
   id?: string;
   productId?: string;
   productName?: string;
-  cycleCountId?: string;
+  cciNumber?: string;
   systemQuantity: number;
   physicalQuantity?: number;
   remarks?: string;

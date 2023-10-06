@@ -23,44 +23,44 @@ public class BishalAgroSeedPermissionDefinitionProvider : PermissionDefinitionPr
         customerPermission.AddChild(BishalAgroSeedPermissions.Customers.Delete, L("Permission:Customers.Delete"));
 
         var brandPermission = bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.Brands.Default, L("Permission:Brands"));
-        brandPermission.AddChild(BishalAgroSeedPermissions.Brands.Create, L("Permissions:Brands.Create"));
-        brandPermission.AddChild(BishalAgroSeedPermissions.Brands.Edit, L("Permissions:Brands.Edit"));
-        brandPermission.AddChild(BishalAgroSeedPermissions.Brands.Delete, L("Permissions:Brands.Delete"));
+        brandPermission.AddChild(BishalAgroSeedPermissions.Brands.Create, L("Permission:Brands.Create"));
+        brandPermission.AddChild(BishalAgroSeedPermissions.Brands.Edit, L("Permission:Brands.Edit"));
+        brandPermission.AddChild(BishalAgroSeedPermissions.Brands.Delete, L("Permission:Brands.Delete"));
 
         var categoryPermission = bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.Categories.Default, L("Permission:Categories"));
-        categoryPermission.AddChild(BishalAgroSeedPermissions.Categories.Create, L("Permissions:Categories.Create"));
-        categoryPermission.AddChild(BishalAgroSeedPermissions.Categories.Edit, L("Permissions:Categories.Edit"));
-        categoryPermission.AddChild(BishalAgroSeedPermissions.Categories.Delete, L("Permissions:Categories.Delete"));
+        categoryPermission.AddChild(BishalAgroSeedPermissions.Categories.Create, L("Permission:Categories.Create"));
+        categoryPermission.AddChild(BishalAgroSeedPermissions.Categories.Edit, L("Permission:Categories.Edit"));
+        categoryPermission.AddChild(BishalAgroSeedPermissions.Categories.Delete, L("Permission:Categories.Delete"));
 
         var companyInfoPermission = bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.CompanyInfos.Default, L("Permission:CompanyInfos"));
-        companyInfoPermission.AddChild(BishalAgroSeedPermissions.CompanyInfos.Create, L("Permissions:CompanyInfos.PermissionCreate"));
-        companyInfoPermission.AddChild(BishalAgroSeedPermissions.CompanyInfos.Edit, L("Permissions:CompanyInfos.Edit"));
-        companyInfoPermission.AddChild(BishalAgroSeedPermissions.CompanyInfos.Delete, L("Permissions:CompanyInfos.Delete"));
+        companyInfoPermission.AddChild(BishalAgroSeedPermissions.CompanyInfos.Create, L("Permission:CompanyInfos.Create"));
+        companyInfoPermission.AddChild(BishalAgroSeedPermissions.CompanyInfos.Edit, L("Permission:CompanyInfos.Edit"));
+        companyInfoPermission.AddChild(BishalAgroSeedPermissions.CompanyInfos.Delete, L("Permission:CompanyInfos.Delete"));
 
         var productPermission = bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.Products.Default, L("Permission:Products"));
-        productPermission.AddChild(BishalAgroSeedPermissions.Products.Create, L("Permissions:Products.Create"));
-        productPermission.AddChild(BishalAgroSeedPermissions.Products.Edit, L("Permissions:Products.Edit"));
-        productPermission.AddChild(BishalAgroSeedPermissions.Products.Delete, L("Permissions:Products.Delete"));
+        productPermission.AddChild(BishalAgroSeedPermissions.Products.Create, L("Permission:Products.Create"));
+        productPermission.AddChild(BishalAgroSeedPermissions.Products.Edit, L("Permission:Products.Edit"));
+        productPermission.AddChild(BishalAgroSeedPermissions.Products.Delete, L("Permission:Products.Delete"));
 
         var openingBalancePermission = bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.OpeningBalances.Default, L("Permission:OpeningBalances"));
-        openingBalancePermission.AddChild(BishalAgroSeedPermissions.OpeningBalances.Create, L("Permissions:OpeningBalances.Create"));
-        openingBalancePermission.AddChild(BishalAgroSeedPermissions.OpeningBalances.Edit, L("Permissions:OpeningBalances.Edit"));
-        openingBalancePermission.AddChild(BishalAgroSeedPermissions.OpeningBalances.Delete, L("Permissions:OpeningBalances.Delete"));
+        openingBalancePermission.AddChild(BishalAgroSeedPermissions.OpeningBalances.Create, L("Permission:OpeningBalances.Create"));
+        openingBalancePermission.AddChild(BishalAgroSeedPermissions.OpeningBalances.Edit, L("Permission:OpeningBalances.Edit"));
+        openingBalancePermission.AddChild(BishalAgroSeedPermissions.OpeningBalances.Delete, L("Permission:OpeningBalances.Delete"));
 
         var numberGenerationPermission = bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.NumberGenerations.Default, L("Permission:NumberGenerations"));
-        numberGenerationPermission.AddChild(BishalAgroSeedPermissions.NumberGenerations.Create, L("Permissions:NumberGenerations.Create"));
-        numberGenerationPermission.AddChild(BishalAgroSeedPermissions.NumberGenerations.Edit, L("Permissions:NumberGenerations.Edit"));
-        numberGenerationPermission.AddChild(BishalAgroSeedPermissions.NumberGenerations.Delete, L("Permissions:NumberGenerations.Delete"));
+        numberGenerationPermission.AddChild(BishalAgroSeedPermissions.NumberGenerations.Create, L("Permission:NumberGenerations.Create"));
+        numberGenerationPermission.AddChild(BishalAgroSeedPermissions.NumberGenerations.Edit, L("Permission:NumberGenerations.Edit"));
+        numberGenerationPermission.AddChild(BishalAgroSeedPermissions.NumberGenerations.Delete, L("Permission:NumberGenerations.Delete"));
 
         var fiscalYearPermission = bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.FiscalYears.Default, L("Permission:FiscalYears"));
-        fiscalYearPermission.AddChild(BishalAgroSeedPermissions.FiscalYears.Create, L("Permissions:FiscalYears.Create"));
-        fiscalYearPermission.AddChild(BishalAgroSeedPermissions.FiscalYears.Edit, L("Permissions:FiscalYears.Edit"));
-        fiscalYearPermission.AddChild(BishalAgroSeedPermissions.FiscalYears.Delete, L("Permissions:FiscalYears.Delete"));
+        fiscalYearPermission.AddChild(BishalAgroSeedPermissions.FiscalYears.Create, L("Permission:FiscalYears.Create"));
+        fiscalYearPermission.AddChild(BishalAgroSeedPermissions.FiscalYears.Edit, L("Permission:FiscalYears.Edit"));
+        fiscalYearPermission.AddChild(BishalAgroSeedPermissions.FiscalYears.Delete, L("Permission:FiscalYears.Delete"));
 
         var cycleCountPermission = bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.CycleCounts.Default, L("Permission:CycleCounts"));
-        cycleCountPermission.AddChild(BishalAgroSeedPermissions.CycleCounts.Create, L("Permissions:CycleCounts.Create"));
-        cycleCountPermission.AddChild(BishalAgroSeedPermissions.CycleCounts.Edit, L("Permissions:CycleCounts.Edit"));
-        cycleCountPermission.AddChild(BishalAgroSeedPermissions.CycleCounts.Close, L("Permissions:CycleCounts.Close"));
+        cycleCountPermission.AddChild(BishalAgroSeedPermissions.CycleCounts.Create, L("Permission:CycleCounts.Create"));
+        cycleCountPermission.AddChild(BishalAgroSeedPermissions.CycleCounts.Edit, L("Permission:CycleCounts.Edit"));
+        cycleCountPermission.AddChild(BishalAgroSeedPermissions.CycleCounts.Close, L("Permission:CycleCounts.Close"));
 
         bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.UnitTypes.Default, L("Permission:UnitTypes"));
         bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.NumberGenerationTypes.Default, L("Permission:NumberGenerationTypes"));
