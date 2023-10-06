@@ -86,9 +86,11 @@
                                 </button>
                             </div>
                             <div *ngIf="!row.isclosed">
-                                <button (click)="modify(row.id)" ngbDropdownItem
+                                <button ngbDropdownItem
                                     *abpPermission="'BishalAgroSeed.CycleCounts.Edit'">
-                                    {{'::Modify' | abpLocalization}}
+                                    <a [routerLink]="['/cycle-count-details', row.id]" class="text-decoration-none text-reset">
+                                        {{'::Modify' | abpLocalization}}
+                                    </a>
                                 </button>
                                 <button (click)="close(row.id)" ngbDropdownItem
                                     *abpPermission="'BishalAgroSeed.CycleCounts.Close'">

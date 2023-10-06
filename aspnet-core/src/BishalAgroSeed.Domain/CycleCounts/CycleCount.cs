@@ -22,6 +22,6 @@ public class CycleCount: FullAuditedAggregateRoot<Guid>
     public bool IsClosed { get; set; } = false;
     public DateTime? ClosedDate { get; set; }
     public Guid? ClosedBy { get; set; }
-    [ForeignKey("CloseBy")]
+    [ForeignKey("ClosedBy")]
     public IdentityUser ClosedByUser { get; set; }
 }

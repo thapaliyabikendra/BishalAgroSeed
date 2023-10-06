@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CycleCountDetailComponent } from './cycle-count/cycle-count-detail/cycle-count-detail.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'fiscal-years', loadChildren: () => import('./fiscal-year/fiscal-year.module').then(m => m.FiscalYearModule) },
   { path: 'opening-balances', loadChildren: () => import('./opening-balance/opening-balance.module').then(m => m.OpeningBalanceModule) },
   { path: 'number-generations', loadChildren: () => import('./number-generation/number-generation.module').then(m => m.NumberGenerationModule) },
+  { path: 'cycle-count-details/:id', component: CycleCountDetailComponent}
 ];
 
 @NgModule({

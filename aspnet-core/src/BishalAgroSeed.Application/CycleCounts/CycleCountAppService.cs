@@ -221,6 +221,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
                          from uj in ug.DefaultIfEmpty()
                          select new CycleCountDto
                          {
+                             Id = cc.Id,
                              CCINumber = cc.CCINumber,
                              IsClosed = cc.IsClosed,
                              ClosedDate = cc.ClosedDate,
@@ -540,8 +541,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Ended");
     }
 
-
-    public async Task<IQueryable<CycleCountDetailDto>> GetCycleCountDetailDataByFilterAsync(CycleCountDetailFilter filter)
+    private async Task<IQueryable<CycleCountDetailDto>> GetCycleCountDetailDataByFilterAsync(CycleCountDetailFilter filter)
     {
         try
         {
@@ -551,20 +551,24 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
             filter.ProductName = filter.ProductName?.Trim()?.ToLower();
             filter.Remarks = filter.Remarks?.Trim()?.ToLower();
 
-            var cycleCountDetails = await _cycleCountDetailRepository.GetQueryableAsync();
             var products = await _productRepository.GetQueryableAsync();
-            var queryable = (from cc in cycleCountDetails
+            var cycleCounts = await _cycleCountRepository.GetQueryableAsync();
+            var cycleCountDetails = await _cycleCountDetailRepository.GetQueryableAsync();
+
+            var queryable = (from c in cycleCounts
+                             join cc in cycleCountDetails on c.Id equals cc.CycleCountId
                              join p in products on cc.ProductId equals p.Id
-                             where cc.Id == filter.CycleCountId
+                             where cc.CycleCountId == filter.CycleCountId
                              select new CycleCountDetailDto
                              {
                                  Id = cc.Id,
                                  ProductId = cc.ProductId,
+                                 CCINumber = c.CCINumber,
                                  ProductName = p.DisplayName,
-                                 CycleCountId = cc.CycleCountId,
                                  SystemQuantity = cc.SystemQuantity,
                                  PhysicalQuantity = cc.PhysicalQuantity,
-                                 Remarks = cc.Remarks
+                                 Remarks = cc.Remarks,
+                                 CreationTime = cc.CreationTime,
                              })
                              .WhereIf(!string.IsNullOrWhiteSpace(filter.ProductName), s => s.ProductName.ToLower().Contains(filter.ProductName))
                              .WhereIf(!string.IsNullOrWhiteSpace(filter.Remarks), s => s.Remarks.ToLower().Contains(filter.Remarks))

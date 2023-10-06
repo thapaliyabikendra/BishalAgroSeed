@@ -116,6 +116,7 @@
     "UnitTypeName": "Unit Type",
     "PriceName": "Price Name",
     "PriceFrom": "Price From",
-    "PriceTo": "Price To"
+    "PriceTo": "Price To",
+    "PressOKToContinue": "Press OK To Continue"
   }
 }

@@ -28,7 +28,7 @@ export class CycleCountComponent implements OnInit {
   }
 
   request() {
-    this.confirmationService.warn("PressOKToContinue", "AbpAccount::AreYouSure").subscribe((status) => {
+    this.confirmationService.warn("::PressOKToContinue", "AbpAccount::AreYouSure").subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
         this.service.create().subscribe(() => {
           this.toast.success('::RequestedCycleCount');
