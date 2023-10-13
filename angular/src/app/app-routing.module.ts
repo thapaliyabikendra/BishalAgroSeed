@@ -36,7 +36,8 @@ const routes: Routes = [
   { path: 'fiscal-years', loadChildren: () => import('./fiscal-year/fiscal-year.module').then(m => m.FiscalYearModule) },
   { path: 'opening-balances', loadChildren: () => import('./opening-balance/opening-balance.module').then(m => m.OpeningBalanceModule) },
   { path: 'number-generations', loadChildren: () => import('./number-generation/number-generation.module').then(m => m.NumberGenerationModule) },
-  { path: 'cycle-count-details/:id', component: CycleCountDetailComponent}
+  { path: 'cycle-count-details/:id/:isView', component: CycleCountDetailComponent},
+
 ];
 
 @NgModule({

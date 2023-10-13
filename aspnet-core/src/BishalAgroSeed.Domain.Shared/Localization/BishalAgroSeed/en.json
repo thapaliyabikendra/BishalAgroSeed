@@ -121,8 +121,12 @@
     "PriceFrom": "Price From",
     "PriceTo": "Price To",
     "PressOKToContinue": "Press OK To Continue",
-    "ProductName": "Product"
-
-
+    "ProductName": "Product",
+    "CycleCount:Requested": "Cycle Count Requested Successfully",
+    "CycleCount:Closed": "Cycle Count Closed Successfully",
+    "RequestedAt": "Requested At",
+    "RequestedByName": "Requested By",
+    "ClosedAt": "Closed At",
+    "ViewDetails": "View Details"
   }
 }

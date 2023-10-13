@@ -1,3 +1,45 @@
+<button class="btn btn-secondary btn-sm mb-1" (click)="goBack()">
+    {{'::Back' | abpLocalization}}
+</button>
+
+<div class="card">
+    <div class="card-header">
+        <div class="row align-items-center">
+            <div class="col col-6">
+                <h5 class="card-title">{{ '::Filter' | abpLocalization}}</h5>
+            </div>
+            <div class="col col-6 text-end">
+                <i class="fa fa-filter" (click)="toggleFilter()"></i>
+            </div>
+        </div>
+    </div>
+    <div [ngClass]="showFilter ? '' : 'd-none'" class="card-body pt-1">
+        <div class="row">
+            <div class="col-2 form-group mb-1">
+                <label for="categoryNameFilter">{{ '::CategoryName' | abpLocalization}}</label>
+                <input id="categoryNameFilter" type="text" class="form-control" [(ngModel)]="filter.categoryName" />
+            </div>
+            <div class="col-2 form-group mb-1">
+                <label for="productNameFilter">{{ '::ProductName' | abpLocalization}}</label>
+                <input id="productNameFilter" type="text" class="form-control" [(ngModel)]="filter.productName" />
+            </div>
+            <div class="col-2 form-group mb-1">
+                <label for="remarksFilter">{{ '::Remarks' | abpLocalization}}</label>
+                <input id="remarksFilter" type="text" class="form-control" [(ngModel)]="filter.remarks" />
+            </div>
+            <div class="col-3">
+                <br />
+                <button class="btn btn-secondary" (click)="getData()">
+                    {{'::Search' | abpLocalization}}
+                </button>
+                <button class="btn btn-warning ms-1" (click)="clearFilter()">
+                    {{'::Clear' | abpLocalization}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="card">
     <div class="card-header">
         <div class="row align-items-center">
@@ -5,24 +47,47 @@
                 <h5 class="card-title">{{ '::Menu:CycleCountDetails' | abpLocalization}}</h5>
             </div>
             <div class="col col-6 text-end">
-                <button class="btn btn-primary" type="button" (click)="bulkUpdate()"
-                    *abpPermission="'BishalAgroSeed.CycleCounts.Edit'">{{'::Update' | abpLocalization}}</button>
+                <button class="btn btn-primary" type="button" (click)="export()"
+                    *abpPermission="'BishalAgroSeed.CycleCounts'">{{'::Export' | abpLocalization}}</button>
+                <div *ngIf="isView == 0" class="d-inline">
+                    <div class="d-inline ms-1" *abpPermission="'BishalAgroSeed.CycleCounts.Edit'">
+                        <label for="file-upload" class="custom-file-upload">
+                            <i class="fa fa-cloud-upload"></i> {{'::Import' | abpLocalization}}
+                        </label>
+                        <input id="file-upload" type="file" (change)="import($event)" />
+                    </div>
+                    <button class="btn btn-primary ms-1" type="button" (click)="bulkUpdate()"
+                        *abpPermission="'BishalAgroSeed.CycleCounts.Edit'">{{'::Update' | abpLocalization}}</button>
+                </div>
             </div>
         </div>
     </div>
     <div class="card-body">
         <ngx-datatable [rows]="data.items" [count]="data.totalCount" [list]="list" default>
             <ngx-datatable-column [name]="'::CCINumber' | abpLocalization" prop="cciNumber"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::CategoryName' | abpLocalization"
+                prop="categoryName"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::ProductName' | abpLocalization" prop="productName"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::SystemQuantity' | abpLocalization" prop="systemQuantity"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::SystemQuantity' | abpLocalization"
+                prop="systemQuantity"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::PhysicalQuantity' | abpLocalization" prop="physicalQuantity">
                 <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div *ngIf="isView == 1">
+                        {{row.physicalQuantity}}
+                    </div>
+                    <div *ngIf="isView == 0">
                         <input type="number" class="form-control" [(ngModel)]="row.physicalQuantity" />
+                    </div>
                 </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column [name]="'::Remarks' | abpLocalization" prop="remarks">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                    <textarea class="form-control" [(ngModel)]="row.remarks" rows="2"></textarea>
+                    <div *ngIf="isView == 1">
+                        {{row.remarks}}
+                    </div>
+                    <div *ngIf="isView == 0">
+                        <textarea class="form-control" [(ngModel)]="row.remarks" rows="2"></textarea>
+                    </div>
                 </ng-template></ngx-datatable-column>
         </ngx-datatable>
     </div>

@@ -1,4 +1,5 @@
-﻿using BishalAgroSeed.Constants;
+﻿using BishalAgroSeed.Categories;
+using BishalAgroSeed.Constants;
 using BishalAgroSeed.Containers;
 using BishalAgroSeed.CycleCountDetails;
 using BishalAgroSeed.Dtos;
@@ -38,6 +39,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
     private readonly IRepository<CycleCount, Guid> _cycleCountRepository;
     private readonly IRepository<CycleCountDetail, Guid> _cycleCountDetailRepository;
     private readonly IRepository<Product, Guid> _productRepository;
+    private readonly IRepository<Category, Guid> _categoryRepository;
     private readonly IRepository<Transaction, Guid> _transactionRepository;
     private readonly IRepository<TransactionType, Guid> _transactionTypeRepository;
     private readonly IRepository<TransactionDetail, Guid> _transactionDetailRepository;
@@ -48,7 +50,10 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
     private readonly BulkUploadCycleCountOption _bulkUploadCycleCountOption;
     private static readonly Dictionary<string, Func<CycleCountDetailDto, object>> _mapConfig = new()
     {
-        { "Product Name", item => item.ProductName},
+        { "CCI Number", item => item.CCINumber},
+        { "Category", item => item.CategoryName},
+        { "Product", item => item.ProductName},
+        { "System Quantity", item => item.SystemQuantity},
         { "Physical Quantity", item => item.PhysicalQuantity},
         { "Remarks", item => item.Remarks},
     };
@@ -64,12 +69,14 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         ILogger<CycleCountAppService> logger,
         IBlobContainer<TemplateFileContainer> templateFileContainer,
         IOptions<BulkUploadCycleCountOption> bulkUploadCycleCountOption,
-        IExcelService excelService)
+        IExcelService excelService,
+        IRepository<Category,Guid> categoryRepository)
     {
         _numberGenerationRepository = numberGenerationRepository;
         _cycleCountRepository = cycleCountRepository;
         _cycleCountDetailRepository = cycleCountDetailRepository;
         _productRepository = productRepository;
+        _categoryRepository = categoryRepository;
         _transactionRepository = transactionRepository;
         _transactionTypeRepository = transactionTypeRepository;
         _transactionDetailRepository = transactionDetailRepository;
@@ -88,9 +95,20 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         if (cycleCount == null)
         {
             var msg = "Cycle Count Not Found !!";
+            _logger.LogInformation($"CycleCountAppService.CloseAsync - Validation : {msg}");
             throw new AbpValidationException(msg, new List<ValidationResult>()
             {
-                new  ValidationResult(msg, new [] {"id"})
+                new ValidationResult(msg, new [] {"id"})
+            });
+        }
+
+        if (cycleCount.IsClosed) 
+        {
+            var msg = "Cycle Count is already closed !!";
+            _logger.LogInformation($"CycleCountAppService.CloseAsync - Validation : {msg}");
+            throw new AbpValidationException(msg, new List<ValidationResult>()
+            {
+               new ValidationResult(msg, new[] {"isClosed"})
             });
         }
 
@@ -181,19 +199,15 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         _logger.LogInformation($"CycleCountAppService.GetAsync - Started");
 
         var _cycleCounts = await _cycleCountRepository.GetQueryableAsync();
-        var _users = await _identityUserRepository.GetQueryableAsync();
         var cycleCount = (
                             from cc in _cycleCounts
-                            join u in _users on cc.ClosedBy equals u.Id into ug
-                            from uj in ug.DefaultIfEmpty()
                             where cc.Id == id
                             select new CycleCountDto
                             {
                                 CCINumber = cc.CCINumber,
                                 IsClosed = cc.IsClosed,
-                                ClosedDate = cc.ClosedDate,
-                                ClosedByName = uj == null ? "" : uj.Name + " " + uj.Surname,
-                                CreationTime = cc.CreationTime
+                                ClosedAt = cc.ClosedDate,
+                                RequestedAt = cc.CreationTime,
                             }).FirstOrDefault();
 
         _logger.LogInformation($"CycleCountAppService.GetAsync - Ended");
@@ -211,12 +225,13 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
 
         if (string.IsNullOrWhiteSpace(input.Sorting))
         {
-            input.Sorting = $"CreationTime desc";
+            input.Sorting = $"RequestedAt desc";
         }
 
         var cycleCounts = await _cycleCountRepository.GetQueryableAsync();
         var users = await _identityUserRepository.GetQueryableAsync();
         var queryable = (from cc in cycleCounts
+                         join ur in users on cc.CreatorId equals ur.Id
                          join u in users on cc.ClosedBy equals u.Id into ug
                          from uj in ug.DefaultIfEmpty()
                          select new CycleCountDto
@@ -224,17 +239,19 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
                              Id = cc.Id,
                              CCINumber = cc.CCINumber,
                              IsClosed = cc.IsClosed,
-                             ClosedDate = cc.ClosedDate,
+                             ClosedAt = cc.ClosedDate,
                              ClosedByName = uj == null ? "" : uj.Name + " " + uj.Surname,
-                             CreationTime = cc.CreationTime
+                             RequestedAt = cc.CreationTime,
+                             RequestedByName = ur.Name + " " + ur.Surname
                          })
                          .WhereIf(!string.IsNullOrWhiteSpace(filter.CCINumber), s => s.CCINumber.ToLower().Contains(filter.CCINumber))
                          .WhereIf(filter.IsClosed.HasValue, s => s.IsClosed == filter.IsClosed)
-                         .WhereIf(filter.ClosedFromDate.HasValue, s => s.ClosedDate.HasValue && s.ClosedDate.Value.Date >= filter.ClosedFromDate.Value.Date)
-                         .WhereIf(filter.ClosedToDate.HasValue, s => s.ClosedDate.HasValue && s.ClosedDate.Value.Date <= filter.ClosedToDate.Value.Date)
+                         .WhereIf(filter.ClosedFromDate.HasValue, s => s.ClosedAt.HasValue && s.ClosedAt.Value.Date >= filter.ClosedFromDate.Value.Date)
+                         .WhereIf(filter.ClosedToDate.HasValue, s => s.ClosedAt.HasValue && s.ClosedAt.Value.Date <= filter.ClosedToDate.Value.Date)
                          .WhereIf(!string.IsNullOrWhiteSpace(filter.ClosedByName), s => s.ClosedByName.ToLower().Contains(filter.ClosedByName))
-                         .WhereIf(filter.OpenedFromDate.HasValue, s => s.CreationTime.Date >= filter.OpenedFromDate.Value.Date)
-                         .WhereIf(filter.OpenedToDate.HasValue, s => s.CreationTime.Date <= filter.OpenedToDate.Value.Date);
+                         .WhereIf(filter.OpenedFromDate.HasValue, s => s.RequestedAt.Date >= filter.OpenedFromDate.Value.Date)
+                         .WhereIf(filter.OpenedToDate.HasValue, s => s.RequestedAt.Date <= filter.OpenedToDate.Value.Date)
+                         .WhereIf(!string.IsNullOrWhiteSpace(filter.RequestedByName), s => s.RequestedByName.ToLower().Contains(filter.RequestedByName));
 
         var totalCount = queryable.Count();
         var data = queryable.Skip(input.SkipCount).Take(input.MaxResultCount).OrderBy(input.Sorting).ToList();
@@ -309,7 +326,8 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         {
             _logger.LogInformation($"CycleCountAppService.ExportCycleCountDetailExcelAsync - Started");
 
-            if (!(await _cycleCountRepository.AnyAsync(s => s.Id == filter.CycleCountId)))
+            var cycleCount = await _cycleCountRepository.FirstOrDefaultAsync(s => s.Id == filter.CycleCountId);
+            if (cycleCount == null)
             {
                 var msg = "Cycle Count not found.";
                 _logger.LogInformation($"CycleCountAppService.ExportCycleCountDetailExcelAsync - Validation : {msg}");
@@ -321,7 +339,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
             var data = await GetCycleCountDetailDataByFilterAsync(filter);
 
             var content = await _excelService.ExportAsync(data.ToList(), _mapConfig);
-            var fileName = string.Format(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME, $"{DateTime.Now:yyyy/MM/dd HH:mm}");
+            var fileName = string.Format(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME, $"_{cycleCount.CCINumber}_{DateTime.Now:yyyy/MM/dd HH:mm}");
 
             _logger.LogInformation($"CycleCountAppService.ExportCycleCountDetailExcelAsync - Ended");
             return new FileBlobDto(content, fileName);
@@ -369,9 +387,9 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
             using var importer = new ExcelImporter(stream);
             ExcelSheet sheet = importer.ReadSheet();
             var cycleCounts = sheet.ReadRows<UpdateCycleCountDetailDto>()
-                .Where(s => !string.IsNullOrWhiteSpace(s.ProductName));
+                .Where(s => !string.IsNullOrWhiteSpace(s.ProductName)).ToList();
 
-            await BulkUpdateCycleCountDetailDataAsync(input.CycleCountId, cycleCounts.ToList(), isFileUpload: true);
+            await BulkUpdateCycleCountDetailDataAsync(input.CycleCountId, cycleCounts, isFileUpload: true);
 
             _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailByExcelAsync - Ended");
         }
@@ -389,7 +407,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         return ccd;
     }
 
-    private async Task BulkUpdateCycleCountDetailDataAsync([Required] Guid cycleCountId, [Required] List<UpdateCycleCountDetailDto> input, bool isFileUpload = false)
+    private async Task BulkUpdateCycleCountDetailDataAsync( Guid cycleCountId, List<UpdateCycleCountDetailDto> input, bool isFileUpload = false)
     {
         _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Started");
 
@@ -476,7 +494,11 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
                                    where s.Id == null
                                    select new ValidationResult($"Row {s.SN} - {s.ProductName} Invalid Product Name.", new[] { "productName" })
                                    ).ToList();
-            valResults.AddRange(valIdIsRequired);
+            if (valIdIsRequired.Any())
+            {
+                valResults.AddRange(valIdIsRequired);
+                _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Validation : Invalid Product Name");
+            }
         }
         else
         {
@@ -485,7 +507,11 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
                                    where s.Id == null
                                    select new ValidationResult($"Row {s.SN} - Id is required.", new[] { "id" })
                                    ).ToList();
-            valResults.AddRange(valIdIsRequired);
+            if (valIdIsRequired.Any())
+            {
+                valResults.AddRange(valIdIsRequired);
+                _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Validation : Id is required");
+            }
         }
 
         // Physical Quantity required validation
@@ -494,7 +520,11 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
              where (!isFileUpload && s.PhysicalQuantity == null) || (isFileUpload && string.IsNullOrWhiteSpace(s.PhysicalQuantityName))
              select new ValidationResult($"Row {s.SN} - Physical Quantity is required.", new[] { "physicalQuantity" })
             ).ToList();
-        valResults.AddRange(valPhysicalQuantityIsRequired);
+        if (valPhysicalQuantityIsRequired.Any())
+        {
+            valResults.AddRange(valPhysicalQuantityIsRequired);
+            _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Validation : Physical Quantity is required");
+        }
 
         // Invalid Physical Quantity validation
         var valPhysicalQuantityIsInvalid =
@@ -502,8 +532,11 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
              where (s.PhysicalQuantity != null && s.PhysicalQuantity < 0) || (s.PhysicalQuantity == null && !string.IsNullOrWhiteSpace(s.PhysicalQuantityName))
              select new ValidationResult($"Row {s.SN} - Physical Quantity is invalid.", new[] { "physicalQuantity" })
              ).ToList();
-        valResults.AddRange(valPhysicalQuantityIsInvalid);
-
+        if (valPhysicalQuantityIsInvalid.Any())
+        {
+            valResults.AddRange(valPhysicalQuantityIsInvalid);
+            _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Validation : Physical Quantity is invalid");
+        }
         if (valResults.Any())
         {
             _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Throw Validation exception");
@@ -524,7 +557,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         }
 
         var cycleCountDetailsUpdate = (from ccd in cycleCountDetails
-                                       join inp in input on ccd.Id equals inp.Id
+                                       join inp in input on ccd.ProductId equals inp.Id
                                        select UpdateCycleCountDetailAsync(ccd, inp)).ToList();
         if (!cycleCountDetails.Any())
         {
@@ -554,22 +587,26 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
             var products = await _productRepository.GetQueryableAsync();
             var cycleCounts = await _cycleCountRepository.GetQueryableAsync();
             var cycleCountDetails = await _cycleCountDetailRepository.GetQueryableAsync();
+            var categories = await _categoryRepository.GetQueryableAsync();
 
             var queryable = (from c in cycleCounts
                              join cc in cycleCountDetails on c.Id equals cc.CycleCountId
                              join p in products on cc.ProductId equals p.Id
+                             join ct in categories on p.CategoryId equals ct.Id
                              where cc.CycleCountId == filter.CycleCountId
                              select new CycleCountDetailDto
                              {
                                  Id = cc.Id,
                                  ProductId = cc.ProductId,
                                  CCINumber = c.CCINumber,
+                                 CategoryName = ct.DisplayName,
                                  ProductName = p.DisplayName,
                                  SystemQuantity = cc.SystemQuantity,
                                  PhysicalQuantity = cc.PhysicalQuantity,
                                  Remarks = cc.Remarks,
                                  CreationTime = cc.CreationTime,
                              })
+                             .WhereIf(!string.IsNullOrWhiteSpace(filter.CategoryName), s => s.CategoryName.ToLower().Contains(filter.CategoryName))
                              .WhereIf(!string.IsNullOrWhiteSpace(filter.ProductName), s => s.ProductName.ToLower().Contains(filter.ProductName))
                              .WhereIf(!string.IsNullOrWhiteSpace(filter.Remarks), s => s.Remarks.ToLower().Contains(filter.Remarks))
                              .OrderBy(s => s.ProductName);

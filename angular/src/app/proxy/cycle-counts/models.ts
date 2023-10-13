@@ -1,15 +1,18 @@
 export interface CycleCountDetailDto {
   id?: string;
   productId?: string;
+  categoryName?: string;
   productName?: string;
   cciNumber?: string;
   systemQuantity: number;
   physicalQuantity?: number;
   remarks?: string;
+  creationTime?: string;
 }
 
 export interface CycleCountDetailFilter {
   cycleCountId: string;
+  categoryName?: string;
   productName?: string;
   remarks?: string;
 }
@@ -18,9 +21,10 @@ export interface CycleCountDto {
   id?: string;
   cciNumber?: string;
   isClosed: boolean;
-  closedDate?: string;
+  closedAt?: string;
   closedByName?: string;
-  creationTime?: string;
+  requestedAt?: string;
+  requestedByName?: string;
 }
 
 export interface CycleCountFilter {
@@ -31,6 +35,7 @@ export interface CycleCountFilter {
   closedByName?: string;
   openedFromDate?: string;
   openedToDate?: string;
+  requestedByName?: string;
 }
 
 export interface UpdateCycleCountDetailDto {

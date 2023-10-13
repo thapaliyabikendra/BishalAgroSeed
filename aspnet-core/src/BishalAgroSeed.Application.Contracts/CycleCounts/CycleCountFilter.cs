@@ -11,4 +11,5 @@ public class CycleCountFilter
     public string? ClosedByName { get; set; }
     public DateTime? OpenedFromDate { get; set; }
     public DateTime? OpenedToDate { get; set; }
+    public string? RequestedByName { get; set; }
 }

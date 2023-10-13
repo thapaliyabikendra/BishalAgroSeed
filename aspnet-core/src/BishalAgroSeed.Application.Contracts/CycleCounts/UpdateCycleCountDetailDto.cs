@@ -14,7 +14,7 @@ public class UpdateCycleCountDetailDto
     public Guid? Id { get; set; }
 
     [JsonIgnore]
-    [ExcelColumnName("Product Name")]
+    [ExcelColumnName("Product")]
     public string? ProductName { get; set; }
 
     [JsonIgnore]

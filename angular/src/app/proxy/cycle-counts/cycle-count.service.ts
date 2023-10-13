@@ -57,7 +57,7 @@ export class CycleCountService {
     this.restService.request<any, FileBlobDto>({
       method: 'GET',
       url: '/api/app/cycle-count/export-cycle-count-detail-excel',
-      params: { cycleCountId: filter.cycleCountId, productName: filter.productName, remarks: filter.remarks },
+      params: { cycleCountId: filter.cycleCountId, categoryName: filter.categoryName, productName: filter.productName, remarks: filter.remarks },
     },
     { apiName: this.apiName,...config });
   
@@ -70,20 +70,11 @@ export class CycleCountService {
     { apiName: this.apiName,...config });
   
 
-  getCycleCountDetailDataByFilter = (filter: CycleCountDetailFilter, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, CycleCountDetailDto[]>({
-      method: 'GET',
-      url: '/api/app/cycle-count/cycle-count-detail-data-by-filter',
-      params: { cycleCountId: filter.cycleCountId, productName: filter.productName, remarks: filter.remarks },
-    },
-    { apiName: this.apiName,...config });
-  
-
   getCycleCountDetailListByFilter = (input: PagedAndSortedResultRequestDto, filter: CycleCountDetailFilter, config?: Partial<Rest.Config>) =>
     this.restService.request<any, PagedResultDto<CycleCountDetailDto>>({
       method: 'GET',
       url: '/api/app/cycle-count/cycle-count-detail-list-by-filter',
-      params: { sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount, cycleCountId: filter.cycleCountId, productName: filter.productName, remarks: filter.remarks },
+      params: { sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount, cycleCountId: filter.cycleCountId, categoryName: filter.categoryName, productName: filter.productName, remarks: filter.remarks },
     },
     { apiName: this.apiName,...config });
   
@@ -92,7 +83,7 @@ export class CycleCountService {
     this.restService.request<any, PagedResultDto<CycleCountDto>>({
       method: 'GET',
       url: '/api/app/cycle-count/by-filter',
-      params: { sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount, cciNumber: filter.cciNumber, isClosed: filter.isClosed, closedFromDate: filter.closedFromDate, closedToDate: filter.closedToDate, closedByName: filter.closedByName, openedFromDate: filter.openedFromDate, openedToDate: filter.openedToDate },
+      params: { sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount, cciNumber: filter.cciNumber, isClosed: filter.isClosed, closedFromDate: filter.closedFromDate, closedToDate: filter.closedToDate, closedByName: filter.closedByName, openedFromDate: filter.openedFromDate, openedToDate: filter.openedToDate, requestedByName: filter.requestedByName },
     },
     { apiName: this.apiName,...config });
 

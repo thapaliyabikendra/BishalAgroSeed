@@ -1,0 +1,18 @@
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    background-color: #007BFF; /* Change the background color to match your design */
+    color: #fff; /* Change the text color to contrast with the background */
+    border: 1px solid #007BFF; /* Border color, should match the background color */
+    border-radius: 4px; /* Rounded corners for the button */
+}
+
+.custom-file-upload:hover {
+    background-color: #0056b3; /* Change the background color on hover */
+    border: 1px solid #0056b3; /* Change the border color on hover */
+}

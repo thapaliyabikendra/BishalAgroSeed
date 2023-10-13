@@ -9,7 +9,7 @@
             </div>
         </div>
     </div>
-    <div [ngClass]="showFilter ? '' : 'd-none'" class="card-body">
+    <div [ngClass]="showFilter ? '' : 'd-none'" class="card-body pt-1">
         <div class="row">
             <div class="col-2 form-group mb-1">
                 <label for="cciNumberFilter">{{ '::CCINumber' | abpLocalization}}</label>
@@ -79,16 +79,19 @@
                             <i class="fa fa-cog me-1"></i> {{'::Actions' | abpLocalization}}
                         </button>
                         <div ngbDropdownMenu>
-                            <div *ngIf="row.isclosed">
-                                <button (click)="viewDetails(row.id)" ngbDropdownItem
+                            <div *ngIf="row.isClosed">
+                                <button ngbDropdownItem
                                     *abpPermission="'BishalAgroSeed.CycleCounts'">
+                                    <a [routerLink]="['/cycle-count-details', row.id, 1]"
+                                    class="text-decoration-none text-reset">
                                     {{'::ViewDetails' | abpLocalization}}
+                                </a>
                                 </button>
                             </div>
-                            <div *ngIf="!row.isclosed">
-                                <button ngbDropdownItem
-                                    *abpPermission="'BishalAgroSeed.CycleCounts.Edit'">
-                                    <a [routerLink]="['/cycle-count-details', row.id]" class="text-decoration-none text-reset">
+                            <div *ngIf="!row.isClosed">
+                                <button ngbDropdownItem *abpPermission="'BishalAgroSeed.CycleCounts.Edit'">
+                                    <a [routerLink]="['/cycle-count-details', row.id, 0]"
+                                        class="text-decoration-none text-reset">
                                         {{'::Modify' | abpLocalization}}
                                     </a>
                                 </button>
@@ -102,17 +105,20 @@
                 </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column [name]="'::CCINumber' | abpLocalization" prop="cciNumber"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::IsClosed' | abpLocalization" prop="isclosed"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::ClosedDate' | abpLocalization" prop="closedDate">
+            <ngx-datatable-column [name]="'::RequestedAt' | abpLocalization" prop="RequestedAt">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.closedDate | date : 'YYYY/MM/dd' }}
+                    {{ row.requestedAt | date : 'yyyy/MM/dd hh:mm a' }}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'::RequestedByName' | abpLocalization"
+                prop="requestedByName"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::IsClosed' | abpLocalization" prop="isClosed"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::ClosedAt' | abpLocalization" prop="closedAt">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row.closedAt | date : 'YYYY/MM/dd hh:mm a' }}
                 </ng-template></ngx-datatable-column>
             <ngx-datatable-column [name]="'::ClosedByName' | abpLocalization"
                 prop="closedByName"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::CreationOn' | abpLocalization" prop="creationOn">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.creationOn | date : 'YYYY/MM/dd' }}
-                </ng-template></ngx-datatable-column>
         </ngx-datatable>
     </div>
 </div>

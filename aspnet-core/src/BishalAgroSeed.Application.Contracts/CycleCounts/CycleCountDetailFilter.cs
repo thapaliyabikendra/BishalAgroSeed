@@ -7,6 +7,7 @@ public class CycleCountDetailFilter
 {
     [Required]
     public Guid CycleCountId { get; set; }
+    public string? CategoryName { get; set; }
     public string? ProductName { get; set; }
     public string? Remarks { get; set; }
 }

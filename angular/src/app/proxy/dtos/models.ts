@@ -7,4 +7,5 @@ export interface DropdownDto {
 export interface FileBlobDto {
   content: number[];
   fileName?: string;
+  contentType?: string;
 }

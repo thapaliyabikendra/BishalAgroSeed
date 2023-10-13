@@ -31,7 +31,7 @@ export class CycleCountComponent implements OnInit {
     this.confirmationService.warn("::PressOKToContinue", "AbpAccount::AreYouSure").subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
         this.service.create().subscribe(() => {
-          this.toast.success('::RequestedCycleCount');
+          this.toast.success('::CycleCount:Requested');
           this.list.get();
         });
       }
@@ -46,7 +46,22 @@ export class CycleCountComponent implements OnInit {
     this.list.get();
   }
 
-  clearFilter(){
+  clearFilter() {
     this.filter = {};
+    this.getData();
+  }
+
+  close(id) {
+    this.confirmationService.warn("::PressOKToContinue", "AbpAccount::AreYouSure").subscribe((status) => {
+      if (status === Confirmation.Status.confirm) {
+        this.service.close(id).subscribe(() => {
+          this.toast.success(':CycleCount::Closed');
+          this.list.get();
+        });
+      }
+    });
   }
 }
+
+
+
