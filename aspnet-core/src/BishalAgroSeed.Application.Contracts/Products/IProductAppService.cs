@@ -1,7 +1,6 @@
 ﻿using BishalAgroSeed.Dtos;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -19,4 +18,10 @@ public interface IProductAppService : ICrudAppService<ProductDto, Guid, PagedAnd
     /// <param name="filter">Filtering criteria</param>
     /// <returns> Paged and sorted products </returns>
     public Task<PagedResultDto<ProductDto>> GetListByFilterAsync(PagedAndSortedResultRequestDto input, ProductFilter filter);
+
+    /// <summary>
+    /// Get Products Async
+    /// </summary>
+    /// <returns> List of Products </returns>
+    public Task<List<DropdownDto>> GetProductsAsync();
 }

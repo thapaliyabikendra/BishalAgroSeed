@@ -243,4 +243,9 @@ public class ProductAppService : CrudAppService<Product, ProductDto, Guid, Paged
         _logger.LogInformation($"ProductAppService.GetListByFilterAsync - Ended");
         return new PagedResultDto<ProductDto>(totalCount, data);
     }
+
+    public async Task<List<DropdownDto>> GetProductsAsync()
+    {
+        throw new NotImplementedException();
+    }
 }

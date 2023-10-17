@@ -8,7 +8,7 @@ namespace BishalAgroSeed.TransactionDetails;
 public class TransactionDetail : FullAuditedAggregateRoot<Guid>
 {
     public TransactionDetail() { }
-    public TransactionDetail(Guid id, Guid transactionId, Guid productId, decimal cases, int quantity, decimal price) : base(id)
+    public TransactionDetail(Guid id, Guid transactionId, Guid productId, int cases, int quantity, decimal price) : base(id)
     {
         TransactionId = transactionId;
         ProductId = productId;
@@ -23,7 +23,7 @@ public class TransactionDetail : FullAuditedAggregateRoot<Guid>
     public Guid ProductId { get; set; }
     [ForeignKey("ProductId")]
     public virtual Product Product { get; set; }
-    public decimal Cases { get; set; }
+    public int Cases { get; set; }
     public int Quantity { get; set; }
     public decimal Price { get; set; }
 }

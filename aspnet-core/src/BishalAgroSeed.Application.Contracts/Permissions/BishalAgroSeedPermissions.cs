@@ -87,4 +87,14 @@ public static class BishalAgroSeedPermissions
         public const string Edit = Default + ".Edit";
         public const string Close = Default + ".Close";
     }
+    public static class Trades
+    {
+        public const string Default = GroupName + ".Trades";
+        public const string Create = Default + ".Create";
+        
+    }
+    public static class TransactionTypes
+    {
+        public const string Default = GroupName + ".TransactionTypes";
+    }
 }

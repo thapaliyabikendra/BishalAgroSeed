@@ -64,6 +64,11 @@ public class BishalAgroSeedPermissionDefinitionProvider : PermissionDefinitionPr
 
         bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.UnitTypes.Default, L("Permission:UnitTypes"));
         bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.NumberGenerationTypes.Default, L("Permission:NumberGenerationTypes"));
+
+        var tradePermission = bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.Trades.Default, L("Permission:Trades"));
+        tradePermission.AddChild(BishalAgroSeedPermissions.Trades.Create, L("Permission:Trades.Create"));
+
+        bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.TransactionTypes.Default, L("Permission:TransactionTypes"));
     }
 
     private static LocalizableString L(string name)
