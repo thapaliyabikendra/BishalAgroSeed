@@ -2,7 +2,7 @@ import type { CreateUpdateProductDto, GetUnitTypeDto, ProductDto, ProductFilter 
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { FileBlobDto } from '../dtos/models';
+import type { DropdownDto, FileBlobDto } from '../dtos/models';
 
 @Injectable({
   providedIn: 'root',
@@ -58,6 +58,14 @@ export class ProductService {
     this.restService.request<any, FileBlobDto>({
       method: 'GET',
       url: `/api/app/product/${id}/product-image`,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getProducts = (config?: Partial<Rest.Config>) =>
+    this.restService.request<any, DropdownDto[]>({
+      method: 'GET',
+      url: '/api/app/product/products',
     },
     { apiName: this.apiName,...config });
   
