@@ -145,9 +145,21 @@ public class ProductAppService : CrudAppService<Product, ProductDto, Guid, Paged
     [Authorize(BishalAgroSeedPermissions.UnitTypes.Default)]
     public async Task<List<GetUnitTypeDto>> GetUnitTypesAsync()
     {
-        var unitTypeQueryable = await _unitTypeRepository.GetQueryableAsync();
-        var resp = unitTypeQueryable.Select(s => new GetUnitTypeDto { Id = s.Id, DisplayName = s.DisplayName, Description = s.Description }).ToList();
-        return resp;
+        try
+        {
+            _logger.LogInformation($"ProductAppService.GetUnitTypesAsync - Started");
+
+            var unitTypeQueryable = await _unitTypeRepository.GetQueryableAsync();
+            var resp = unitTypeQueryable.Select(s => new GetUnitTypeDto { Id = s.Id, DisplayName = s.DisplayName, Description = s.Description }).ToList();
+
+            _logger.LogInformation($"ProductAppService.GetUnitTypesAsync - Ended");
+            return resp;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation($"ProductAppService.GetUnitTypesAsync - Exception : {ex}");
+            throw;
+        }
     }
     public async override Task DeleteAsync(Guid id)
     {
@@ -246,6 +258,20 @@ public class ProductAppService : CrudAppService<Product, ProductDto, Guid, Paged
 
     public async Task<List<DropdownDto>> GetProductsAsync()
     {
-        throw new NotImplementedException();
+        try
+        {
+            _logger.LogInformation($"ProductAppService.GetProductsAsync - Started");
+
+            var productQuery = await Repository.GetQueryableAsync();
+            var resp = productQuery.Select(s => new DropdownDto(s.Id.ToString(), s.DisplayName)).ToList();
+
+            _logger.LogInformation($"ProductAppService.GetProductsAsync - Ended");
+            return resp;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation($"ProductAppService.GetProductsAsync - Exception : {ex}");
+            throw;
+        }
     }
 }

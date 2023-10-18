@@ -11,10 +11,12 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Uow;
 using Volo.Abp.Validation;
 
 namespace BishalAgroSeed.Trades;
@@ -27,6 +29,7 @@ public class TradeAppService : ApplicationService, ITradeAppService
     private readonly IRepository<Customer, Guid> _customerRepository;
     private readonly ILogger<TradeAppService> _logger;
     private readonly IRepository<TransactionType, Guid> _transactionTypeRepository;
+    private readonly IUnitOfWorkManager _unitOfWorkManager;
 
     public TradeAppService(
       IRepository<Transaction, Guid> transactionRepository,
@@ -34,7 +37,8 @@ public class TradeAppService : ApplicationService, ITradeAppService
       IRepository<Product, Guid> productRepository,
       IRepository<Customer, Guid> customerRepository,
        ILogger<TradeAppService> logger,
-        IRepository<TransactionType, Guid> transactionTypeRepository
+        IRepository<TransactionType, Guid> transactionTypeRepository,
+        IUnitOfWorkManager unitOfWorkManager
         )
     {
         _transactionRepository = transactionRepository;
@@ -43,9 +47,8 @@ public class TradeAppService : ApplicationService, ITradeAppService
         _customerRepository = customerRepository;
         _logger = logger;
         _transactionTypeRepository = transactionTypeRepository;
+        _unitOfWorkManager = unitOfWorkManager;
     }
-
-   
 
     [Authorize(BishalAgroSeedPermissions.Trades.Create)]
     [HttpPost]
@@ -63,7 +66,6 @@ public class TradeAppService : ApplicationService, ITradeAppService
             var valTitle = "Save Trade Validations";
 
             var isCustomerValidTask = _customerRepository.AnyAsync(s => s.Id == input.CustomerId);
-            var isTransactionTypeValidTask = _transactionTypeRepository.AnyAsync(s => s.Id == input.TransactionTypeId);
 
             if (input.CustomerId == null)
             {
@@ -100,6 +102,9 @@ public class TradeAppService : ApplicationService, ITradeAppService
                 _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
             }
 
+            var isCustomerValid = await isCustomerValidTask;
+            var isTransactionTypeValidTask = _transactionTypeRepository.AnyAsync(s => s.Id == input.TransactionTypeId);
+
             if (input.DiscountAmount < 0)
             {
                 var msg = $"Invalid Discount Amount !!";
@@ -128,10 +133,6 @@ public class TradeAppService : ApplicationService, ITradeAppService
                 _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
             }
 
-            await Task.WhenAll(isCustomerValidTask, isTransactionTypeValidTask);
-            var isCustomerValid = await isCustomerValidTask;
-            var isTransactionTypeValid = await isTransactionTypeValidTask;
-
             if (!isCustomerValid)
             {
                 var msg = $"Invalid Customer !!";
@@ -139,6 +140,7 @@ public class TradeAppService : ApplicationService, ITradeAppService
                 _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
             }
 
+            var isTransactionTypeValid = await isTransactionTypeValidTask;
             if (!isTransactionTypeValid)
             {
                 var msg = $"Invalid Transaction Type !!";
@@ -214,11 +216,16 @@ public class TradeAppService : ApplicationService, ITradeAppService
             #endregion
 
             var transaction = ObjectMapper.Map<CreateTransactionDto, Transaction>(input);
+            transaction.TranDate = DateTime.Now;
+            var transactionDetails = ObjectMapper.Map<List<CreateTransactionDetailDto>, List<TransactionDetail>>(input.Details);
+
             await _transactionRepository.InsertAsync(transaction);
             _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Inserted Transaction");
 
-            var transactionDetails = ObjectMapper.Map<List<CreateTransactionDetailDto>, List<TransactionDetail>>(input.Details);
-            transactionDetails.Select(s => { s.TransactionId = transaction.Id; return s; });
+            foreach (var transactionDetail in transactionDetails)
+            {
+                transactionDetail.Transaction = transaction;
+            }
             await _transactionDetailRepository.InsertManyAsync(transactionDetails);
             _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Inserted Transaction Details");
 
