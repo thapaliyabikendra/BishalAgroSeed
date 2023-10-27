@@ -85,6 +85,13 @@ function configureRoutes(routesService: RoutesService) {
         order: 11,
         layout: eLayoutType.application,
       },
+      {
+        path: '/trades',
+        name: '::Menu:Trades',
+        iconClass: 'fas fa-home',
+        order: 11,
+        layout: eLayoutType.application,
+      },
     ]);
   };
 }

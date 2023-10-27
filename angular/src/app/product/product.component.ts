@@ -126,7 +126,7 @@ export class ProductComponent implements OnInit {
     this.confirmation.warn('::AreYouSureToDelete', 'AbpAccount::AreYouSure').subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
         this.service.delete(id).subscribe(() => {
-          this.toast.success('::Poduct');
+          this.toast.success('::Deleted Product');
           this.list.get();
         });
       }

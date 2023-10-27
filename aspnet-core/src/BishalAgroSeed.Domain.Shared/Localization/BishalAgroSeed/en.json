@@ -17,6 +17,7 @@
     "Menu:NumberGenerations": "Number Generations",
     "Menu:FiscalYears": "Fiscal Years",
     "Menu:CycleCountDetails": "Cycle Count Details",
+    "Menu:Trades": "Trades",
     "Permission:Configurations": "Configurations",
     "Permission:Configurations.Create": "Create",
     "Permission:Configurations.Edit": "Edit",
@@ -130,6 +131,10 @@
     "RequestedAt": "Requested At",
     "RequestedByName": "Requested By",
     "ClosedAt": "Closed At",
-    "ViewDetails": "View Details"
+    "ViewDetails": "View Details",
+    "TradeType": "Trade Type",
+    "DiscountAmount": "Discount Amount",
+    "TransportCharge": "Transport Charge",
+    "VoucherNo": "Voucher No"
   }
 }
