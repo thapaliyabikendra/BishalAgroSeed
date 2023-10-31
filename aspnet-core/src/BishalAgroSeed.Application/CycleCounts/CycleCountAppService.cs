@@ -166,7 +166,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         var cycleCountDetails = (
                                      from t in _transactions
                                      join tt in _transactionTypes on t.TransactionTypeId equals tt.Id
-                                     join td in _transactionDetails on t.TransactionTypeId equals td.Id
+                                     join td in _transactionDetails on t.Id equals td.TransactionId
                                      where tt.DisplayName == Constants.TransactionTypes.PURCHASE || tt.DisplayName == Constants.TransactionTypes.SALES
                                      group new { TransactionType = tt.DisplayName, td.Quantity } by new { td.ProductId } into g
                                      select new CycleCountDetail

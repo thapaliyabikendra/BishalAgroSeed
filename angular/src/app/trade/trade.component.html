@@ -20,18 +20,16 @@
                         bindValue="value"></ng-select>
                 </div>
                 <div class="col-2 form-group">
-                    <label for="amount" class="form-label">{{'::Amount' | abpLocalization}}</label>&nbsp;<span>*</span>
-                    <input type="number" id="amount" class="form-control" formControlName="amount" />
-                </div>
-                <div class="col-2 form-group">
                     <label for="discountAmount" class="form-label">{{'::DiscountAmount' |
                         abpLocalization}}</label>&nbsp;
-                    <input type="number" id="discountAmount" class="form-control" formControlName="discountAmount" />
+                    <input type="number" id="discountAmount" class="form-control" formControlName="discountAmount"
+                        (change)="calculateAmount()" />
                 </div>
                 <div class="col-2 form-group">
                     <label for="transportCharge" class="form-label">{{'::TransportCharge' |
                         abpLocalization}}</label>&nbsp;
-                    <input type="number" id="transportCharge" class="form-control" formControlName="transportCharge" />
+                    <input type="number" id="transportCharge" class="form-control" formControlName="transportCharge"
+                        (change)="calculateAmount()" />
                 </div>
                 <div class="col-2 form-group">
                     <label for="voucherNo" class="form-label">{{'::VoucherNo' | abpLocalization}}</label>&nbsp;
@@ -45,39 +43,47 @@
                     </button>
                 </div>
                 <div formArrayName="transactionDetails">
-                    <div class="row mt-1 " *ngFor="let item of detailControls.controls; let i = index" [formGroupName]="i">
+                    <div class="row mt-1 " *ngFor="let item of detailControls.controls; let i = index"
+                        [formGroupName]="i">
                         <div class="col-2 form-group">
                             <label for="productId" class="form-label">{{'::Product' |
                                 abpLocalization}}</label>&nbsp;<span>*</span>
-                            <ng-select [items]="products" formControlName="productId" bindLabel="name"
-                                 bindValue="value" autofocus></ng-select>
+                            <ng-select [items]="products" formControlName="productId" bindLabel="productName" bindValue="id"
+                                (change)="displayPrice(i, $event)" autofocus></ng-select>
                         </div>
                         <div class="col-2 form-group">
                             <label for="cases" class="form-label">{{'::Cases' |
                                 abpLocalization}}</label>&nbsp;<span>*</span>
-                            <input type="number" id="cases" class="form-control" formControlName="cases"
-                                 />
+                            <input type="number" id="cases" class="form-control" formControlName="cases" />
                         </div>
                         <div class="col-2 form-group">
                             <label for="quantity" class="form-label">{{'::Quantity' |
                                 abpLocalization}}</label>&nbsp;<span>*</span>
                             <input type="number" id="quantity" class="form-control" formControlName="quantity"
-                                 />
+                            (change)="calculateProductAmount(i)" />
                         </div>
                         <div class="col-2 form-group">
-                            <label for="price" class="form-label">{{'::Price' |
-                                abpLocalization}}</label>&nbsp;<span>*</span>
-                            <input type="number" id="price" class="form-control" formControlName="price"
-                                 />
+                            <label for="pricePerUnit" class="form-label">{{'::PricePerUnit' |
+                                abpLocalization}}</label>
+                            <input type="number" id="pricePerUnit" class="form-control"
+                                formControlName="pricePerUnit" />
+                        </div>
+                        <div class="col-2 form-group">
+                            <label for="price" class="form-label">{{'::Amount' |
+                                abpLocalization}}</label>
+                                <input type="number" id="price" class="form-control" formControlName="price" />
                         </div>
                         <div class="col-2">
                             <br>
-                            <button class="btn btn-secondary" type="button" (click)="removeTransactionDetail(i)"
-                                >
+                            <button class="btn btn-secondary" type="button" (click)="removeTransactionDetail(i)">
                                 {{'::Remove' | abpLocalization}}
                             </button>
                         </div>
                     </div>
+                </div>
+                <div class="col-2 form-group mt-1">
+                    <label for="totalAmount" class="form-label">{{'::TotalAmount' | abpLocalization}}</label>
+                    <input type="number" id="totalAmount" class="form-control" formControlName="amount" />
                 </div>
                 <div class="col-12">
                     <button class="btn btn-secondary float-end" type="submit">

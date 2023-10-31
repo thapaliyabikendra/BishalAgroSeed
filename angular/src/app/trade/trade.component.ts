@@ -1,9 +1,9 @@
 import { ToasterService } from '@abp/ng.theme.shared';
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CustomerService } from '@proxy/customers';
 import { DropdownDto } from '@proxy/dtos';
-import { ProductService } from '@proxy/products';
+import { GetProductDto, ProductService } from '@proxy/products';
 import { CreateTransactionDto, TradeService } from '@proxy/trades';
 import { forkJoin } from 'rxjs';
 
@@ -16,9 +16,8 @@ import { forkJoin } from 'rxjs';
 export class TradeComponent {
   tradeTypes = [] as DropdownDto[];
   customers = [] as DropdownDto[];
-  products = [] as DropdownDto[];
+  products = [] as GetProductDto[];
   form: FormGroup;
-
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
@@ -44,9 +43,9 @@ export class TradeComponent {
     this.form = this.fb.group({
       transactionTypeId: ["", Validators.required],
       customerId: ["", Validators.required],
-      amount: ["", [Validators.required, Validators.min(1)]],
-      discountAmount: [""],
-      transportCharge: [""],
+      amount: { value: 0, disabled: true },
+      discountAmount: [0],
+      transportCharge: [0],
       voucherNo: ["", Validators.required],
       transactionDetails: this.fb.array([])
     });
@@ -57,7 +56,8 @@ export class TradeComponent {
       productId: ["", Validators.required],
       cases: ["", [Validators.required, Validators.min(1)]],
       quantity: ["", [Validators.required, Validators.min(1)]],
-      price: ["", [Validators.required, Validators.min(1)]]
+      pricePerUnit: { value: 0, disabled: true },
+      price: { value: 0, disabled: true }
     });
 
     this.detailControls.push(detailGroup);
@@ -67,7 +67,7 @@ export class TradeComponent {
     this.detailControls.removeAt(i);
   }
 
-  get detailControls(){
+  get detailControls() {
     return <FormArray>this.form.get('transactionDetails');
   }
 
@@ -86,8 +86,43 @@ export class TradeComponent {
       details: this.form.value.transactionDetails
     };
     this.tradeService.saveTransaction(dto).subscribe(() => {
-      this.toast.success('::SaveTransaction');
+      this.toast.success('::Transaction:Save');
       this.form.reset();
     });
+  }
+
+  calculateAmount() {
+    let discountAmount = this.form.value.discountAmount ?? 0;
+    if (discountAmount < 0) {
+      this.toast.warn('::Transaction:InvalidDiscountAmount');
+      this.form.get('discountAmount')?.setValue(0);
+      return;
+    }
+    let transportCharge = this.form.value.transportCharge ?? 0;
+    if (transportCharge < 0) {
+      this.toast.warn('::Transaction:InvalidTransportCharge');
+      this.form.get('transportCharge')?.setValue(0);
+      return;
+    }
+    let totalProductAmt = this.detailControls.controls.reduce((acc, s) => acc + s.get('price')?.value, 0);
+    let amt = totalProductAmt -discountAmount + transportCharge;
+    this.form.get('amount')?.setValue(amt);
+  }
+
+  displayPrice(i: any, p: any) {
+    let product = this.detailControls.at(i) as FormGroup;
+    product.get('pricePerUnit')?.setValue(p.price);
+
+    this.calculateProductAmount(i);
+  }
+
+  calculateProductAmount(i) {
+    let product = this.detailControls.at(i) as FormGroup;
+    let quantity = product.get('quantity')?.value;
+    let pricePerUnit = product.get('pricePerUnit')?.value;
+    let amount = (quantity * pricePerUnit);
+    product.get('price')?.setValue(amount);
+
+    this.calculateAmount();
   }
 }

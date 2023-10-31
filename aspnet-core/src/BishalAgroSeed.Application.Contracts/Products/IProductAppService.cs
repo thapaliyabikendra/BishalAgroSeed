@@ -23,5 +23,6 @@ public interface IProductAppService : ICrudAppService<ProductDto, Guid, PagedAnd
     /// Get Products Async
     /// </summary>
     /// <returns> List of Products </returns>
-    public Task<List<DropdownDto>> GetProductsAsync();
+    public Task<List<GetProductDto>> GetProductsAsync();
+    
 }

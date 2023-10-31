@@ -135,6 +135,11 @@
     "TradeType": "Trade Type",
     "DiscountAmount": "Discount Amount",
     "TransportCharge": "Transport Charge",
-    "VoucherNo": "Voucher No"
+    "VoucherNo": "Voucher No",
+    "Transaction:InvalidDiscountAmount": "Invalid Discount Amount !!",
+    "Transaction:Save": "Transaction Saved Successfully",
+    "Transaction:InvalidTransportCharge": "Invalid Transport Charge !!",
+    "PricePerUnit": "Price/Unit",
+    "TotalAmount": "Total Amount"
   }
 }

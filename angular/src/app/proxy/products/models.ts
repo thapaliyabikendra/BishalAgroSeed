@@ -42,3 +42,9 @@ export interface ProductFilter {
   priceTo?: number;
   description?: string;
 }
+
+export interface GetProductDto {
+  id?: string;
+  productName?: string;
+  price?: number;
+}

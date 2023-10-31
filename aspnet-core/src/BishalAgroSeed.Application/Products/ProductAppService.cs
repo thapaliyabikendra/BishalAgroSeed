@@ -256,14 +256,19 @@ public class ProductAppService : CrudAppService<Product, ProductDto, Guid, Paged
         return new PagedResultDto<ProductDto>(totalCount, data);
     }
 
-    public async Task<List<DropdownDto>> GetProductsAsync()
+    public async Task<List<GetProductDto>> GetProductsAsync()
     {
         try
         {
             _logger.LogInformation($"ProductAppService.GetProductsAsync - Started");
 
             var productQuery = await Repository.GetQueryableAsync();
-            var resp = productQuery.Select(s => new DropdownDto(s.Id.ToString(), s.DisplayName)).ToList();
+            var resp = productQuery.Select(s => new GetProductDto
+            {
+                Id = s.Id,
+                ProductName = s.DisplayName,
+                Price = s.Price
+            }).ToList();
 
             _logger.LogInformation($"ProductAppService.GetProductsAsync - Ended");
             return resp;

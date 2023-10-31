@@ -81,7 +81,7 @@ public class TradeAppService : ApplicationService, ITradeAppService
                 _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
             }
 
-            if (input.Amount <= 0)
+            if (input.Amount < 0)
             {
                 var msg = $"Invalid Amount !!";
                 valResults.Add(new ValidationResult(msg, new[] { "amount" }));
