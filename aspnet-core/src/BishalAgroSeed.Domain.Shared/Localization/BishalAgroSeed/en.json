@@ -140,6 +140,7 @@
     "Transaction:Save": "Transaction Saved Successfully",
     "Transaction:InvalidTransportCharge": "Invalid Transport Charge !!",
     "PricePerUnit": "Price/Unit",
-    "TotalAmount": "Total Amount"
+    "TotalAmount": "Total Amount",
+    "Transaction:DuplicateProduct" : "Duplicate Product"
   }
 }

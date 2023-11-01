@@ -132,6 +132,18 @@ public class TradeAppService : ApplicationService, ITradeAppService
                 valResults.Add(new ValidationResult(msg, new[] { "details" }));
                 _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
             }
+            
+            var duplicateProducts = input.Details?
+                .GroupBy(s => s.ProductId)
+                .Select(s => new { 
+                            ProductId = s.Key,
+                            Count = s.Count()
+                        }).Where(s => s.Count > 1);
+            if (duplicateProducts.Any()) {
+                var msg = $"Duplicate Product !!";
+                valResults.Add(new ValidationResult(msg, new[] { "productId" }));
+                _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
+            }
 
             if (!isCustomerValid)
             {

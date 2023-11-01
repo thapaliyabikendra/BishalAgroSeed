@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { CustomerService } from '@proxy/customers';
 import { DropdownDto } from '@proxy/dtos';
 import { GetProductDto, ProductService } from '@proxy/products';
-import { CreateTransactionDto, TradeService } from '@proxy/trades';
+import { CreateTransactionDetailDto, CreateTransactionDto, TradeService } from '@proxy/trades';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -76,18 +76,28 @@ export class TradeComponent {
       return;
     }
 
+    let details = this.detailControls.controls.map(s => {
+      return {
+      productId : s.get('productId')?.value,
+      cases : s.get('cases')?.value,
+      quantity : s.get('quantity')?.value,
+      price : s.get('price')?.value,
+
+    } as CreateTransactionDetailDto});
+
     const dto: CreateTransactionDto = {
       transactionTypeId: this.form.value.transactionTypeId,
       customerId: this.form.value.customerId,
-      amount: this.form.value.amount,
+      amount: this.form.get('amount')?.value,
       discountAmount: this.form.value.discountAmount ?? 0,
       transportCharge: this.form.value.transportCharge ?? 0,
       voucherNo: this.form.value.voucherNo,
-      details: this.form.value.transactionDetails
+      details: details
     };
     this.tradeService.saveTransaction(dto).subscribe(() => {
       this.toast.success('::Transaction:Save');
       this.form.reset();
+      this.buildForm();
     });
   }
 
@@ -111,6 +121,13 @@ export class TradeComponent {
 
   displayPrice(i: any, p: any) {
     let product = this.detailControls.at(i) as FormGroup;
+    let productCount = this.detailControls.controls.filter(s => s.get('productId')?.value == p.id).length;
+    if(productCount > 1){
+      this.toast.warn('::Transaction:DuplicateProduct');
+      product.get('productId')?.setValue('');
+      return;
+    }
+
     product.get('pricePerUnit')?.setValue(p.price);
 
     this.calculateProductAmount(i);
@@ -121,7 +138,8 @@ export class TradeComponent {
     let quantity = product.get('quantity')?.value;
     let pricePerUnit = product.get('pricePerUnit')?.value;
     let amount = (quantity * pricePerUnit);
-    product.get('price')?.setValue(amount);
+    // product.get('price')?.setValue(amount);
+    product.patchValue({price : amount});
 
     this.calculateAmount();
   }
