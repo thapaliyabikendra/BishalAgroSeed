@@ -38,6 +38,7 @@ const routes: Routes = [
   { path: 'number-generations', loadChildren: () => import('./number-generation/number-generation.module').then(m => m.NumberGenerationModule) },
   { path: 'cycle-count-details/:id/:isView', component: CycleCountDetailComponent},
   { path: 'trades', loadChildren: () => import('./trade/trade.module').then(m => m.TradeModule) },
+  { path: 'cash-transactions', loadChildren: () => import('./cash-transaction/cash-transaction.module').then(m => m.CashTransactionModule) },
 
 ];
 
