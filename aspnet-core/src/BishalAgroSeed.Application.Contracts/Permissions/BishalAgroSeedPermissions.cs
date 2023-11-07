@@ -91,10 +91,14 @@ public static class BishalAgroSeedPermissions
     {
         public const string Default = GroupName + ".Trades";
         public const string Create = Default + ".Create";
-        
     }
     public static class TransactionTypes
     {
         public const string Default = GroupName + ".TransactionTypes";
+    }
+    public static class CashTransactions
+    {
+        public const string Default = GroupName + ".CashTransactions";
+        public const string Create = Default + ".Create";
     }
 }

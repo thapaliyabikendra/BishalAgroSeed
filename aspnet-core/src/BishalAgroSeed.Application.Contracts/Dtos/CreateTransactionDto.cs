@@ -1,8 +1,9 @@
-﻿using System;
+﻿using BishalAgroSeed.CashTransactions;
+using BishalAgroSeed.Trades;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace BishalAgroSeed.Trades;
+namespace BishalAgroSeed.Dtos;
 public class CreateTransactionDto
 {
     public Guid? CustomerId { get; set; }
@@ -11,5 +12,6 @@ public class CreateTransactionDto
     public decimal? DiscountAmount { get; set; } = 0;
     public decimal? TransportCharge { get; set; } = 0;
     public string? VoucherNo { get; set; }
-    public List<CreateTransactionDetailDto>? Details { get; set; } 
+    public CreateTransactionPaymentDto? Payment { get; set; }
+    public List<CreateTransactionDetailDto>? Details { get; set; }
 }

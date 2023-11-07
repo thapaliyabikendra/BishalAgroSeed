@@ -63,6 +63,8 @@
     "Permission:Trades": "Trades",
     "Permission:Trades.Create": "Create",
     "Permission:TransactionTypes": "Transaction Types",
+    "Permission:CashTransactions": "CashTransactions",
+    "Permission:CashTransactions.Create": "Create",
     "CreatedConfiguration": "Configuration created successfully.",
     "UpdatedConfiguration": "Configuration updated successfully.",
     "DeletedConfiguration": "Configuration deleted successfully.",
@@ -141,6 +143,6 @@
     "Transaction:InvalidTransportCharge": "Invalid Transport Charge !!",
     "PricePerUnit": "Price/Unit",
     "TotalAmount": "Total Amount",
-    "Transaction:DuplicateProduct" : "Duplicate Product"
+    "Transaction:DuplicateProduct": "Duplicate Product"
   }
 }
