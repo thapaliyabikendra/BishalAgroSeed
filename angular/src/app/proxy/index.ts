@@ -1,4 +1,5 @@
 import * as Brands from './brands';
+import * as CashTransactions from './cash-transactions';
 import * as Categories from './categories';
 import * as CompanyInfos from './company-infos';
 import * as Configurations from './configurations';
@@ -10,7 +11,8 @@ import * as Microsoft from './microsoft';
 import * as NumberGenerationTypes from './number-generation-types';
 import * as NumberGenerations from './number-generations';
 import * as OpeningBalances from './opening-balances';
+import * as PaymentTypes from './payment-types';
 import * as Products from './products';
 import * as Trades from './trades';
 import * as TransactionTypes from './transaction-types';
-export { Brands, Categories, CompanyInfos, Configurations, Customers, CycleCounts, Dtos, FiscalYears, Microsoft, NumberGenerationTypes, NumberGenerations, OpeningBalances, Products, Trades, TransactionTypes };
+export { Brands, CashTransactions, Categories, CompanyInfos, Configurations, Customers, CycleCounts, Dtos, FiscalYears, Microsoft, NumberGenerationTypes, NumberGenerations, OpeningBalances, PaymentTypes, Products, Trades, TransactionTypes };

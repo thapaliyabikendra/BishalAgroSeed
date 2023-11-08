@@ -2,9 +2,9 @@ import { ToasterService } from '@abp/ng.theme.shared';
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CustomerService } from '@proxy/customers';
-import { DropdownDto } from '@proxy/dtos';
+import { CreateTransactionDto, DropdownDto } from '@proxy/dtos';
 import { GetProductDto, ProductService } from '@proxy/products';
-import { CreateTransactionDetailDto, CreateTransactionDto, TradeService } from '@proxy/trades';
+import { CreateTransactionDetailDto, TradeService } from '@proxy/trades';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -92,7 +92,8 @@ export class TradeComponent {
       discountAmount: this.form.value.discountAmount ?? 0,
       transportCharge: this.form.value.transportCharge ?? 0,
       voucherNo: this.form.value.voucherNo,
-      details: details
+      details: details,
+      payment: null
     };
     this.tradeService.saveTransaction(dto).subscribe(() => {
       this.toast.success('::Transaction:Save');

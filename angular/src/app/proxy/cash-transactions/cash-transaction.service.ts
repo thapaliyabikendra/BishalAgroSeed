@@ -5,14 +5,14 @@ import type { CreateTransactionDto, DropdownDto } from '../dtos/models';
 @Injectable({
   providedIn: 'root',
 })
-export class TradeService {
+export class CashTransactionService {
   apiName = 'Default';
   
 
-  getTradeTypes = (config?: Partial<Rest.Config>) =>
+  getCashTransactionTypes = (config?: Partial<Rest.Config>) =>
     this.restService.request<any, DropdownDto[]>({
       method: 'GET',
-      url: '/api/app/trade/trade-types',
+      url: '/api/app/cash-transaction/cash-transaction-types',
     },
     { apiName: this.apiName,...config });
   
@@ -20,7 +20,7 @@ export class TradeService {
   saveTransaction = (input: CreateTransactionDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
       method: 'POST',
-      url: '/api/app/trade/save-transaction',
+      url: '/api/app/cash-transaction/save-transaction',
       body: input,
     },
     { apiName: this.apiName,...config });

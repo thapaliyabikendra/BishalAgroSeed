@@ -2,7 +2,7 @@ import type { CreateUpdateProductDto, GetProductDto, GetUnitTypeDto, ProductDto,
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { DropdownDto, FileBlobDto } from '../dtos/models';
+import type { FileBlobDto } from '../dtos/models';
 
 @Injectable({
   providedIn: 'root',

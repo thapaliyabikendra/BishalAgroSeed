@@ -11,6 +11,12 @@ export interface CreateUpdateProductDto {
   file: File;
 }
 
+export interface GetProductDto {
+  id?: string;
+  productName?: string;
+  price: number;
+}
+
 export interface GetUnitTypeDto {
   id?: string;
   displayName?: string;
@@ -41,10 +47,4 @@ export interface ProductFilter {
   priceFrom?: number;
   priceTo?: number;
   description?: string;
-}
-
-export interface GetProductDto {
-  id?: string;
-  productName?: string;
-  price?: number;
 }

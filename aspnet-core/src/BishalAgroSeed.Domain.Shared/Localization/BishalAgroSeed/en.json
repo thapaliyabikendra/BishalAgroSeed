@@ -18,6 +18,7 @@
     "Menu:FiscalYears": "Fiscal Years",
     "Menu:CycleCountDetails": "Cycle Count Details",
     "Menu:Trades": "Trades",
+    "Menu:CashTransactions":"Cash Transactions",
     "Permission:Configurations": "Configurations",
     "Permission:Configurations.Create": "Create",
     "Permission:Configurations.Edit": "Edit",

@@ -94,7 +94,7 @@ function configureRoutes(routesService: RoutesService) {
       },
       {
         path: '/cash-transactions',
-        name: '::Menu:CashTransaction',
+        name: '::Menu:CashTransactions',
         iconClass: 'fas fa-home',
         order: 12,
         layout: eLayoutType.application,
