@@ -92,6 +92,7 @@ export class TradeComponent implements OnInit {
       discountAmount: this.form.value.discountAmount ?? 0,
       transportCharge: this.form.value.transportCharge ?? 0,
       voucherNo: this.form.value.voucherNo,
+      tranDate: this.form.value.tranDate,
       details: details,
       payment: null
     };

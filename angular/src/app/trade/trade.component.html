@@ -36,7 +36,10 @@
                     <span>*</span>
                     <input type="text" id="voucherNo" class="form-control" formControlName="voucherNo" />
                 </div>
-
+                <div class="col-2 from-group mt-1">
+                    <label for="tran-date" class="form-label">{{'::TranDate' | abpLocalization}}</label> <span>*</span>
+                    <input type="date" id="tran-date" class="form-control" formControlName="tranDate" />
+                </div>
                 <div class="col-3">
                     <button class="btn btn-secondary" type="button" (click)="addTransactionDetail()">
                         {{'::Add' | abpLocalization}}

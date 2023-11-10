@@ -84,8 +84,8 @@ export class CashTransactionComponent implements OnInit {
 
     const payment: CreateTransactionPaymentDto = {
       paymentTypeId: this.form.value.paymentTypeId,
-      chequeNo: this.form.value.chequeNo,
-      bankName: this.form.value.bankName
+      chequeNo: this.form.get('chequeNo')?.value,
+      bankName: this.form.get('bankName')?.value
     };
 
     const dto: CreateTransactionDto = {

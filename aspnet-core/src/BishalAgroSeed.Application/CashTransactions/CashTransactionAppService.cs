@@ -87,7 +87,7 @@ public class CashTransactionAppService : ApplicationService, ICashTransactionApp
                 return Enum.GetValues<PaymentType>()
                 .Select(s => new DropdownDto(((int)s).ToString(), s.ToString())).ToList();
             });
-           
+
             _logger.LogInformation($"CashTransactionAppService.GetPaymentTypesAsync - Ended");
             return data;
         }
@@ -185,6 +185,37 @@ public class CashTransactionAppService : ApplicationService, ICashTransactionApp
             {
                 _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Throw Validation exception");
                 throw new AbpValidationException(valTitle, valResults);
+            }
+
+            if (input.Payment == null)
+            {
+                var msg = $"Empty Payment Data !!";
+                valResults.Add(new ValidationResult(msg, new[] { "payment" }));
+                _logger.LogInformation($"CashTransactionAppService.SaveTransactionAsync - Validation : {msg}");
+            }
+            else
+            {
+                if (input.Payment.PaymentTypeId == null)
+                {
+                    var msg = $"Payment Type is required !!";
+                    valResults.Add(new ValidationResult(msg, new[] { "paymentTypeId" }));
+                    _logger.LogInformation($"CashTransactionAppService.SaveTransactionAsync - Validation : {msg}");
+                }
+                else if (input.Payment.PaymentTypeId == PaymentType.Banking)
+                {
+                    if (string.IsNullOrWhiteSpace(input.Payment.BankName))
+                    {
+                        var msg = $"Bank Name is required for Banking Payment Type !!";
+                        valResults.Add(new ValidationResult(msg, new[] { "bankName" }));
+                        _logger.LogInformation($"CashTransactionAppService.SaveTransactionAsync - Validation : {msg}");
+                    }
+                    if (string.IsNullOrWhiteSpace(input.Payment.ChequeNo))
+                    {
+                        var msg = $"Cheque No is required for Banking Payment Type !!";
+                        valResults.Add(new ValidationResult(msg, new[] { "chequeNo" }));
+                        _logger.LogInformation($"CashTransactionAppService.SaveTransactionAsync - Validation : {msg}");
+                    }
+                }
             }
             #endregion
 
