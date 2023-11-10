@@ -1,6 +1,7 @@
 ﻿using AutoMapper.Internal.Mappers;
 using BishalAgroSeed.Customers;
 using BishalAgroSeed.Dtos;
+using BishalAgroSeed.PaymentTypes;
 using BishalAgroSeed.Permissions;
 using BishalAgroSeed.Products;
 using BishalAgroSeed.Trades;
@@ -70,6 +71,29 @@ public class CashTransactionAppService : ApplicationService, ICashTransactionApp
         catch (Exception ex)
         {
             _logger.LogInformation($"CashTransactionAppService.GetCashTransactionTypesAsync - Exception : {ex}");
+            throw;
+        }
+    }
+
+    [Authorize(BishalAgroSeedPermissions.CashTransactions.Default)]
+    public async Task<List<DropdownDto>> GetPaymentTypesAsync()
+    {
+        try
+        {
+            _logger.LogInformation($"CashTransactionAppService.GetPaymentTypesAsync - Started");
+
+            var data = await Task.Run(() =>
+            {
+                return Enum.GetValues<PaymentType>()
+                .Select(s => new DropdownDto(((int)s).ToString(), s.ToString())).ToList();
+            });
+           
+            _logger.LogInformation($"CashTransactionAppService.GetPaymentTypesAsync - Ended");
+            return data;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation($"CashTransactionAppService.GetPaymentTypesAsync - Exception : {ex}");
             throw;
         }
     }

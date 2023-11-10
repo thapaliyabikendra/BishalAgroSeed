@@ -18,7 +18,7 @@
     "Menu:FiscalYears": "Fiscal Years",
     "Menu:CycleCountDetails": "Cycle Count Details",
     "Menu:Trades": "Trades",
-    "Menu:CashTransactions":"Cash Transactions",
+    "Menu:CashTransactions": "Cash Transactions",
     "Permission:Configurations": "Configurations",
     "Permission:Configurations.Create": "Create",
     "Permission:Configurations.Edit": "Edit",
@@ -144,6 +144,10 @@
     "Transaction:InvalidTransportCharge": "Invalid Transport Charge !!",
     "PricePerUnit": "Price/Unit",
     "TotalAmount": "Total Amount",
-    "Transaction:DuplicateProduct": "Duplicate Product"
+    "Transaction:DuplicateProduct": "Duplicate Product",
+    "PaymentType": "Payment Type",
+    "Transaction:InvalidAmount": "Invalid Amount!!",
+    "ChequeNo": "Cheque No",
+    "BankName": "Bank Name"
   }
 }

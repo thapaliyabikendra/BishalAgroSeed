@@ -1,5 +1,5 @@
 import { ToasterService } from '@abp/ng.theme.shared';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CustomerService } from '@proxy/customers';
 import { CreateTransactionDto, DropdownDto } from '@proxy/dtos';
@@ -13,7 +13,7 @@ import { forkJoin } from 'rxjs';
   styleUrls: ['./trade.component.scss']
 
 })
-export class TradeComponent {
+export class TradeComponent implements OnInit {
   tradeTypes = [] as DropdownDto[];
   customers = [] as DropdownDto[];
   products = [] as GetProductDto[];

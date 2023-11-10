@@ -8,6 +8,7 @@ export interface CreateTransactionDto {
   discountAmount?: number;
   transportCharge?: number;
   voucherNo?: string;
+  tranDate?: string;
   payment: CreateTransactionPaymentDto;
   details: CreateTransactionDetailDto[];
 }

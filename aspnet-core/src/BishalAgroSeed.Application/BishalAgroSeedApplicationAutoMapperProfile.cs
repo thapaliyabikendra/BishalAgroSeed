@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BishalAgroSeed.Brands;
+using BishalAgroSeed.CashTransactions;
 using BishalAgroSeed.Categories;
 using BishalAgroSeed.CompanyInfos;
 using BishalAgroSeed.Configurations;
@@ -11,6 +12,7 @@ using BishalAgroSeed.OpeningBalances;
 using BishalAgroSeed.Products;
 using BishalAgroSeed.Trades;
 using BishalAgroSeed.TransactionDetails;
+using BishalAgroSeed.TransactionPayments;
 using BishalAgroSeed.Transactions;
 
 namespace BishalAgroSeed;
@@ -60,5 +62,6 @@ public class BishalAgroSeedApplicationAutoMapperProfile : Profile
 
         CreateMap<CreateTransactionDto, Transaction>();
         CreateMap<CreateTransactionDetailDto, TransactionDetail>();
+        CreateMap<CreateTransactionPaymentDto, TransactionPayment>();
     }
 }

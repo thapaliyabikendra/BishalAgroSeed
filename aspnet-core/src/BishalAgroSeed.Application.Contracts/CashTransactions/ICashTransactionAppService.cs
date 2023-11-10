@@ -15,5 +15,11 @@ public interface ICashTransactionAppService
     /// Get Cash Transaction Types
     /// </summary>
     /// <returns>List of Cash Transaction Types</returns>
-    public Task <List<DropdownDto>> GetCashTransactionTypesAsync();
+    public Task<List<DropdownDto>> GetCashTransactionTypesAsync();
+
+    /// <summary>
+    /// Get Payment Types
+    /// </summary>
+    /// <returns>List of Payment Transaction Type</returns>
+    public Task<List<DropdownDto>> GetPaymentTypesAsync();
 }

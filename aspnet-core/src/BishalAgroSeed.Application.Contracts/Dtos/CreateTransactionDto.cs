@@ -12,6 +12,7 @@ public class CreateTransactionDto
     public decimal? DiscountAmount { get; set; } = 0;
     public decimal? TransportCharge { get; set; } = 0;
     public string? VoucherNo { get; set; }
+    public DateTime? TranDate { get; set; }
     public CreateTransactionPaymentDto? Payment { get; set; }
     public List<CreateTransactionDetailDto>? Details { get; set; }
 }
