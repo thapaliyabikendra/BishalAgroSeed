@@ -101,4 +101,9 @@ public static class BishalAgroSeedPermissions
         public const string Default = GroupName + ".CashTransactions";
         public const string Create = Default + ".Create";
     }
+    public static class LedgerAccounts
+    {
+        public const string Default = GroupName + ".LedgerAccounts";
+        public const string Create = Default + ".Create";
+    }
 }

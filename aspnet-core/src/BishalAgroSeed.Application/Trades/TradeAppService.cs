@@ -228,7 +228,6 @@ public class TradeAppService : ApplicationService, ITradeAppService
             #endregion
 
             var transaction = ObjectMapper.Map<CreateTransactionDto, Transaction>(input);
-            transaction.TranDate = DateTime.Now;
             var transactionDetails = ObjectMapper.Map<List<CreateTransactionDetailDto>, List<TransactionDetail>>(input.Details);
 
             await _transactionRepository.InsertAsync(transaction);
