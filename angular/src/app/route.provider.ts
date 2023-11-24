@@ -99,6 +99,13 @@ function configureRoutes(routesService: RoutesService) {
         order: 12,
         layout: eLayoutType.application,
       },
+      {
+        path: '/ledger-accounts',
+        name: '::Menu:LedgerAccounts',
+        iconClass: 'fas fa-home',
+        order: 12,
+        layout: eLayoutType.application,
+      },
     ]);
   };
 }

@@ -19,6 +19,7 @@
     "Menu:CycleCountDetails": "Cycle Count Details",
     "Menu:Trades": "Trades",
     "Menu:CashTransactions": "Cash Transactions",
+    "Menu:LedgerAccounts": "Ledger Accounts",
     "Permission:Configurations": "Configurations",
     "Permission:Configurations.Create": "Create",
     "Permission:Configurations.Edit": "Edit",
@@ -150,6 +151,10 @@
     "PaymentType": "Payment Type",
     "Transaction:InvalidAmount": "Invalid Amount!!",
     "ChequeNo": "Cheque No",
-    "BankName": "Bank Name"
+    "BankName": "Bank Name",
+    "FromTranDate": "From Tran Date",
+    "ToTranDate": "To Tran Date",
+    "VchType": "Vch Type",
+    "VchNo": "Vch No"
   }
 }

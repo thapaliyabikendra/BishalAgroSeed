@@ -39,6 +39,7 @@ const routes: Routes = [
   { path: 'cycle-count-details/:id/:isView', component: CycleCountDetailComponent},
   { path: 'trades', loadChildren: () => import('./trade/trade.module').then(m => m.TradeModule) },
   { path: 'cash-transactions', loadChildren: () => import('./cash-transaction/cash-transaction.module').then(m => m.CashTransactionModule) },
+  { path: 'ledger-accounts', loadChildren: () => import('./ledger-account/ledger-account.module').then(m => m.LedgerAccountModule) },
 
 ];
 
