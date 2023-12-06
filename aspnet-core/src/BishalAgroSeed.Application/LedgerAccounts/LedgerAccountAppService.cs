@@ -1,7 +1,11 @@
-﻿using BishalAgroSeed.Customers;
+﻿using BishalAgroSeed.Constants;
+using BishalAgroSeed.Customers;
+using BishalAgroSeed.CycleCounts;
+using BishalAgroSeed.Dtos;
 using BishalAgroSeed.OpeningBalances;
 using BishalAgroSeed.Permissions;
 using BishalAgroSeed.Products;
+using BishalAgroSeed.Services;
 using BishalAgroSeed.Trades;
 using BishalAgroSeed.TransactionDetails;
 using BishalAgroSeed.TransactionPayments;
@@ -28,6 +32,18 @@ public class LedgerAccountAppService : ApplicationService, ILedgerAccountAppServ
     private readonly ILogger<LedgerAccountAppService> _logger;
     private readonly IRepository<TransactionType, Guid> _transactionTypeRepository;
     private readonly IRepository<OpeningBalance, Guid> _openingBalanceRepository;
+    private readonly IExcelService _excelService;
+    private static readonly Dictionary<string, Func<LedgerAccountDto, object>> _mapConfig = new()
+        {
+        { "Miti", item => item.Miti},
+        { "Date", item => item.Date},
+        { "Particulars", item => item.Particulars},
+        { "VchType", item => item.VchType},
+        { "VchNo", item => item.VchNo},
+        { "Debit", item => item.Debit},
+        { "Credit", item => item.Credit},
+        { "Balance", item => item.Balance},
+    };
 
     public LedgerAccountAppService(
       IRepository<Transaction, Guid> transactionRepository,
@@ -35,7 +51,9 @@ public class LedgerAccountAppService : ApplicationService, ILedgerAccountAppServ
        IRepository<DateTimes.DateTime, Guid> dateTimeRepository,
        ILogger<LedgerAccountAppService> logger,
         IRepository<TransactionType, Guid> transactionTypeRepository,
-        IRepository<OpeningBalance, Guid> openingBalanceRepository
+        IRepository<OpeningBalance, Guid> openingBalanceRepository,
+        IExcelService excelService
+
         )
     {
         _transactionRepository = transactionRepository;
@@ -44,10 +62,69 @@ public class LedgerAccountAppService : ApplicationService, ILedgerAccountAppServ
         _logger = logger;
         _transactionTypeRepository = transactionTypeRepository;
         _openingBalanceRepository = openingBalanceRepository;
+        _excelService = excelService;
+    }
+
+    public async Task<FileBlobDto> ExportExcelAsync(LedgerAccountFilter filter)
+    {
+        try
+        {
+            _logger.LogInformation($"LedgerAccountAppService.GetListByFilterAsync - Started");
+
+            var ledgerAccounts = await GetListDataByFilterAsync(filter);
+            var data = ledgerAccounts.ToList();
+            decimal obal = 0;
+            foreach (var item in data)
+            {
+                obal = obal + item.Debit - item.Credit;
+                item.Balance = obal;
+            }
+
+            var content = await _excelService.ExportAsync(data.ToList(), _mapConfig);
+            var fileName = string.Format(Global.LEDGER_ACCOUNT_EXCEL_FILE_NAME, $"_{DateTime.Now:yyyy/MM/dd HH:mm}");
+
+            _logger.LogInformation($"CycleCountAppService.ExportCycleCountDetailExcelAsync - Ended");
+            return new FileBlobDto(content, fileName);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation($"LedgerAccountAppService.GetListByFilterAsync - Exception : {ex}");
+            throw;
+        }
     }
 
     [Authorize(BishalAgroSeedPermissions.LedgerAccounts.Default)]
     public async Task<PagedResultDto<LedgerAccountDto>> GetListByFilterAsync(PagedAndSortedResultRequestDto input, LedgerAccountFilter filter)
+    {
+        try
+        {
+            _logger.LogInformation($"LedgerAccountAppService.GetListByFilterAsync - Started");
+
+            var data = await GetListDataByFilterAsync(filter);
+
+            var dataCount = data.Count();
+            var items = data.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+
+            decimal obal = 0;
+            foreach (var item in items)
+            {
+                obal = obal + item.Debit - item.Credit;
+                item.Balance = obal;
+            }
+
+            var result = new PagedResultDto<LedgerAccountDto>(dataCount, items);
+
+            _logger.LogInformation($"LedgerAccountAppService.GetListByFilterAsync - Ended");
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation($"LedgerAccountAppService.GetListByFilterAsync - Exception : {ex}");
+            throw;
+        }
+    }
+
+    private async Task<IQueryable<LedgerAccountDto>> GetListDataByFilterAsync(LedgerAccountFilter filter)
     {
         try
         {
@@ -110,19 +187,8 @@ public class LedgerAccountAppService : ApplicationService, ILedgerAccountAppServ
                                               Balance = 0
                                           }).OrderBy(s => s.Date);
 
-            var dataCount = data.Count();
-            var items = data.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
-
-            decimal obal = 0;
-            foreach (var item in items) {
-                obal = obal + item.Debit - item.Credit;
-                item.Balance = obal;
-            }
-
-            var result = new PagedResultDto<LedgerAccountDto>(dataCount, items);
-
             _logger.LogInformation($"LedgerAccountAppService.GetListByFilterAsync - Ended");
-            return result;
+            return data;
         }
         catch (Exception ex)
         {
@@ -130,4 +196,5 @@ public class LedgerAccountAppService : ApplicationService, ILedgerAccountAppServ
             throw;
         }
     }
+
 }
