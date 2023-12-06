@@ -5,6 +5,7 @@ import { FormGroup, Validators } from '@angular/forms';
 import { CustomerDto, CustomerService } from '@proxy/customers';
 import { DropdownDto } from '@proxy/dtos';
 import { LedgerAccountDto, LedgerAccountFilter, LedgerAccountService } from '@proxy/ledger-accounts';
+import { DownloadService } from '../helpers/download.service';
 
 @Component({
   selector: 'app-ledger-account',
@@ -22,6 +23,7 @@ export class LedgerAccountComponent implements OnInit {
     private service: LedgerAccountService,
     private toast: ToasterService,
     public readonly list: ListService,
+    private downloadservice: DownloadService,
   ) { }
 
 
@@ -47,4 +49,10 @@ export class LedgerAccountComponent implements OnInit {
   toggleFilter(){
     this.showFilter = !this.showFilter;
   }
+  export() {
+    this.service.exportExcel(this.filter).subscribe((file) => {
+      this.downloadservice.download(file);
+    });
+  }
+  
 }
