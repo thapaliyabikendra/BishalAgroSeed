@@ -4,3 +4,6 @@ bishal-agro-seed-server:
     volumes:
         - '/c/BishalAgroSeed/docker-volume/server/appsettings.json:/app/appsettings.json'
     restart: unless-stopped
+
+networks:
+  bishal-agro-seed-portal:
