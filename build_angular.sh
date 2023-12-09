@@ -1,2 +1,2 @@
 # Build Docker image
-docker build -t BishalAgroSeed-Client:latest -f angular/Dockerfile .
+docker build -t bishalagroseed-client:latest -f angular/Dockerfile .
