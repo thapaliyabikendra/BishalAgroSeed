@@ -24,15 +24,15 @@ export class CustomerComponent implements OnInit{
     public readonly list: ListService,
     private confirmation: ConfirmationService
   ){ }
-  
-  
+
+
   ngOnInit(): void {
     const streamCreator = (query) => this.service.getList(query);
     this.list.hookToQuery(streamCreator).subscribe((resp) => {
     this.data = resp;
     });
 
-  
+
   }
 
   buildForm() {
@@ -40,8 +40,8 @@ export class CustomerComponent implements OnInit{
       displayName: [this.selected.displayName, Validators.required],
       address: [this.selected.address],
       contactNo: [this.selected.contactNo],
-      isCustomer: [this.selected.isCustomer],
-      isVendor: [this.selected.isVendor]
+      isCustomer: [this.selected.isCustomer ?? false],
+      isVendor: [this.selected.isVendor ?? false]
     });
   }
   create() {
