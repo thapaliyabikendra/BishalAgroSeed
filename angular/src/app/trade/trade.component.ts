@@ -47,7 +47,8 @@ export class TradeComponent implements OnInit {
       discountAmount: [0],
       transportCharge: [0],
       voucherNo: ["", Validators.required],
-      transactionDetails: this.fb.array([])
+      transactionDetails: this.fb.array([]),
+      tranDate: ["", Validators.required]
     });
   }
 
