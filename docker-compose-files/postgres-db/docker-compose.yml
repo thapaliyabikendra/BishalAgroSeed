@@ -6,6 +6,8 @@ services:
     restart: always
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=yHMd$3WQtxtcjE
+      - POSTGRES_PASSWORD=@9aCHdBqUb9UEe
+    ports:
+      - '5432:5432'
     volumes: 
       - /c/BishalAgroSeed/docker-volume/postgres-db/:/var/lib/postgresql/data
