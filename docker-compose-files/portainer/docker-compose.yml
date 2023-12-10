@@ -14,11 +14,6 @@ services:
       - TZ=Asia/Kathmandu
       - ADMIN_USER=admin 
       - ADMIN_PASS=@9aCHdBqUb9UEe
-    networks:
-      - bishal-agro-seed-portal
-
+      
 volumes:
   portainer_data:
-
-networks:
-  bishal-agro-seed-portal:

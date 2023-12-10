@@ -1,9 +1,21 @@
-bishal-agro-seed-server:
-    image: 'bishal-agro-seed/server:latest'
-    container_name: 'bishal-agro-seed-server'
-    volumes:
-        - '/c/BishalAgroSeed/docker-volume/server/appsettings.json:/app/appsettings.json'
-    restart: unless-stopped
+version: '3.8'
+
+services:
+  server:
+    image: bishal-agro-seed/server:latest
+    configs:
+      - source: bishal-agro-seed-appsettings.json
+        target: /app/appsettings.json        
+    ports:
+      - 5000:80
+    environment:
+      - TZ=Asia/Kathmandu
+    networks:
+      - bishal-agro-seed-portal
 
 networks:
   bishal-agro-seed-portal:
+
+configs:
+   bishal-agro-seed-appsettings.json:
+    external: true
