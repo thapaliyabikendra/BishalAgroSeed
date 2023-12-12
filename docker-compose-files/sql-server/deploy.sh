@@ -1,1 +1,1 @@
- docker-compose up -d
+docker stack deploy -c docker-compose.yml BISHAL_AGRO_SEED
