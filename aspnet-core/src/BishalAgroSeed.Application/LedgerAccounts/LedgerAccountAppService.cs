@@ -64,7 +64,7 @@ public class LedgerAccountAppService : ApplicationService, ILedgerAccountAppServ
         _openingBalanceRepository = openingBalanceRepository;
         _excelService = excelService;
     }
-
+    [Authorize(BishalAgroSeedPermissions.LedgerAccounts.Default)]
     public async Task<FileBlobDto> ExportExcelAsync(LedgerAccountFilter filter)
     {
         try
@@ -123,7 +123,6 @@ public class LedgerAccountAppService : ApplicationService, ILedgerAccountAppServ
             throw;
         }
     }
-
     private async Task<IQueryable<LedgerAccountDto>> GetListDataByFilterAsync(LedgerAccountFilter filter)
     {
         try

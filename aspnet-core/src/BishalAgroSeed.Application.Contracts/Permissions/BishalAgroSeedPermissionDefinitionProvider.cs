@@ -73,11 +73,9 @@ public class BishalAgroSeedPermissionDefinitionProvider : PermissionDefinitionPr
         var cashTransactionPermission = bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.CashTransactions.Default, L("Permission:CashTransactions"));
         cashTransactionPermission.AddChild(BishalAgroSeedPermissions.CashTransactions.Create, L("Permission:CashTransactions.Create"));
 
-        var ledgerAccountPermission = bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.LedgerAccounts.Default, L("Permission:LedgerAccounts"));
-        ledgerAccountPermission.AddChild(BishalAgroSeedPermissions.LedgerAccounts.Create, L("Permission:LedgerAccounts.Create"));
-}
-
-
+        bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.LedgerAccounts.Default, L("Permission:LedgerAccounts"));
+        bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.MovementAnalysis.Default, L("Permission:MovementAnalysis"));
+    }
     private static LocalizableString L(string name)
     {
         return LocalizableString.Create<BishalAgroSeedResource>(name);

@@ -104,6 +104,9 @@ public static class BishalAgroSeedPermissions
     public static class LedgerAccounts
     {
         public const string Default = GroupName + ".LedgerAccounts";
-        public const string Create = Default + ".Create";
+    }
+    public static class MovementAnalysis
+    {
+        public const string Default = GroupName + ".MovementAnalysis";
     }
 }

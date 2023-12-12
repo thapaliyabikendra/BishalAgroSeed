@@ -26,8 +26,4 @@
 	<PackageReference Include="ExcelDataReader.Mapping" Version="2.2.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="NewFolder\" />
-  </ItemGroup>
-
 </Project>

@@ -68,7 +68,7 @@
     "Permission:CashTransactions": "CashTransactions",
     "Permission:CashTransactions.Create": "Create",
     "Permission:LedgerAccounts": "Ledger Accounts",
-    "Permission:LedgerAccounts.Create": "Create",
+    "Permission:MovementAnalysis": "Movement Analysis",
     "CreatedConfiguration": "Configuration created successfully.",
     "UpdatedConfiguration": "Configuration updated successfully.",
     "DeletedConfiguration": "Configuration deleted successfully.",
