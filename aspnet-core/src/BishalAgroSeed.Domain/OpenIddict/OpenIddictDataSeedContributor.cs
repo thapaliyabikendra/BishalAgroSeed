@@ -174,6 +174,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
 
         // Swagger Client
         var swaggerClientId = configurationSection["BishalAgroSeed_Swagger:ClientId"];
+        var swaggerClientSecret = configurationSection["BishalAgroSeed_Swagger:ClientSecret"];
         if (!swaggerClientId.IsNullOrWhiteSpace())
         {
             var swaggerRootUrl = configurationSection["BishalAgroSeed_Swagger:RootUrl"]?.TrimEnd('/');
@@ -183,7 +184,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
                 type: OpenIddictConstants.ClientTypes.Public,
                 consentType: OpenIddictConstants.ConsentTypes.Implicit,
                 displayName: "Swagger Application",
-                secret: null,
+                secret: swaggerClientSecret,
                 grantTypes: new List<string> { OpenIddictConstants.GrantTypes.AuthorizationCode, },
                 scopes: commonScopes,
                 redirectUri: $"{swaggerRootUrl}/swagger/oauth2-redirect.html",
