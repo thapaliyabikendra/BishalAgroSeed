@@ -1,21 +1,27 @@
 version: '3.8'
 
 services:
-  server:
-    image: bishal-agro-seed/server:latest
-    configs:
-      - source: bishal-agro-seed-appsettings.json
-        target: /app/appsettings.json        
+  client:
+    image: bishal-agro-seed/client:latest  
     ports:
       - 5000:80
     environment:
       - TZ=Asia/Kathmandu
     networks:
       - bishal-agro-seed-portal
-
+  server:
+    image: bishal-agro-seed/server:latest
+    configs:
+      - source: bishal-agro-seed-server-appsettings.json
+        target: /app/appsettings.json        
+    environment:
+      - TZ=Asia/Kathmandu
+    networks:
+      - bishal-agro-seed-portal
+  
 networks:
   bishal-agro-seed-portal:
 
 configs:
-   bishal-agro-seed-appsettings.json:
+   bishal-agro-seed-server-appsettings.json:
     external: true

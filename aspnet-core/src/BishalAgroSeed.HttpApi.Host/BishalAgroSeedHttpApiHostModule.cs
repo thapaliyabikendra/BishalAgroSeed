@@ -204,6 +204,9 @@ namespace BishalAgroSeed;
     {
         var app = context.GetApplicationBuilder();
         var env = context.GetEnvironment();
+        var configuration = context.GetConfiguration();
+        var pathBase = configuration["App:PathBase"];
+        app.UsePathBase(pathBase);
 
         if (env.IsDevelopment())
         {
@@ -232,10 +235,30 @@ namespace BishalAgroSeed;
         app.UseUnitOfWork();
         app.UseAuthorization();
 
-        app.UseSwagger();
+
+        if (!string.IsNullOrEmpty(pathBase))
+        {
+            app.UseSwagger(swaggerOptions =>
+            {
+                swaggerOptions.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
+                {
+                    var paths = new OpenApiPaths();
+                    foreach (var path in swaggerDoc.Paths)
+                    {
+                        paths.Add(pathBase + path.Key, path.Value);
+                    }
+                    swaggerDoc.Paths = paths;
+                });
+            });
+        }
+        else
+        {
+            app.UseSwagger();
+        }
+
         app.UseAbpSwaggerUI(c =>
         {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "BishalAgroSeed API");
+            c.SwaggerEndpoint(pathBase + "/swagger/v1/swagger.json", "BishalAgroSeed API");
 
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);

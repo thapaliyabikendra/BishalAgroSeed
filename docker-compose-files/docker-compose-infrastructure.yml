@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer        
+    restart: unless-stopped
+    ports:
+      - 9000:9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    environment:
+      - TZ=Asia/Kathmandu
+      - ADMIN_USER=admin 
+      - ADMIN_PASS=@9aCHdBqUb9UEe
+  redis:
+    image: redis:5.0.7
+    networks:
+      - bishal-agro-seed-portal
+  database:
+    image: mcr.microsoft.com/mssql/server:latest
+    environment:
+      TZ: 'Asia/Kathmandu'
+      ACCEPT_EULA: 'Y'
+      SA_PASSWORD: 'yHMd.@3WQtxtcjE'
+    ports:
+      - 1433:1433
+    volumes: 
+      - sql_server_data:/var/opt/mssql
+    networks:
+      - bishal-agro-seed-portal
+
+volumes:
+  sql_server_data:
+  portainer_data:
+
+networks:
+ bishal-agro-seed-portal:
