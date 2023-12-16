@@ -33,6 +33,16 @@ using Volo.Abp.BlobStoring.FileSystem;
 using Volo.Abp.BlobStoring.Database;
 using BishalAgroSeed.NumberGenerations;
 using BishalAgroSeed.Options;
+using Microsoft.AspNetCore.HttpOverrides;
+using Volo.Abp.AspNetCore.Mvc.AntiForgery;
+using Volo.Abp.Caching;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Hosting;
+using StackExchange.Redis;
+using Medallion.Threading.Redis;
+using Medallion.Threading;
+using Volo.Abp.DistributedLocking;
+using Volo.Abp.Caching.StackExchangeRedis;
 
 namespace BishalAgroSeed;
 
@@ -46,9 +56,23 @@ namespace BishalAgroSeed;
     typeof(AbpAccountWebOpenIddictModule),
     typeof(AbpAspNetCoreSerilogModule),
     typeof(AbpSwashbuckleModule),
-    typeof(AbpBlobStoringFileSystemModule))]
+    typeof(AbpBlobStoringFileSystemModule),
+    typeof(AbpCachingStackExchangeRedisModule),
+    typeof(AbpDistributedLockingModule))]
     public class BishalAgroSeedHttpApiHostModule : AbpModule
 {
+    private void ConfigureHttpsForwardingBehindProxy(IApplicationBuilder app)
+    {
+        var forwardedHeaderOptions = new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+        };
+        forwardedHeaderOptions.KnownNetworks.Clear();
+        forwardedHeaderOptions.KnownProxies.Clear();
+
+        app.UseForwardedHeaders(forwardedHeaderOptions);
+    }
+
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
         PreConfigure<OpenIddictBuilder>(builder =>
@@ -71,12 +95,49 @@ namespace BishalAgroSeed;
         ConfigureBundles();
         ConfigureUrls(configuration);
         ConfigureConventionalControllers();
+        ConfigureCache(configuration);
         ConfigureVirtualFileSystem(context);
+        ConfigureDataProtection(context, configuration, hostingEnvironment);
+        ConfigureDistributedLocking(context, configuration);
         ConfigureCors(context, configuration);
         ConfigureSwaggerServices(context, configuration);
         ConfigureLocalization();
         ConfigureBlobStorage();
         context.Services.Configure<BulkUploadCycleCountOption>(configuration.GetSection("FileUpload:BulkCycleCount"));
+
+        context.Services.Configure<AbpAntiForgeryOptions>(options =>
+        {
+            options.AutoValidate = false;
+        });
+    }
+
+    private void ConfigureCache(IConfiguration configuration)
+    {
+        Configure<AbpDistributedCacheOptions>(options => { options.KeyPrefix = "BishalAgroSeed:"; });
+    }
+    private void ConfigureDataProtection(
+    ServiceConfigurationContext context,
+    IConfiguration configuration,
+    IWebHostEnvironment hostingEnvironment)
+    {
+        var dataProtectionBuilder = context.Services.AddDataProtection().SetApplicationName("BishalAgroSeed");
+        if (!hostingEnvironment.IsDevelopment())
+        {
+            var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
+            dataProtectionBuilder.PersistKeysToStackExchangeRedis(redis, "BishalAgroSeed-Protection-Keys");
+        }
+    }
+    
+    private void ConfigureDistributedLocking(
+    ServiceConfigurationContext context,
+    IConfiguration configuration)
+    {
+        context.Services.AddSingleton<IDistributedLockProvider>(sp =>
+        {
+            var connection = ConnectionMultiplexer
+                .Connect(configuration["Redis:Configuration"]);
+            return new RedisDistributedSynchronizationProvider(connection.GetDatabase());
+        });
     }
 
     private void ConfigureBlobStorage()
@@ -207,6 +268,11 @@ namespace BishalAgroSeed;
         var configuration = context.GetConfiguration();
         var pathBase = configuration["App:PathBase"];
         app.UsePathBase(pathBase);
+
+        if (configuration.GetValue<bool>("App:ConfigureHttpsForwardingBehindProxy"))
+        {
+            ConfigureHttpsForwardingBehindProxy(app);
+        }
 
         if (env.IsDevelopment())
         {

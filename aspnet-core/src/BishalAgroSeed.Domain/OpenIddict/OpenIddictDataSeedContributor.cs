@@ -181,7 +181,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
 
             await CreateApplicationAsync(
                 name: swaggerClientId!,
-                type: OpenIddictConstants.ClientTypes.Public,
+                type: OpenIddictConstants.ClientTypes.Confidential,
                 consentType: OpenIddictConstants.ConsentTypes.Implicit,
                 displayName: "Swagger Application",
                 secret: swaggerClientSecret,

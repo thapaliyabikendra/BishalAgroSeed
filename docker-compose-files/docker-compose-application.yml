@@ -10,7 +10,9 @@ services:
     networks:
       - bishal-agro-seed-portal
   server:
-    image: bishal-agro-seed/server:latest
+    image: bishal-agro-seed/server:latest 
+    ports:
+      - 5001:80
     configs:
       - source: bishal-agro-seed-server-appsettings.json
         target: /app/appsettings.json        
