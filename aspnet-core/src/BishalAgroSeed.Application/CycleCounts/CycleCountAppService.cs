@@ -300,7 +300,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
     [HttpGet]
     public async Task<FileBlobDto> DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync()
     {
-        var fileName = string.Format(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME, "");
+        var fileName = string.Format(ExcelFileNames.UPDATE_CYCLE_COUNT_TEMPLATE, "");
         _logger.LogInformation($"CycleCountAppService.DownloadBulkUpdateCycleCountDetailByExcelTemplateAsync - Started");
         if (!(await _templateFileContainer.ExistsAsync(fileName)))
         {
@@ -339,7 +339,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
             var data = await GetCycleCountDetailDataByFilterAsync(filter);
 
             var content = await _excelService.ExportAsync(data.ToList(), _mapConfig);
-            var fileName = string.Format(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME, $"_{cycleCount.CCINumber}_{DateTime.Now:yyyy/MM/dd HH:mm}");
+            var fileName = string.Format(ExcelFileNames.UPDATE_CYCLE_COUNT_TEMPLATE, $"_{cycleCount.CCINumber}_{DateTime.Now:yyyy/MM/dd HH:mm}");
 
             _logger.LogInformation($"CycleCountAppService.ExportCycleCountDetailExcelAsync - Ended");
             return new FileBlobDto(content, fileName);

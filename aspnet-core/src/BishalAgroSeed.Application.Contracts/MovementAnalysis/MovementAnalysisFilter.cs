@@ -11,4 +11,6 @@ public class MovementAnalysisFilter
     public DateTime FromTranDate { get; set; } = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
     [Required]
     public DateTime ToTranDate { get; set; } = DateTime.Today;
+    [Required]
+    public Guid CustomerId { get; set; }
 }

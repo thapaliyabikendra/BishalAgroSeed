@@ -80,8 +80,8 @@ public class LedgerAccountAppService : ApplicationService, ILedgerAccountAppServ
                 item.Balance = obal;
             }
 
-            var content = await _excelService.ExportAsync(data.ToList(), _mapConfig);
-            var fileName = string.Format(Global.LEDGER_ACCOUNT_EXCEL_FILE_NAME, $"_{DateTime.Now:yyyy/MM/dd HH:mm}");
+            var content = await _excelService.ExportAsync(data, _mapConfig);
+            var fileName = string.Format(ExcelFileNames.LEDGER_ACCOUNT, $"_{DateTime.Now:yyyy/MM/dd HH:mm}");
 
             _logger.LogInformation($"CycleCountAppService.ExportCycleCountDetailExcelAsync - Ended");
             return new FileBlobDto(content, fileName);

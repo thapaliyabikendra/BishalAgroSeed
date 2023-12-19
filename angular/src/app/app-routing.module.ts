@@ -40,6 +40,7 @@ const routes: Routes = [
   { path: 'trades', loadChildren: () => import('./trade/trade.module').then(m => m.TradeModule) },
   { path: 'cash-transactions', loadChildren: () => import('./cash-transaction/cash-transaction.module').then(m => m.CashTransactionModule) },
   { path: 'ledger-accounts', loadChildren: () => import('./ledger-account/ledger-account.module').then(m => m.LedgerAccountModule) },
+  { path: 'movement-analysis', loadChildren: () => import('./movement-analysis/movement-analysis.module').then(m => m.MovementAnalysisModule) },
 
 ];
 
