@@ -24,6 +24,7 @@ using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Uow;
 
 namespace BishalAgroSeed.LedgerAccounts;
+[Authorize(BishalAgroSeedPermissions.LedgerAccounts.Default)]
 public class LedgerAccountAppService : ApplicationService, ILedgerAccountAppService
 {
     private readonly IRepository<Transaction, Guid> _transactionRepository;
@@ -123,6 +124,7 @@ public class LedgerAccountAppService : ApplicationService, ILedgerAccountAppServ
             throw;
         }
     }
+    [Authorize(BishalAgroSeedPermissions.LedgerAccounts.Default)]
     private async Task<IQueryable<LedgerAccountDto>> GetListDataByFilterAsync(LedgerAccountFilter filter)
     {
         try

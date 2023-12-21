@@ -1,1 +1,77 @@
-<p>movement-analysis works!</p>
+<div class="card">
+    <div class="card-header">
+        <div class="row align-items-center">
+            <div class="col col-6">
+                <h5 class="card-title">{{ '::Filter' | abpLocalization}}</h5>
+            </div>
+            <div class="col col-6 text-end">
+                <i class="fa fa-filter" (click)="toggleFilter()"></i>
+            </div>
+        </div>
+    </div>
+    <div [ngClass]="showFilter ? '' : 'd-none'" class="card-body pt-1">
+        <div class="row">
+            <div class="col-2 form-group mb-1">
+                <label for="fromTranDateFilter">{{ '::FromTranDate' | abpLocalization}}</label>
+                <input id="fromTranDateFilter" type="date" class="form-control" [(ngModel)]="filter.fromTranDate"
+                    autofocus />
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row.fromDate | date : 'YYYY/MM/dd' }}
+                </ng-template>
+            </div>
+
+            <div class="col-2 form-group mb-1">
+                <label for="toTranDateFilter">{{ '::ToTranDate' | abpLocalization}}</label>
+                <input id="toTranDateFilter" type="date" class="form-control" [(ngModel)]="filter.toTranDate" />
+            </div>
+            <div class="col-2 form-group mb-1">
+                <label for="customerFilter">{{ '::Customers' | abpLocalization}}</label>
+                <ng-select id="customerFilter" [items]="customers" [(ngModel)]="filter.customerId" bindLabel="name"
+                    bindValue="value"></ng-select>
+            </div>
+            <div class="col-2 form-group mb-1">
+                <label for="customerFilter">{{ '::Product' | abpLocalization}}</label>
+                <input id="toTranDateNameFilter" type="text" class="form-control" [(ngModel)]="filter.productName" />
+            </div>
+            <div class="col-3">
+                <br />
+                <button class="btn btn-secondary" (click)="getData()">
+                    {{'::Search' | abpLocalization}}
+                </button>
+                <button class="btn btn-warning ms-1" (click)="clearFilter()">
+                    {{'::CLear' | abpLocalization}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="row align-items-center">
+            <div class="col col-6">
+                <h5 class="card-title">{{ '::Menu:MovementAnalysis' | abpLocalization}}</h5>
+            </div>
+            <div class="col col-6 text-end">
+                <button class="btn btn-primary" type="button" (click)="export()"
+                    *abpPermission="'BishalAgroSeed.MovementAnalysis'">{{'::Export' | abpLocalization}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <ngx-datatable [rows]="data.items" [count]="data.totalCount" [list]="list" default>
+            <ngx-datatable-column [name]="'::Particulars' | abpLocalization" prop="particulars"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::PurchasesQuantity' | abpLocalization"
+                prop="purchases.quantity"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::PurchasesEffRate' | abpLocalization"
+                prop="purchases.effRate"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::PurchasesValue' | abpLocalization"
+                prop="purchases.value"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::SalesQuantity' | abpLocalization"
+                prop="sales.quantity"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::SalesEffRate' | abpLocalization"
+                prop="sales.effRate"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::SalesValue' | abpLocalization" prop="sales.value"></ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+</div>

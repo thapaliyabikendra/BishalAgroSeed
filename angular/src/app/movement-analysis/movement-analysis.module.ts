@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MovementAnalysisRoutingModule } from './movement-analysis-routing.module';
 import { MovementAnalysisComponent } from './movement-analysis.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { MovementAnalysisComponent } from './movement-analysis.component';
   ],
   imports: [
     CommonModule,
-    MovementAnalysisRoutingModule
+    MovementAnalysisRoutingModule,
+    SharedModule
   ]
 })
 export class MovementAnalysisModule { }

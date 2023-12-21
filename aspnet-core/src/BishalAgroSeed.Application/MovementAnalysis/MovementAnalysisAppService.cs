@@ -3,11 +3,13 @@ using BishalAgroSeed.Customers;
 using BishalAgroSeed.Dtos;
 using BishalAgroSeed.LedgerAccounts;
 using BishalAgroSeed.OpeningBalances;
+using BishalAgroSeed.Permissions;
 using BishalAgroSeed.Products;
 using BishalAgroSeed.Services;
 using BishalAgroSeed.TransactionDetails;
 using BishalAgroSeed.Transactions;
 using BishalAgroSeed.TranscationTypes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -20,6 +22,7 @@ using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 
 namespace BishalAgroSeed.MovementAnalysis;
+[Authorize(BishalAgroSeedPermissions.MovementAnalysis.Default)]
 public class MovementAnalysisAppService : ApplicationService, IMovementAnalysisAppService
 {
     private readonly IRepository<Transaction, Guid> _transactionRepository;
@@ -61,6 +64,7 @@ public class MovementAnalysisAppService : ApplicationService, IMovementAnalysisA
         _productRepository = ProductRepository;
     }
     [HttpGet]
+    [Authorize(BishalAgroSeedPermissions.MovementAnalysis.Default)]
     public async Task<FileBlobDto> ExportExcelAsync(MovementAnalysisFilter filter)
     {
         try
@@ -81,6 +85,7 @@ public class MovementAnalysisAppService : ApplicationService, IMovementAnalysisA
             throw;
         }
     }
+    [Authorize(BishalAgroSeedPermissions.MovementAnalysis.Default)]
 
     public async Task<PagedResultDto<MovementAnalysisDto>> GetListByFilterAsync(PagedAndSortedResultRequestDto input, MovementAnalysisFilter filter)
     {
@@ -103,6 +108,7 @@ public class MovementAnalysisAppService : ApplicationService, IMovementAnalysisA
             throw;
         }
     }
+    [Authorize(BishalAgroSeedPermissions.MovementAnalysis.Default)]
 
     private async Task<IQueryable<MovementAnalysisDto>> GetListDataByFilterAsync(MovementAnalysisFilter filter)
     {

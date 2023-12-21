@@ -106,6 +106,13 @@ function configureRoutes(routesService: RoutesService) {
         order: 12,
         layout: eLayoutType.application,
       },
+      {
+        path: '/movement-analysis',
+        name: '::Menu:MovementAnalysis',
+        iconClass: 'fas fa-home',
+        order: 12,
+        layout: eLayoutType.application,
+      },
     ]);
   };
 }

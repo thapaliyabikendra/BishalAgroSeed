@@ -20,6 +20,7 @@
     "Menu:Trades": "Trades",
     "Menu:CashTransactions": "Cash Transactions",
     "Menu:LedgerAccounts": "Ledger Accounts",
+    "Menu:MovementAnalysis": "Movement Analysis",
     "Permission:Configurations": "Configurations",
     "Permission:Configurations.Create": "Create",
     "Permission:Configurations.Edit": "Edit",
@@ -155,6 +156,12 @@
     "FromTranDate": "From Tran Date",
     "ToTranDate": "To Tran Date",
     "VchType": "Vch Type",
-    "VchNo": "Vch No"
+    "VchNo": "Vch No",
+    "PurchasesQuantity": "Purchases Quantity",
+    "PurchasesEffRate": "Purchases Eff . Rate ",
+    "PurchasesValue": "purchases value",
+    "SalesQuantity": "Sales Quantity",
+    "SalesEffRate": "Sales Eff . Rate",
+    "SalesValue": "Sales Value"
   }
 }
