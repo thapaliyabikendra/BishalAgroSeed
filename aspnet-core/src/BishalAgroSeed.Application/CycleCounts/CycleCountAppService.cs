@@ -70,7 +70,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         IBlobContainer<TemplateFileContainer> templateFileContainer,
         IOptions<BulkUploadCycleCountOption> bulkUploadCycleCountOption,
         IExcelService excelService,
-        IRepository<Category,Guid> categoryRepository)
+        IRepository<Category, Guid> categoryRepository)
     {
         _numberGenerationRepository = numberGenerationRepository;
         _cycleCountRepository = cycleCountRepository;
@@ -102,7 +102,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
             });
         }
 
-        if (cycleCount.IsClosed) 
+        if (cycleCount.IsClosed)
         {
             var msg = "Cycle Count is already closed !!";
             _logger.LogInformation($"CycleCountAppService.CloseAsync - Validation : {msg}");
@@ -124,73 +124,81 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
     [Authorize(BishalAgroSeedPermissions.CycleCounts.Create)]
     public async Task CreateAsync()
     {
-        _logger.LogInformation($"CycleCountAppService.CreateAsync - Started");
-
-        var numberGeneration = await _numberGenerationRepository.FirstOrDefaultAsync(s => s.NumberGenerationTypeId == NumberGenerationTypes.NumberGenerationTypes.CycleCount);
-        if (numberGeneration == null)
+        try
         {
-            var msg = "Cycle Count Number Generation is not setup !!";
-            _logger.LogInformation($"CycleCountAppService.CreateAsync - Validation : {msg}");
-            throw new AbpValidationException(msg, new List<ValidationResult>()
+            _logger.LogInformation($"CycleCountAppService.CreateAsync - Started");
+
+            var numberGeneration = await _numberGenerationRepository.FirstOrDefaultAsync(s => s.NumberGenerationTypeId == NumberGenerationTypes.NumberGenerationTypes.CycleCount);
+            if (numberGeneration == null)
+            {
+                var msg = "Cycle Count Number Generation is not setup !!";
+                _logger.LogInformation($"CycleCountAppService.CreateAsync - Validation : {msg}");
+                throw new AbpValidationException(msg, new List<ValidationResult>()
             {
                 new  ValidationResult(msg, new [] {"numberGeneration"})
             });
-        }
+            }
 
-        if ((await _cycleCountRepository.AnyAsync(s => !s.IsClosed)))
-        {
-            var msg = "Open Cycle Count exists !!";
-            _logger.LogInformation($"CycleCountAppService.CreateAsync - Validation : {msg}");
-            throw new AbpValidationException(msg, new List<ValidationResult>()
+            if ((await _cycleCountRepository.AnyAsync(s => !s.IsClosed)))
+            {
+                var msg = "Open Cycle Count exists !!";
+                _logger.LogInformation($"CycleCountAppService.CreateAsync - Validation : {msg}");
+                throw new AbpValidationException(msg, new List<ValidationResult>()
             {
                 new  ValidationResult(msg, new [] {"isClose"})
             });
-        }
+            }
 
-        ++numberGeneration.Number;
-        var cciNumber = $"{numberGeneration.Prefix}{numberGeneration.Number}{numberGeneration.Suffix}";
-        await _numberGenerationRepository.UpdateAsync(numberGeneration);
-        _logger.LogInformation($"CycleCountAppService.CreateAsync - Updated NumberGeneration entity with Id : {numberGeneration.Id}");
+            ++numberGeneration.Number;
+            var cciNumber = $"{numberGeneration.Prefix}{numberGeneration.Number}{numberGeneration.Suffix}";
+            await _numberGenerationRepository.UpdateAsync(numberGeneration);
+            _logger.LogInformation($"CycleCountAppService.CreateAsync - Updated NumberGeneration entity with Id : {numberGeneration.Id}");
 
-        var cycleCount = new CycleCount
-        {
-            CCINumber = cciNumber
-        };
-        await _cycleCountRepository.InsertAsync(cycleCount);
-        _logger.LogInformation($"CycleCountAppService.CreateAsync - Inserted CycleCount entity with Id : {cycleCount.Id}");
+            var cycleCount = new CycleCount
+            {
+                CCINumber = cciNumber
+            };
+            await _cycleCountRepository.InsertAsync(cycleCount);
+            _logger.LogInformation($"CycleCountAppService.CreateAsync - Inserted CycleCount entity with Id : {cycleCount.Id}");
 
-        var _transactions = await _transactionRepository.GetQueryableAsync();
-        var _transactionTypes = await _transactionTypeRepository.GetQueryableAsync();
-        var _transactionDetails = await _transactionDetailRepository.GetQueryableAsync();
+            var _transactions = await _transactionRepository.GetQueryableAsync();
+            var _transactionTypes = await _transactionTypeRepository.GetQueryableAsync();
+            var _transactionDetails = await _transactionDetailRepository.GetQueryableAsync();
 
-        var cycleCountDetails = (
-                                     from t in _transactions
-                                     join tt in _transactionTypes on t.TransactionTypeId equals tt.Id
-                                     join td in _transactionDetails on t.Id equals td.TransactionId
-                                     where tt.DisplayName == Constants.TransactionTypes.PURCHASE || tt.DisplayName == Constants.TransactionTypes.SALES
-                                     group new { TransactionType = tt.DisplayName, td.Quantity } by new { td.ProductId } into g
-                                     select new CycleCountDetail
-                                     {
-                                         ProductId = g.Key.ProductId,
-                                         CycleCountId = cycleCount.Id,
-                                         SystemQuantity = g.Where(s => s.TransactionType == Constants.TransactionTypes.PURCHASE).Sum(s => s.Quantity) -
-                                                          g.Where(s => s.TransactionType == Constants.TransactionTypes.SALES).Sum(s => s.Quantity)
-                                     }).ToList();
+            var cycleCountDetails = (
+                                         from t in _transactions
+                                         join tt in _transactionTypes on t.TransactionTypeId equals tt.Id
+                                         join td in _transactionDetails on t.Id equals td.TransactionId
+                                         where tt.DisplayName == Constants.TransactionTypes.PURCHASE || tt.DisplayName == Constants.TransactionTypes.SALES
+                                         group new { TransactionType = tt.DisplayName, td.Quantity } by new { td.ProductId } into g
+                                         select new CycleCountDetail
+                                         {
+                                             ProductId = g.Key.ProductId,
+                                             CycleCountId = cycleCount.Id,
+                                             SystemQuantity = g.Where(s => s.TransactionType == Constants.TransactionTypes.PURCHASE).Sum(s => s.Quantity) -
+                                                              g.Where(s => s.TransactionType == Constants.TransactionTypes.SALES).Sum(s => s.Quantity)
+                                         }).ToList();
 
-        if (!cycleCountDetails.Any())
-        {
-            var msg = "Empty Inventory!!";
-            _logger.LogInformation($"CycleCountAppService.CreateAsync - Validation : {msg}");
-            throw new AbpValidationException(msg, new List<ValidationResult>()
+            if (!cycleCountDetails.Any())
+            {
+                var msg = "Empty Inventory!!";
+                _logger.LogInformation($"CycleCountAppService.CreateAsync - Validation : {msg}");
+                throw new AbpValidationException(msg, new List<ValidationResult>()
             {
                 new  ValidationResult(msg, new [] {"productId"})
             });
+            }
+
+            await _cycleCountDetailRepository.InsertManyAsync(cycleCountDetails);
+            _logger.LogInformation($"CycleCountAppService.CreateAsync - Bulk Inserted CycleCountDetail entity with CycleCountId : {cycleCount.Id}");
+
+            _logger.LogInformation($"CycleCountAppService.CreateAsync - Ended");
         }
-
-        await _cycleCountDetailRepository.InsertManyAsync(cycleCountDetails);
-        _logger.LogInformation($"CycleCountAppService.CreateAsync - Bulk Inserted CycleCountDetail entity with CycleCountId : {cycleCount.Id}");
-
-        _logger.LogInformation($"CycleCountAppService.CreateAsync - Ended");
+        catch (Exception ex)
+        {
+            _logger.LogInformation($"CycleCountAppService.CreateAsync - Exception : {ex}");
+            throw;
+        }
     }
 
     [Authorize(BishalAgroSeedPermissions.CycleCounts.Default)]
@@ -280,7 +288,8 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
             _logger.LogInformation($"CycleCountAppService.GetCycleCountDetailListByFilterAsync - Ended");
             return new PagedResultDto<CycleCountDetailDto>(totalCount, data);
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             _logger.LogInformation($"CycleCountAppService.GetCycleCountDetailListByFilterAsync - Exception : {ex}");
             throw;
         }
@@ -407,7 +416,7 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
         return ccd;
     }
 
-    private async Task BulkUpdateCycleCountDetailDataAsync( Guid cycleCountId, List<UpdateCycleCountDetailDto> input, bool isFileUpload = false)
+    private async Task BulkUpdateCycleCountDetailDataAsync(Guid cycleCountId, List<UpdateCycleCountDetailDto> input, bool isFileUpload = false)
     {
         _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Started");
 
