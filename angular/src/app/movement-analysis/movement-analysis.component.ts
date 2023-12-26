@@ -7,6 +7,7 @@ import { filter } from 'rxjs';
 import { DownloadService } from '../helpers/download.service';
 import { CustomerService } from '@proxy/customers';
 import { DropdownDto } from '@proxy/dtos';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-movement-analysis',
@@ -16,9 +17,13 @@ import { DropdownDto } from '@proxy/dtos';
 })
 export class MovementAnalysisComponent implements OnInit {
   data = { items: [], totalcount: 0 } as PagedResultDto<MovementAnalysisDto>
-  filter = {} as MovementAnalysisFilter;
+  filter = {
+    fromTranDate : '2020-10-01',
+    toTranDate : '2024-10-01'
+  } as MovementAnalysisFilter;
   showFilter = false as boolean;
   customers = [] as DropdownDto[];
+  displayedColumns= ['particulars', 'purchases_quantity', 'purchases_effRate', 'purchases_value', 'sales_quantity', 'sales_effRate', 'sales_value'];
 
   constructor(
     private movementAnaylsisService: MovementAnalysisService,

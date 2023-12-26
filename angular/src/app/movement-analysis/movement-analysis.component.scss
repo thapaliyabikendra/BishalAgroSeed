@@ -1,0 +1,9 @@
+table {
+  width: 100%;
+}
+
+th.mat-mdc-header-cell, td.mat-mdc-cell {
+    text-align: center !important;
+    border: 1px solid #CCC;
+    padding: 0 !important;
+}

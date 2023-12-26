@@ -59,7 +59,7 @@
         </div>
     </div>
     <div class="card-body">
-        <ngx-datatable [rows]="data.items" [count]="data.totalCount" [list]="list" default>
+        <!-- <ngx-datatable [rows]="data.items" [count]="data.totalCount" [list]="list" default>
             <ngx-datatable-column [name]="'::Particulars' | abpLocalization" prop="particulars"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::PurchasesQuantity' | abpLocalization"
                 prop="purchases.quantity"></ngx-datatable-column>
@@ -72,6 +72,62 @@
             <ngx-datatable-column [name]="'::SalesEffRate' | abpLocalization"
                 prop="sales.effRate"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::SalesValue' | abpLocalization" prop="sales.value"></ngx-datatable-column>
-        </ngx-datatable>
+        </ngx-datatable> -->
+
+        <table mat-table [dataSource]="data.items" class="mat-elevation-z8">
+            <ng-container matColumnDef="header-particulars">
+                <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.rowspan]="2">{{'::Particulars' |
+                    abpLocalization}} </th>
+            </ng-container>
+
+            <ng-container matColumnDef="purchases">
+                <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="3">{{'::Purchases' |
+                    abpLocalization}} </th>
+            </ng-container>
+
+            <ng-container matColumnDef="sales">
+                <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="3">{{'::Sales' |
+                    abpLocalization}} </th>
+            </ng-container>
+
+            <ng-container matColumnDef="particulars">
+                <th mat-header-cell *matHeaderCellDef [style.display]="'none'" >{{'::Particulars' | abpLocalization}}</th>
+                <td mat-cell *matCellDef="let element"> {{element.particulars}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="purchases_quantity">
+                <th mat-header-cell *matHeaderCellDef> {{ '::Quantity' | abpLocalization }}</th>
+                <td mat-cell *matCellDef="let element"> {{element.purchases.quantity}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="purchases_effRate">
+                <th mat-header-cell *matHeaderCellDef>{{'::EffRate' | abpLocalization}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.purchases.effRate}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="purchases_value">
+                <th mat-header-cell *matHeaderCellDef>{{'::Value' | abpLocalization}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.purchases.value}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="sales_quantity">
+                <th mat-header-cell *matHeaderCellDef> {{ '::Quantity' | abpLocalization }}</th>
+                <td mat-cell *matCellDef="let element"> {{element.sales.quantity}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="sales_effRate">
+                <th mat-header-cell *matHeaderCellDef>{{'::EffRate' | abpLocalization}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.sales.effRate}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="sales_value">
+                <th mat-header-cell *matHeaderCellDef>{{'::Value' | abpLocalization}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.sales.value}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="['header-particulars', 'purchases', 'sales']"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
     </div>
 </div>
