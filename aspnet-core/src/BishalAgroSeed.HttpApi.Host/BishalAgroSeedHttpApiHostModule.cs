@@ -43,6 +43,12 @@ using Medallion.Threading.Redis;
 using Medallion.Threading;
 using Volo.Abp.DistributedLocking;
 using Volo.Abp.Caching.StackExchangeRedis;
+using Volo.Abp.BackgroundJobs;
+using Volo.Abp.BackgroundJobs.Hangfire;
+using Hangfire.Annotations;
+using System.Drawing.Text;
+using Hangfire;
+using BishalAgroSeed.Hangfire;
 
 namespace BishalAgroSeed;
 
@@ -58,7 +64,8 @@ namespace BishalAgroSeed;
     typeof(AbpSwashbuckleModule),
     typeof(AbpBlobStoringFileSystemModule),
     typeof(AbpCachingStackExchangeRedisModule),
-    typeof(AbpDistributedLockingModule))]
+    typeof(AbpDistributedLockingModule),
+    typeof(AbpBackgroundJobsHangfireModule))]
     public class BishalAgroSeedHttpApiHostModule : AbpModule
 {
     private void ConfigureHttpsForwardingBehindProxy(IApplicationBuilder app)
@@ -103,11 +110,19 @@ namespace BishalAgroSeed;
         ConfigureSwaggerServices(context, configuration);
         ConfigureLocalization();
         ConfigureBlobStorage();
+        ConfigureHangfire(context, configuration);
         context.Services.Configure<BulkUploadCycleCountOption>(configuration.GetSection("FileUpload:BulkCycleCount"));
 
         context.Services.Configure<AbpAntiForgeryOptions>(options =>
         {
             options.AutoValidate = false;
+        });
+    }
+    private void ConfigureHangfire( ServiceConfigurationContext context, IConfiguration configuration) 
+    {
+        context.Services.AddHangfire(options =>
+        {
+            options.UseSqlServerStorage(configuration.GetConnectionString("Default"));
         });
     }
 
@@ -332,8 +347,11 @@ namespace BishalAgroSeed;
             c.OAuthScopes("BishalAgroSeed");
         });
 
+        app.UseHangfireDashboard();
         app.UseAuditing();
         app.UseAbpSerilogEnrichers();
         app.UseConfiguredEndpoints();
+
+        RecurringJob.AddOrUpdate<HangfireAppService>("saveInventoryJob", s => s.SaveInventoryAsync(), Cron.Daily);
     }
 }
