@@ -25,7 +25,7 @@ public class UpdateDateCountTemplateDataSeeder : IDataSeedContributor, ITransien
 
     public async Task SeedAsync(DataSeedContext context)
     {
-        var fileName = string.Format(Global.UPDATE_CYCLE_COUNT_TEMPLATE_FILE_NAME, "");
+        var fileName = string.Format(ExcelFileNames.UPDATE_CYCLE_COUNT_TEMPLATE, "");
         var path = Path.Combine(Environment.CurrentDirectory, "CycleCounts", fileName);
         if (File.Exists(path)) {
             using (var memoryStream = new MemoryStream()) {

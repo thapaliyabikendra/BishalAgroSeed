@@ -1,13 +1,13 @@
 ﻿using BishalAgroSeed.Products;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.Domain.Entities;
 
 namespace BishalAgroSeed.InventoryCounts;
-public class InventoryCount : FullAuditedAggregateRoot<Guid>
+public class InventoryCount : Entity<Guid>
 {
     public InventoryCount() { }
-    public InventoryCount(Guid id, Guid productId, int count, DateTime countDate) : base(id)
+    public InventoryCount(Guid id, Guid productId, int count, DateTime countDate)
     {
         ProductId = productId;
         Count = count;
