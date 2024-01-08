@@ -14,6 +14,7 @@ import * as NumberGenerations from './number-generations';
 import * as OpeningBalances from './opening-balances';
 import * as PaymentTypes from './payment-types';
 import * as Products from './products';
+import * as Reports from './reports';
 import * as Trades from './trades';
 import * as TransactionTypes from './transaction-types';
-export { Brands, CashTransactions, Categories, CompanyInfos, Configurations, Customers, CycleCounts, Dtos, FiscalYears, LedgerAccounts, MovementAnalysis, NumberGenerationTypes, NumberGenerations, OpeningBalances, PaymentTypes, Products, Trades, TransactionTypes };
+export { Brands, CashTransactions, Categories, CompanyInfos, Configurations, Customers, CycleCounts, Dtos, FiscalYears, LedgerAccounts, MovementAnalysis, NumberGenerationTypes, NumberGenerations, OpeningBalances, PaymentTypes, Products, Reports, Trades, TransactionTypes };

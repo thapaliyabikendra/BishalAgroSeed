@@ -21,6 +21,7 @@
     "Menu:CashTransactions": "Cash Transactions",
     "Menu:LedgerAccounts": "Ledger Accounts",
     "Menu:MovementAnalysis": "Movement Analysis",
+    "Menu:InventoryReport": "Inventory Report",
     "Permission:Configurations": "Configurations",
     "Permission:Configurations.Create": "Create",
     "Permission:Configurations.Edit": "Edit",
@@ -70,6 +71,7 @@
     "Permission:CashTransactions.Create": "Create",
     "Permission:LedgerAccounts": "Ledger Accounts",
     "Permission:MovementAnalysis": "Movement Analysis",
+    "Permission:InventoryReport": "InventoryReport",
     "CreatedConfiguration": "Configuration created successfully.",
     "UpdatedConfiguration": "Configuration updated successfully.",
     "DeletedConfiguration": "Configuration deleted successfully.",
@@ -162,7 +164,8 @@
     "PurchasesEffRate": "Purchases Eff . Rate ",
     "PurchasesValue": "purchases value",
     "SalesQuantity": "Sales Quantity",
-    "SalesEffRate": "Sales Eff . Rate",
-    "SalesValue": "Sales Value"
+    "SalesEffRate": "Sales Eff. Rate",
+    "SalesValue": "Sales Value",
+    "CountDate":  "Count Date"
   }
 }

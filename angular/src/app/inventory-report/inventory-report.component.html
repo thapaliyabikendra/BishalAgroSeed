@@ -1,0 +1,62 @@
+
+<div class="card">
+    <div class="card-header">
+        <div class="row align-items-center">
+            <div class="col col-6">
+                <h5 class="card-title">{{ '::Filter' | abpLocalization}}</h5>
+            </div>
+            <div class="col col-6 text-end">
+                <i class="fa fa-filter" (click)="toggleFilter()"></i>
+            </div>
+        </div>
+    </div>
+    <div [ngClass]="showFilter ? '' : 'd-none'" class="card-body pt-1">
+        <div class="row">
+            <div class="col-2 form-group mb-1">
+                <label for="CountDate">{{ '::CountDate' | abpLocalization}}</label>
+                <input id="countDate" type="date" class="form-control" [(ngModel)]="filter.countDate"
+                    autofocus />
+            </div>
+
+            <div class="col-2 form-group mb-1">
+                <label for="productFilter">{{ '::Product' | abpLocalization}}</label>
+                <input id="product" type="text" class="form-control" [(ngModel)]="filter.productName"
+             />
+            </div>
+            <div class="col-3">
+                <br />
+                <button class="btn btn-secondary" (click)="getData()">
+                    {{'::Search' | abpLocalization}}
+                </button>
+                <button class="btn btn-warning ms-1" (click)="clearFilter()">
+                    {{'::CLear' | abpLocalization}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="row align-items-center">
+            <div class="col col-6">
+                <h5 class="card-title">{{ '::Menu:InventoryReport' | abpLocalization}}</h5>
+            </div>
+            <div class="col col-6 text-end">
+                <button class="btn btn-primary" type="button" (click)="export()"
+                    *abpPermission="'BishalAgroSeed.InventoryReport'">{{'::Export' | abpLocalization}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <ngx-datatable [rows]="data.items" [count]="data.totalCount" [list]="list" default>
+            <ngx-datatable-column [name]="'::CountDate' | abpLocalization" prop="countDate">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row.countDate | date : 'YYYY/MM/dd' }}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Product' | abpLocalization" prop="productName"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Count' | abpLocalization" prop="count"></ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+</div>

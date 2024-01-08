@@ -41,6 +41,7 @@ const routes: Routes = [
   { path: 'cash-transactions', loadChildren: () => import('./cash-transaction/cash-transaction.module').then(m => m.CashTransactionModule) },
   { path: 'ledger-accounts', loadChildren: () => import('./ledger-account/ledger-account.module').then(m => m.LedgerAccountModule) },
   { path: 'movement-analysis', loadChildren: () => import('./movement-analysis/movement-analysis.module').then(m => m.MovementAnalysisModule) },
+  { path: 'inventory-report', loadChildren: () => import('./inventory-report/inventory-report.module').then(m => m.InventoryReportModule) },
 
 ];
 
