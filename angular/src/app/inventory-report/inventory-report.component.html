@@ -25,7 +25,7 @@
             </div>
             <div class="col-3">
                 <br />
-                <button class="btn btn-secondary" (click)="getData()">
+                <button *abpPermission="'BishalAgroSeed.InventoryReport'" class="btn btn-secondary" (click)="getData()">
                     {{'::Search' | abpLocalization}}
                 </button>
                 <button class="btn btn-warning ms-1" (click)="clearFilter()">

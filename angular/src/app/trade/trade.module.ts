@@ -4,11 +4,13 @@ import { CommonModule } from '@angular/common';
 import { TradeRoutingModule } from './trade-routing.module';
 import { TradeComponent } from './trade.component';
 import { SharedModule } from '../shared/shared.module';
+import { CreateTradeComponent } from './create-trade/create-trade.component';
 
 
 @NgModule({
   declarations: [
-    TradeComponent
+    TradeComponent,
+    CreateTradeComponent
   ],
   imports: [
     CommonModule,
