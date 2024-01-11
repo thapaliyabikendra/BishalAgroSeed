@@ -11,9 +11,29 @@
     </div>
     <div [ngClass]="showFilter ? '' : 'd-none'" class="card-body pt-1">
         <div class="row">
+            <div class="col-2 form-group mb-1">
+                <label for="fromTranDateFilter">{{ '::FromTranDate' | abpLocalization}}</label>
+                <input id="fromTranDateFilter" type="date" class="form-control" [(ngModel)]="filter.fromTranDate"
+                    autofocus />
+            </div>
+
+            <div class="col-2 form-group mb-1">
+                <label for="toTranDateFilter">{{ '::ToTranDate' | abpLocalization}}</label>
+                <input id="toTranDateNameFilter" type="date" class="form-control" [(ngModel)]="filter.toTranDate" />
+            </div>
+            <div class="col-2 form-group mb-1">
+                <label for="tradeTypeFilter">{{ '::TradeType' | abpLocalization}}</label>
+                <ng-select id="tradeTypeFilter" [items]="tradeTypes" [(ngModel)]="filter.tradeTypeId" bindLabel="name"
+                    bindValue="value"></ng-select>
+            </div>
+            <div class="col-2 form-group mb-1">
+                <label for="customerFilter">{{ '::Customers' | abpLocalization}}</label>
+                <ng-select id="customerFilter" [items]="customers" [(ngModel)]="filter.customerId" bindLabel="name"
+                    bindValue="value"></ng-select>
+            </div>
             <div class="col-3">
                 <br />
-                <button *abpPermission="'BishalAgroSeed.Trade'" class="btn btn-secondary" (click)="getData()">
+                <button *abpPermission="'BishalAgroSeed.Trades'" class="btn btn-secondary" (click)="getData()">
                     {{'::Search' | abpLocalization}}
                 </button>
                 <button class="btn btn-warning ms-1" (click)="clearFilter()">
@@ -35,13 +55,25 @@
     <div class="card-body pt-0">
         <div class="row align-items-center">
             <div class="col-12 text-end mb-2">
-                <button class="btn btn-primary me-1" type="button" (click)="export()">
+                <button class="btn btn-success me-1" type="button" (click)="export()">
                     {{'::New' | abpLocalization}}</button>
                 <button class="btn btn-primary" type="button" (click)="export()">
                     {{'::Export' | abpLocalization}}</button>
             </div>
             <div class="col-12">
-                <ngx-datatable [rows]="data.items" [count]="data.totalCount" default>
+            <ngx-datatable [rows]="data.items" [count]="data.totalCount" default>
+            <ngx-datatable-column [name]="'::TradeType' | abpLocalization" prop="tradeTypeName"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Customer' | abpLocalization" prop="customerName"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::DiscountAmount' | abpLocalization" prop="discountAmount"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::TransportCharge' | abpLocalization" prop="transportCharge"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::VoucherNo' | abpLocalization" prop="voucherNo"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::TranDate' | abpLocalization" prop="tranDate">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row.tranDate | date : 'YYYY/MM/dd' }}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'::TotalAmount' | abpLocalization" prop="amount"></ngx-datatable-column>
+
                 </ngx-datatable>
             </div>
         </div>

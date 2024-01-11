@@ -9,7 +9,7 @@ public class TradeFilter
     public Guid? TradeTypeId { get; set; }
     public Guid? CustomerId { get; set; }
     public string? VoucherNo { get; set; }
-    public DateTime FromTranDate { get; set; }
-    public DateTime ToTranDate { get; set; }
+    public DateTime FromTranDate { get; set; } = DateTime.Today;
+    public DateTime ToTranDate { get; set; } = DateTime.Today;
 
 }

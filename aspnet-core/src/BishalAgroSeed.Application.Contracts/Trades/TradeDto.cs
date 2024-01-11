@@ -6,6 +6,7 @@ public class TradeDto
     public Guid TransactionId { get; set; }
     public Guid TradeTypeId { get; set; }
     public string TradeTypeName { get; set; }
+    public Guid CustomerId { get; set; }
     public string CustomerName { get; set; }
     public decimal DiscountAmount { get; set; }
     public decimal TransportCharge { get; set; }

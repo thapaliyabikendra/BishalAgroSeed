@@ -294,7 +294,7 @@ public class TradeAppService : ApplicationService, ITradeAppService
 
             if (string.IsNullOrWhiteSpace(input.Sorting))
             {
-                input.Sorting = "ProductName";
+                input.Sorting = "TranDate desc";
             }
 
             var data = await GetListDataByFilterAsync(filter);
@@ -359,16 +359,17 @@ public class TradeAppService : ApplicationService, ITradeAppService
                         {
                             TradeTypeId = tt.Id,
                             TradeTypeName = tt.DisplayName,
+                            CustomerId = c.Id,
                             CustomerName = c.DisplayName,
                             DiscountAmount = t.DiscountAmount,
                             TransportCharge = t.TransportCharge,
                             VoucherNo = t.VoucherNo,
                             TranDate = t.TranDate,
                             Amount = t.Amount
-
                         })
                         .WhereIf(!string.IsNullOrWhiteSpace(filter.VoucherNo), s => s.VoucherNo.ToLower().Contains(filter.VoucherNo))
-                        .WhereIf(filter.TradeTypeId.HasValue, s => s.TradeTypeId == filter.TradeTypeId);
+                        .WhereIf(filter.TradeTypeId.HasValue, s => s.TradeTypeId == filter.TradeTypeId)
+                        .WhereIf(filter.CustomerId.HasValue, s => s.CustomerId == filter.CustomerId);
 
             return data;
         }
