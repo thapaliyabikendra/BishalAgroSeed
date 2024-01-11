@@ -1,7 +1,9 @@
-﻿using BishalAgroSeed.Customers;
+﻿using BishalAgroSeed.Constants;
+using BishalAgroSeed.Customers;
 using BishalAgroSeed.Dtos;
 using BishalAgroSeed.Permissions;
 using BishalAgroSeed.Products;
+using BishalAgroSeed.Services;
 using BishalAgroSeed.TransactionDetails;
 using BishalAgroSeed.Transactions;
 using BishalAgroSeed.TranscationTypes;
@@ -13,7 +15,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Uow;
@@ -30,6 +34,17 @@ public class TradeAppService : ApplicationService, ITradeAppService
     private readonly ILogger<TradeAppService> _logger;
     private readonly IRepository<TransactionType, Guid> _transactionTypeRepository;
     private readonly IUnitOfWorkManager _unitOfWorkManager;
+    private readonly IExcelService _excelService;
+    private readonly Dictionary<string, Func<TradeDto, object>> _mapconfig = new()
+    {
+        { "Trade Type", item => item.TradeTypeName },
+        { "Customer", item => item.CustomerName },
+        { "Discount Amount", item => item.DiscountAmount },
+        { "Transport Charge", item => item.TransportCharge },
+        { "Voucher No", item => item.VoucherNo },
+        { "Tran Date", item => item.TranDate },
+        { "Total Amount", item => item.Amount }
+    };
 
     public TradeAppService(
       IRepository<Transaction, Guid> transactionRepository,
@@ -38,8 +53,8 @@ public class TradeAppService : ApplicationService, ITradeAppService
       IRepository<Customer, Guid> customerRepository,
        ILogger<TradeAppService> logger,
         IRepository<TransactionType, Guid> transactionTypeRepository,
-        IUnitOfWorkManager unitOfWorkManager
-        )
+        IUnitOfWorkManager unitOfWorkManager,
+        IExcelService excelService)
     {
         _transactionRepository = transactionRepository;
         _transactionDetailRepository = transactionDetailRepository;
@@ -48,6 +63,7 @@ public class TradeAppService : ApplicationService, ITradeAppService
         _logger = logger;
         _transactionTypeRepository = transactionTypeRepository;
         _unitOfWorkManager = unitOfWorkManager;
+        _excelService = excelService;
     }
 
     [Authorize(BishalAgroSeedPermissions.Trades.Create)]
@@ -132,14 +148,16 @@ public class TradeAppService : ApplicationService, ITradeAppService
                 valResults.Add(new ValidationResult(msg, new[] { "details" }));
                 _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
             }
-            
+
             var duplicateProducts = input.Details?
                 .GroupBy(s => s.ProductId)
-                .Select(s => new { 
-                            ProductId = s.Key,
-                            Count = s.Count()
-                        }).Where(s => s.Count > 1);
-            if (duplicateProducts.Any()) {
+                .Select(s => new
+                {
+                    ProductId = s.Key,
+                    Count = s.Count()
+                }).Where(s => s.Count > 1);
+            if (duplicateProducts.Any())
+            {
                 var msg = $"Duplicate Product !!";
                 valResults.Add(new ValidationResult(msg, new[] { "productId" }));
                 _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
@@ -265,6 +283,103 @@ public class TradeAppService : ApplicationService, ITradeAppService
         {
             _logger.LogInformation($"TradeAppService.GetTradeTypes - Exception : {ex}");
             throw;
+        }
+    }
+
+    public async Task<PagedResultDto<TradeDto>> GetListByFilterAsync(PagedAndSortedResultRequestDto input, TradeFilter filter)
+    {
+        try
+        {
+            _logger.LogInformation($"TradeAppService.GetListByFilterAsync - Started");
+
+            if (string.IsNullOrWhiteSpace(input.Sorting))
+            {
+                input.Sorting = "ProductName";
+            }
+
+            var data = await GetListDataByFilterAsync(filter);
+            var dataCount = data.Count();
+            var items = data.OrderBy(input.Sorting).Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+            var result = new PagedResultDto<TradeDto>(dataCount, items);
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"TradeAppService.GetListByFilterAsync - ExceptionError - {ex}");
+            throw;
+        }
+        finally
+        {
+            _logger.LogInformation($"InventoryReportAppService.GetListByFilterAsync - Ended");
+        }
+    }
+
+    public  async Task<FileBlobDto> ExportExcelAsync(TradeFilter filter)
+    {
+        try
+        {
+            _logger.LogInformation($"TradeAppService.ExportExcelAsync - Started");
+
+            var trades = await GetListDataByFilterAsync(filter);
+            var content = await _excelService.ExportAsync(trades.ToList(), _mapconfig);
+            var filename = string.Format(ExcelFileNames.TRADE, $"_{DateTime.Now:yyyy/MM/dd HH:mm}");
+
+            return new FileBlobDto(content, filename);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"TradeAppService.ExportExcelAsync - ExceptionError - {ex}");
+            throw;
+        }
+        finally
+        {
+            _logger.LogInformation($"TradeAppService.ExportExcelAsync - Ended");
+        }
+    }
+    private async Task<IQueryable<TradeDto>> GetListDataByFilterAsync(TradeFilter filter)
+    {
+        try
+        {
+            _logger.LogInformation($"TradeAppService.GetListDataByFilterAsync - Started");
+
+            // Trim
+            filter.VoucherNo = filter.VoucherNo?.Trim()?.ToLower();
+
+            var customers = await _customerRepository.GetQueryableAsync();
+            var transactions = await _transactionRepository.GetQueryableAsync();
+            var transactionTypes = await _transactionTypeRepository.GetQueryableAsync();
+
+            var data = (from t in transactions
+                        join tt in transactionTypes on t.TransactionTypeId equals tt.Id
+                        join c in customers on t.CustomerId equals c.Id
+                        where t.TranDate.Date >= filter.FromTranDate.Date
+                        && t.TranDate.Date <= filter.ToTranDate.Date
+                        select new TradeDto
+                        {
+                            TradeTypeId = tt.Id,
+                            TradeTypeName = tt.DisplayName,
+                            CustomerName = c.DisplayName,
+                            DiscountAmount = t.DiscountAmount,
+                            TransportCharge = t.TransportCharge,
+                            VoucherNo = t.VoucherNo,
+                            TranDate = t.TranDate,
+                            Amount = t.Amount
+
+                        })
+                        .WhereIf(!string.IsNullOrWhiteSpace(filter.VoucherNo), s => s.VoucherNo.ToLower().Contains(filter.VoucherNo))
+                        .WhereIf(filter.TradeTypeId.HasValue, s => s.TradeTypeId == filter.TradeTypeId);
+
+            return data;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"TradeAppService.GetListDataByFilterAsync - ExceptionError - {ex}");
+            throw;
+        }
+        finally
+        {
+            _logger.LogInformation($"TradeAppService.GetListDataByFilterAsync - Ended");
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BishalAgroSeed.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
 
 namespace BishalAgroSeed.Trades;
 public interface ITradeAppService
@@ -16,4 +17,6 @@ public interface ITradeAppService
     /// </summary>
     /// <returns>List of Trade Types </returns>
     public Task<List<DropdownDto>> GetTradeTypes();
+    public Task<PagedResultDto<TradeDto>> GetListByFilterAsync(PagedAndSortedResultRequestDto input, TradeFilter filter);
+    public Task<FileBlobDto> ExportExcelAsync(TradeFilter filter);
 }

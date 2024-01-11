@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CycleCountDetailComponent } from './cycle-count/cycle-count-detail/cycle-count-detail.component';
-import { CreateTradeComponent } from './trade/create-trade/create-trade.component';
+import { SaveTradeComponent } from './trade/save-trade/save-trade.component';
 
 const routes: Routes = [
   {
@@ -43,7 +43,7 @@ const routes: Routes = [
   { path: 'ledger-accounts', loadChildren: () => import('./ledger-account/ledger-account.module').then(m => m.LedgerAccountModule) },
   { path: 'movement-analysis', loadChildren: () => import('./movement-analysis/movement-analysis.module').then(m => m.MovementAnalysisModule) },
   { path: 'inventory-report', loadChildren: () => import('./inventory-report/inventory-report.module').then(m => m.InventoryReportModule) },
-  { path: 'trades/create', component: CreateTradeComponent},
+  { path: 'trades/save', component: SaveTradeComponent},
 
 ];
 
