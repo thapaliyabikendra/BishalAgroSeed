@@ -10,6 +10,7 @@ using BishalAgroSeed.TranscationTypes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using OfficeOpenXml.Drawing.Chart.ChartEx;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -68,11 +69,11 @@ public class TradeAppService : ApplicationService, ITradeAppService
 
     [Authorize(BishalAgroSeedPermissions.Trades.Create)]
     [HttpPost]
-    public async Task SaveTransactionAsync(CreateTransactionDto input)
+    public async Task CreateAsync(CreateTransactionDto input)
     {
         try
         {
-            _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Started");
+            _logger.LogInformation($"TradeAppService.CreateAsync - Started");
 
             // Trim
             input.VoucherNo = input.VoucherNo?.Trim();
@@ -87,35 +88,35 @@ public class TradeAppService : ApplicationService, ITradeAppService
             {
                 var msg = $"Customer is required !!";
                 valResults.Add(new ValidationResult(msg, new[] { "customerId" }));
-                _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
+                _logger.LogInformation($"TradeAppService.CreateAsync - Validation : {msg}");
             }
 
             if (input.Amount == null)
             {
                 var msg = $"Amount is required !!";
                 valResults.Add(new ValidationResult(msg, new[] { "amount" }));
-                _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
+                _logger.LogInformation($"TradeAppService.CreateAsync - Validation : {msg}");
             }
 
             if (input.Amount < 0)
             {
                 var msg = $"Invalid Amount !!";
                 valResults.Add(new ValidationResult(msg, new[] { "amount" }));
-                _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
+                _logger.LogInformation($"TradeAppService.CreateAsync - Validation : {msg}");
             }
 
             if (input.TransactionTypeId == null)
             {
                 var msg = $"Transaction Type is required !!";
                 valResults.Add(new ValidationResult(msg, new[] { "transactionTypeId" }));
-                _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
+                _logger.LogInformation($"TradeAppService.CreateAsync - Validation : {msg}");
             }
 
             if (input.TransportCharge < 0)
             {
                 var msg = $"Invalid Transport Charge !!";
                 valResults.Add(new ValidationResult(msg, new[] { "transportCharge" }));
-                _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
+                _logger.LogInformation($"TradeAppService.CreateAsync - Validation : {msg}");
             }
 
             var isCustomerValid = await isCustomerValidTask;
@@ -125,28 +126,28 @@ public class TradeAppService : ApplicationService, ITradeAppService
             {
                 var msg = $"Invalid Discount Amount !!";
                 valResults.Add(new ValidationResult(msg, new[] { "discountCharge" }));
-                _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
+                _logger.LogInformation($"TradeAppService.CreateAsync - Validation : {msg}");
             }
 
             if (string.IsNullOrWhiteSpace(input.VoucherNo))
             {
                 var msg = $"Voucher No is required !!";
                 valResults.Add(new ValidationResult(msg, new[] { "voucherNo" }));
-                _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
+                _logger.LogInformation($"TradeAppService.CreateAsync - Validation : {msg}");
             }
 
             if (input.Details == null)
             {
                 var msg = $"Transaction Details is required !!";
                 valResults.Add(new ValidationResult(msg, new[] { "details" }));
-                _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
+                _logger.LogInformation($"TradeAppService.CreateAsync - Validation : {msg}");
             }
 
             if (input.Details?.Count <= 0)
             {
                 var msg = $"Invalid Transaction Details !!";
                 valResults.Add(new ValidationResult(msg, new[] { "details" }));
-                _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
+                _logger.LogInformation($"TradeAppService.CreateAsync - Validation : {msg}");
             }
 
             var duplicateProducts = input.Details?
@@ -160,14 +161,14 @@ public class TradeAppService : ApplicationService, ITradeAppService
             {
                 var msg = $"Duplicate Product !!";
                 valResults.Add(new ValidationResult(msg, new[] { "productId" }));
-                _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
+                _logger.LogInformation($"TradeAppService.CreateAsync - Validation : {msg}");
             }
 
             if (!isCustomerValid)
             {
                 var msg = $"Invalid Customer !!";
                 valResults.Add(new ValidationResult(msg, new[] { "customerId" }));
-                _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
+                _logger.LogInformation($"TradeAppService.CreateAsync - Validation : {msg}");
             }
 
             var isTransactionTypeValid = await isTransactionTypeValidTask;
@@ -175,7 +176,7 @@ public class TradeAppService : ApplicationService, ITradeAppService
             {
                 var msg = $"Invalid Transaction Type !!";
                 valResults.Add(new ValidationResult(msg, new[] { "transactionTypeId" }));
-                _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
+                _logger.LogInformation($"TradeAppService.CreateAsync - Validation : {msg}");
             }
 
             var productQuery = await _productRepository.GetQueryableAsync();
@@ -190,7 +191,7 @@ public class TradeAppService : ApplicationService, ITradeAppService
             {
                 var msg = "Product Not Found.";
                 valResults.Add(new ValidationResult(msg, new[] { "productId" }));
-                _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : {msg}");
+                _logger.LogInformation($"TradeAppService.CreateAsync - Validation : {msg}");
             }
 
             var productValidations = (from s in input.Details
@@ -202,7 +203,7 @@ public class TradeAppService : ApplicationService, ITradeAppService
             if (productValidations.Any())
             {
                 valResults.AddRange(productValidations);
-                _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : Invalid Product");
+                _logger.LogInformation($"TradeAppService.CreateAsync - Validation : Invalid Product");
             }
 
             var casesValidations = (from s in input.Details
@@ -213,7 +214,7 @@ public class TradeAppService : ApplicationService, ITradeAppService
             if (casesValidations.Any())
             {
                 valResults.AddRange(casesValidations);
-                _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : Invalid Cases");
+                _logger.LogInformation($"TradeAppService.CreateAsync - Validation : Invalid Cases");
             }
 
             var quantityValidations = (from s in input.Details
@@ -224,7 +225,7 @@ public class TradeAppService : ApplicationService, ITradeAppService
             if (quantityValidations.Any())
             {
                 valResults.AddRange(quantityValidations);
-                _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : Invalid Quantity");
+                _logger.LogInformation($"TradeAppService.CreateAsync - Validation : Invalid Quantity");
             }
 
             var priceValidations = (from s in input.Details
@@ -235,12 +236,12 @@ public class TradeAppService : ApplicationService, ITradeAppService
             if (priceValidations.Any())
             {
                 valResults.AddRange(priceValidations);
-                _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Validation : Invalid Price");
+                _logger.LogInformation($"TradeAppService.CreateAsync - Validation : Invalid Price");
             }
 
             if (valResults.Any())
             {
-                _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Throw Validation exception");
+                _logger.LogInformation($"TradeAppService.CreateAsync - Throw Validation exception");
                 throw new AbpValidationException(valTitle, valResults);
             }
             #endregion
@@ -249,20 +250,20 @@ public class TradeAppService : ApplicationService, ITradeAppService
             var transactionDetails = ObjectMapper.Map<List<CreateTransactionDetailDto>, List<TransactionDetail>>(input.Details);
 
             await _transactionRepository.InsertAsync(transaction);
-            _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Inserted Transaction");
+            _logger.LogInformation($"TradeAppService.CreateAsync - Inserted Transaction");
 
             foreach (var transactionDetail in transactionDetails)
             {
                 transactionDetail.Transaction = transaction;
             }
             await _transactionDetailRepository.InsertManyAsync(transactionDetails);
-            _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Inserted Transaction Details");
+            _logger.LogInformation($"TradeAppService.CreateAsync - Inserted Transaction Details");
 
-            _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Ended");
+            _logger.LogInformation($"TradeAppService.CreateAsync - Ended");
         }
         catch (Exception ex)
         {
-            _logger.LogInformation($"TradeAppService.SaveTransactionAsync - Exception : {ex}");
+            _logger.LogInformation($"TradeAppService.CreateAsync - Exception : {ex}");
             throw;
         }
     }
@@ -357,6 +358,7 @@ public class TradeAppService : ApplicationService, ITradeAppService
                         && t.TranDate.Date <= filter.ToTranDate.Date
                         select new TradeDto
                         {
+                            TransactionId = t.Id,
                             TradeTypeId = tt.Id,
                             TradeTypeName = tt.DisplayName,
                             CustomerId = c.Id,
@@ -381,6 +383,89 @@ public class TradeAppService : ApplicationService, ITradeAppService
         finally
         {
             _logger.LogInformation($"TradeAppService.GetListDataByFilterAsync - Ended");
+        }
+    }
+
+    public async Task<TransactionDto> GetAsync(Guid transactionId)
+    {
+        try
+        {
+            _logger.LogInformation($"TradeAppService.GetAsync - Started");
+
+            var transactions = await _transactionRepository.GetQueryableAsync();
+            var transactionDetails = await _transactionDetailRepository.GetQueryableAsync();
+
+            var data = (from t in transactions
+                        join td in transactionDetails on t.Id equals td.TransactionId into gp
+                        where t.Id == transactionId
+                        select new TransactionDto
+                        {
+                            Id = t.Id,
+                            TransactionTypeId = t.TransactionTypeId,
+                            CustomerId = t.CustomerId,
+                            DiscountAmount = t.DiscountAmount,
+                            TransportCharge = t.TransportCharge,
+                            VoucherNo = t.VoucherNo,
+                            TranDate = t.TranDate,
+                            Amount = t.Amount,
+                            Details = gp.Select(s => new TransactionDetailDto { 
+                                Id = s.Id,
+                                ProductId = s.ProductId,
+                                Cases = s.Cases,
+                                Quantity = s.Quantity,
+                                Price = s.Price
+                            }).ToList()
+                        }).FirstOrDefault();
+
+            return data;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"TradeAppService.GetAsync - ExceptionError - {ex}");
+            throw;
+        }
+        finally
+        {
+            _logger.LogInformation($"TradeAppService.GetAsync - Ended");
+        }
+    }
+
+    public async Task DeleteAsync(Guid transactionId)
+    {
+        try
+        {
+            _logger.LogInformation($"TradeAppService.DeleteAsync - Started");
+
+            var hasTransaction = await _transactionRepository.AnyAsync(s => s.Id == transactionId);
+            if (!hasTransaction) 
+            {
+                var msg = "Transaction not found!!";
+                _logger.LogInformation($"TradeAppService.DeleteAsync - Validation : {msg}");
+                throw new AbpValidationException(msg, new List<ValidationResult>()
+                {
+                    new ValidationResult(msg, new [] {"transactionId"})
+                });
+            }
+
+            var transactionDetailQuery = await _transactionDetailRepository.GetQueryableAsync();
+            var transactionDetails = transactionDetailQuery.Where(s => s.TransactionId == transactionId)
+                                    .Select(s => s.Id).ToList();
+            if (transactionDetails.Any()) {
+                await _transactionDetailRepository.DeleteManyAsync(transactionDetails);
+                _logger.LogInformation($"TradeAppService.DeleteAsync - Deleted Transaction Details");
+            }
+
+            await _transactionRepository.DeleteAsync(transactionId);
+            _logger.LogInformation($"TradeAppService.DeleteAsync - Deleted Transaction");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"TradeAppService.DeleteAsync - ExceptionError - {ex}");
+            throw;
+        }
+        finally
+        {
+            _logger.LogInformation($"TradeAppService.DeleteAsync - Ended");
         }
     }
 }

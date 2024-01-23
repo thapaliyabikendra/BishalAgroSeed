@@ -5,8 +5,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { CustomerService } from '@proxy/customers';
 import { CreateTransactionDto, DropdownDto } from '@proxy/dtos';
 import { GetProductDto, ProductService } from '@proxy/products';
+import { Location } from '@angular/common';
 import { CreateTransactionDetailDto, TradeService } from '@proxy/trades';
 import { forkJoin } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-save-trade',
@@ -18,15 +20,25 @@ export class SaveTradeComponent {
   customers = [] as DropdownDto[];
   products = [] as GetProductDto[];
   form: FormGroup;
+  transactionId: any;
+  isView = 1;
+
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
     private customerService: CustomerService,
     private tradeService: TradeService,
+    private route: ActivatedRoute,
     private toast: ToasterService,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.transactionId = params["id"];
+      this.isView = params["isView"];
+    });
+
     var request1 = this.tradeService.getTradeTypes();
     var request2 = this.customerService.getCustomers();
     var request3 = this.productService.getProducts();
@@ -79,12 +91,13 @@ export class SaveTradeComponent {
 
     let details = this.detailControls.controls.map(s => {
       return {
-      productId : s.get('productId')?.value,
-      cases : s.get('cases')?.value,
-      quantity : s.get('quantity')?.value,
-      price : s.get('price')?.value,
+        productId: s.get('productId')?.value,
+        cases: s.get('cases')?.value,
+        quantity: s.get('quantity')?.value,
+        price: s.get('price')?.value,
 
-    } as CreateTransactionDetailDto});
+      } as CreateTransactionDetailDto
+    });
 
     const dto: CreateTransactionDto = {
       transactionTypeId: this.form.value.transactionTypeId,
@@ -118,14 +131,14 @@ export class SaveTradeComponent {
       return;
     }
     let totalProductAmt = this.detailControls.controls.reduce((acc, s) => acc + s.get('price')?.value, 0);
-    let amt = totalProductAmt -discountAmount + transportCharge;
+    let amt = totalProductAmt - discountAmount + transportCharge;
     this.form.get('amount')?.setValue(amt);
   }
 
   displayPrice(i: any, p: any) {
     let product = this.detailControls.at(i) as FormGroup;
     let productCount = this.detailControls.controls.filter(s => s.get('productId')?.value == p.id).length;
-    if(productCount > 1){
+    if (productCount > 1) {
       this.toast.warn('::Transaction:DuplicateProduct');
       product.get('productId')?.setValue('');
       return;
@@ -142,9 +155,13 @@ export class SaveTradeComponent {
     let pricePerUnit = product.get('pricePerUnit')?.value;
     let amount = (quantity * pricePerUnit);
     // product.get('price')?.setValue(amount);
-    product.patchValue({price : amount});
+    product.patchValue({ price: amount });
 
     this.calculateAmount();
+  }
+
+  goBack() {
+    this.location.back();
   }
 }
 

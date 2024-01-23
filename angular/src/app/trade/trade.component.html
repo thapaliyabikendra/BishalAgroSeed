@@ -22,7 +22,7 @@
                 <input id="toTranDateNameFilter" type="date" class="form-control" [(ngModel)]="filter.toTranDate" />
             </div>
             <div class="col-2 form-group mb-1">
-                <label for="tradeTypeFilter">{{ '::TradeType' | abpLocalization}}</label>
+                <label for="tradeTypeFilter">{{ '::TradeTypes' | abpLocalization}}</label>
                 <ng-select id="tradeTypeFilter" [items]="tradeTypes" [(ngModel)]="filter.tradeTypeId" bindLabel="name"
                     bindValue="value"></ng-select>
             </div>
@@ -55,25 +55,60 @@
     <div class="card-body pt-0">
         <div class="row align-items-center">
             <div class="col-12 text-end mb-2">
-                <button class="btn btn-success me-1" type="button" (click)="export()">
-                    {{'::New' | abpLocalization}}</button>
+                <a [routerLink]="'/trades/save'">
+                    <button class="btn btn-success me-1" type="button">
+                        {{'::New' | abpLocalization}}</button>
+                </a>
                 <button class="btn btn-primary" type="button" (click)="export()">
                     {{'::Export' | abpLocalization}}</button>
             </div>
             <div class="col-12">
-            <ngx-datatable [rows]="data.items" [count]="data.totalCount" default>
-            <ngx-datatable-column [name]="'::TradeType' | abpLocalization" prop="tradeTypeName"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::Customer' | abpLocalization" prop="customerName"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::DiscountAmount' | abpLocalization" prop="discountAmount"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::TransportCharge' | abpLocalization" prop="transportCharge"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::VoucherNo' | abpLocalization" prop="voucherNo"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::TranDate' | abpLocalization" prop="tranDate">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.tranDate | date : 'YYYY/MM/dd' }}
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column [name]="'::TotalAmount' | abpLocalization" prop="amount"></ngx-datatable-column>
-
+                <ngx-datatable [rows]="data.items" [count]="data.totalCount" default>
+                    <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div ngbDropdown container="body" class="d-inline-block">
+                                <button class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" ngbDropdownToggle>
+                                    <i class="fa fa-cog me-1"></i> {{'::Actions' | abpLocalization}}
+                                </button>
+                                <div ngbDropdownMenu>
+                                    <button ngbDropdownItem *abpPermission="'BishalAgroSeed.Trades'">
+                                        <a [routerLink]="['/trades/save', row.transactionId, 1]"
+                                            class="text-decoration-none text-reset">
+                                            {{'::View' | abpLocalization}}
+                                        </a>
+                                    </button>
+                                    <button ngbDropdownItem *abpPermission="'BishalAgroSeed.Trades.Edit'">
+                                        <a [routerLink]="['/trades/save', row.transactionId, 0]"
+                                            class="text-decoration-none text-reset">
+                                            {{'::Edit' | abpLocalization}}
+                                        </a>
+                                    </button>
+                                    <button (click)="close(row.id)" ngbDropdownItem
+                                        *abpPermission="'BishalAgroSeed.Trades.Delete'">
+                                        {{ '::Delete' | abpLocalization}}
+                                    </button>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column [name]="'::TradeType' | abpLocalization"
+                        prop="tradeTypeName"></ngx-datatable-column>
+                    <ngx-datatable-column [name]="'::Customer' | abpLocalization"
+                        prop="customerName"></ngx-datatable-column>
+                    <ngx-datatable-column [name]="'::DiscountAmount' | abpLocalization"
+                        prop="discountAmount"></ngx-datatable-column>
+                    <ngx-datatable-column [name]="'::TransportCharge' | abpLocalization"
+                        prop="transportCharge"></ngx-datatable-column>
+                    <ngx-datatable-column [name]="'::VoucherNo' | abpLocalization"
+                        prop="voucherNo"></ngx-datatable-column>
+                    <ngx-datatable-column [name]="'::TranDate' | abpLocalization" prop="tranDate">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            {{ row.tranDate | date : 'YYYY/MM/dd' }}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column [name]="'::TotalAmount' | abpLocalization"
+                        prop="amount"></ngx-datatable-column>
                 </ngx-datatable>
             </div>
         </div>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace BishalAgroSeed.Trades;
+namespace BishalAgroSeed.Dtos;
 public class CreateTransactionDetailDto
 {
     [Required]

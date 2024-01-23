@@ -43,8 +43,8 @@ const routes: Routes = [
   { path: 'ledger-accounts', loadChildren: () => import('./ledger-account/ledger-account.module').then(m => m.LedgerAccountModule) },
   { path: 'movement-analysis', loadChildren: () => import('./movement-analysis/movement-analysis.module').then(m => m.MovementAnalysisModule) },
   { path: 'inventory-report', loadChildren: () => import('./inventory-report/inventory-report.module').then(m => m.InventoryReportModule) },
-  { path: 'trades/save', component: SaveTradeComponent},
-
+  { path: 'trades/save', component: SaveTradeComponent },
+  { path: 'trades/save/:id/:isView', component: SaveTradeComponent},
 ];
 
 @NgModule({

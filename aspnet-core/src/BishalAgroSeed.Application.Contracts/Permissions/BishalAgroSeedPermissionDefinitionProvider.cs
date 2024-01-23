@@ -67,6 +67,8 @@ public class BishalAgroSeedPermissionDefinitionProvider : PermissionDefinitionPr
 
         var tradePermission = bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.Trades.Default, L("Permission:Trades"));
         tradePermission.AddChild(BishalAgroSeedPermissions.Trades.Create, L("Permission:Trades.Create"));
+        tradePermission.AddChild(BishalAgroSeedPermissions.Trades.Edit, L("Permission:Trades.Edit"));
+        tradePermission.AddChild(BishalAgroSeedPermissions.Trades.Delete, L("Permission:Trades.Delete"));
 
         bishalAgroSeedGroup.AddPermission(BishalAgroSeedPermissions.TransactionTypes.Default, L("Permission:TransactionTypes"));
 

@@ -66,6 +66,8 @@
     "Permission:NumberGenerationTypes": "Number Generation Types",
     "Permission:Trades": "Trades",
     "Permission:Trades.Create": "Create",
+    "Permission:Trades.Edit": "Edit",
+    "Permission:Trades.Delete": "Delete",
     "Permission:TransactionTypes": "Transaction Types",
     "Permission:CashTransactions": "CashTransactions",
     "Permission:CashTransactions.Create": "Create",
@@ -166,6 +168,7 @@
     "SalesQuantity": "Sales Quantity",
     "SalesEffRate": "Sales Eff. Rate",
     "SalesValue": "Sales Value",
-    "CountDate":  "Count Date"
+    "CountDate": "Count Date",
+    "TradeTypes": "Trade Types"
   }
 }
