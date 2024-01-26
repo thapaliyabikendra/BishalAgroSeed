@@ -22,4 +22,5 @@ public interface ITradeAppService
     public Task<FileBlobDto> ExportExcelAsync(TradeFilter filter);
     public Task<TransactionDto> GetAsync(Guid transactionId);
     public Task DeleteAsync(Guid transactionId);
+    public Task UpdateAsync(UpdateTransactionDto input);
 }

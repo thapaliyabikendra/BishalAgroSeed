@@ -62,5 +62,8 @@ public class BishalAgroSeedApplicationAutoMapperProfile : Profile
         CreateMap<CreateTransactionDto, Transaction>();
         CreateMap<CreateTransactionDetailDto, TransactionDetail>();
         CreateMap<CreateTransactionPaymentDto, TransactionPayment>();
+        CreateMap<UpdateTransactionDto, Transaction>()
+        .ForMember(dest => dest.Id, opt => opt.Ignore());
+        CreateMap<UpdateTransactionDetailDto, TransactionDetail>();
     }
 }

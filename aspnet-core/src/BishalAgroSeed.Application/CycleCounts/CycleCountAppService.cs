@@ -552,9 +552,11 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
             throw new AbpValidationException(valTitle, valResults);
         }
 
-        var cycleCountDetailQueryable = await _cycleCountDetailRepository.GetQueryableAsync();
-        var cycleCountDetails = cycleCountDetailQueryable.Where(s => s.CycleCountId == cycleCountId).ToList();
+        var cycleCountDetailQuery= await _cycleCountDetailRepository.GetQueryableAsync();
+        // Get the cycle count details data using cycle count id
+        var cycleCountDetails = cycleCountDetailQuery.Where(s => s.CycleCountId == cycleCountId).ToList();
 
+        // Checks if cycle count data exists on db
         if (!cycleCountDetails.Any())
         {
             var msg = "Cycle Count Detail data not found.";
@@ -565,9 +567,12 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
             });
         }
 
+        // Maps Data from form to entity
         var cycleCountDetailsUpdate = (from ccd in cycleCountDetails
                                        join inp in input on ccd.ProductId equals inp.Id
                                        select UpdateCycleCountDetailAsync(ccd, inp)).ToList();
+
+        // Checks if mapped cycle count data exists
         if (!cycleCountDetails.Any())
         {
             var msg = "Cycle Count Detail Update data not found.";
@@ -577,6 +582,8 @@ public class CycleCountAppService : ApplicationService, ICycleCountAppService
                 new  ValidationResult(msg, new [] {"cycleCountDetailId"})
             });
         }
+
+        // Bulk update cycle count
         await _cycleCountDetailRepository.UpdateManyAsync(cycleCountDetailsUpdate);
         _logger.LogInformation($"CycleCountAppService.BulkUpdateCycleCountDetailAsync - Bulk Updated Cycle Count Detail");
 
