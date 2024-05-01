@@ -3,8 +3,6 @@ version: '3.8'
 services:
   portainer:
     image: portainer/portainer-ce:latest
-    container_name: portainer        
-    restart: unless-stopped
     ports:
       - 9000:9000
     volumes:
@@ -14,6 +12,8 @@ services:
       - TZ=Asia/Kathmandu
       - ADMIN_USER=admin 
       - ADMIN_PASS=@9aCHdBqUb9UEe
+    networks:
+      - bishal-agro-seed-portal
   redis:
     image: redis:5.0.7
     networks:
@@ -27,12 +27,12 @@ services:
     ports:
       - 1433:1433
     volumes: 
-      - sql_server_data:/var/opt/mssql
+      - mssql_server_data:/var/opt/mssql
     networks:
       - bishal-agro-seed-portal
 
 volumes:
-  sql_server_data:
+  mssql_server_data:
   portainer_data:
 
 networks:

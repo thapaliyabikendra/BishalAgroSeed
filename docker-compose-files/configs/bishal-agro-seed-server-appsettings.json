@@ -5,7 +5,7 @@
     "CorsOrigins": "https://*.BishalAgroSeed.com,http://localhost:5000",
     "RedirectAllowedUrls": "http://localhost:5000,https://localhost:44321",
     "ConfigureHttpsForwardingBehindProxy": false,
-    "PathBase": "/api"
+    "PathBase": ""
   },
   "ConnectionStrings": {
     "Default": "Server=database,1433;Database=BishalAgroSeed;User=sa;Password=yHMd.@3WQtxtcjE;TrustServerCertificate=True"
@@ -13,8 +13,7 @@
   "AuthServer": {
     "Authority": "http://localhost:5000/api",
     "RequireHttpsMetadata": "false",
-    "SwaggerClientId": "BishalAgroSeed_Swagger",
-    "SwaggerClientSecret": "1q2w3e*"
+    "SwaggerClientId": "BishalAgroSeed_Swagger"
   },
   "Redis": {
     "Configuration": "redis"

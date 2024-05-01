@@ -49,6 +49,7 @@ using Hangfire.Annotations;
 using System.Drawing.Text;
 using Hangfire;
 using BishalAgroSeed.Hangfire;
+using Volo.Abp.Timing;
 
 namespace BishalAgroSeed;
 
@@ -108,6 +109,10 @@ namespace BishalAgroSeed;
         ConfigureDistributedLocking(context, configuration);
         ConfigureCors(context, configuration);
         ConfigureSwaggerServices(context, configuration);
+        Configure<AbpClockOptions>(options =>
+        {
+            options.Kind = DateTimeKind.Utc;
+        });
         ConfigureLocalization();
         ConfigureBlobStorage();
         ConfigureHangfire(context, configuration);
@@ -282,7 +287,11 @@ namespace BishalAgroSeed;
         var env = context.GetEnvironment();
         var configuration = context.GetConfiguration();
         var pathBase = configuration["App:PathBase"];
+
+        if (!string.IsNullOrWhiteSpace(pathBase))
+        {
         app.UsePathBase(pathBase);
+        }
 
         if (configuration.GetValue<bool>("App:ConfigureHttpsForwardingBehindProxy"))
         {
