@@ -79,6 +79,8 @@ namespace BishalAgroSeed;
 
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
+        var configuration = context.Services.GetConfiguration();
+
         PreConfigure<OpenIddictBuilder>(builder =>
         {
             builder.AddValidation(options =>
@@ -87,7 +89,17 @@ namespace BishalAgroSeed;
                 options.UseLocalServer();
                 options.UseAspNetCore();
             });
-            builder.AddServer(options => { options.UseAspNetCore().DisableTransportSecurityRequirement(); });
+
+            if (!context.Services.GetHostingEnvironment().IsDevelopment())
+            {
+                builder.AddServer(o =>
+                {
+                    var uriString = configuration["App:SelfUrl"]; // omit trailing slash here
+                    var uri = new Uri(uriString, new UriCreationOptions { DangerousDisablePathAndQueryCanonicalization = true });
+                    o.SetIssuer(uri);
+                    o.UseAspNetCore().DisableTransportSecurityRequirement();
+                });
+            }
         });
     }
 
