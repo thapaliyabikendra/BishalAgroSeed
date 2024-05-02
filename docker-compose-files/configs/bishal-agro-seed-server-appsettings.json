@@ -1,6 +1,6 @@
 {
   "App": {
-    "SelfUrl": "http://localhost:5000/api",
+    "SelfUrl": "http://localhost:5001",
     "ClientUrl": "http://localhost:5000",
     "CorsOrigins": "https://*.BishalAgroSeed.com,http://localhost:5000",
     "RedirectAllowedUrls": "http://localhost:5000,https://localhost:44321",
@@ -8,10 +8,10 @@
     "PathBase": ""
   },
   "ConnectionStrings": {
-    "Default": "Server=database,1433;Database=BishalAgroSeed;User=sa;Password=yHMd.@3WQtxtcjE;TrustServerCertificate=True"
+    "Default": "Server=database,1433;Database=BishalAgroSeed;User=sa;Password=yHMd@3WQtxtcjE;TrustServerCertificate=True"
   },
   "AuthServer": {
-    "Authority": "http://localhost:5000/api",
+    "Authority": "http://localhost:5001",
     "RequireHttpsMetadata": "false",
     "SwaggerClientId": "BishalAgroSeed_Swagger"
   },

@@ -1,6 +1,6 @@
 import { Environment } from '@abp/ng.core';
 
-const baseUrl = 'https://localhost:5000';
+const baseUrl = 'http://localhost:5000';
 
 export const environment = {
   production: true,
@@ -10,16 +10,16 @@ export const environment = {
     logoUrl: '',
   },
   oAuthConfig: {
-    issuer: 'https://localhost:5000/api/',
+    issuer: 'http://localhost:5001',
     redirectUri: baseUrl,
     clientId: 'BishalAgroSeed_App',
     responseType: 'code',
     scope: 'offline_access BishalAgroSeed',
-    requireHttps: true
+    requireHttps: false
   },
   apis: {
     default: {
-      url: 'https://localhost:5000/api',
+      url: 'http://localhost:5001',
       rootNamespace: 'BishalAgroSeed',
     },
   },

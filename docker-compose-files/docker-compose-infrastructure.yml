@@ -25,7 +25,7 @@ services:
     environment:
       TZ: 'Asia/Kathmandu'
       ACCEPT_EULA: 'Y'
-      SA_PASSWORD: 'yHMd.@3WQtxtcjE'
+      SA_PASSWORD: yHMd@3WQtxtcjE
     ports:
       - 1433:1433
     volumes: 
