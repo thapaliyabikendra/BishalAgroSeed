@@ -34,6 +34,9 @@ using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.UI;
 using Volo.Abp.VirtualFileSystem;
+using Microsoft.AspNetCore.HttpOverrides;
+using NUglify.Helpers;
+using Microsoft.Extensions.Configuration;
 
 namespace BishalAgroSeed;
 
@@ -50,16 +53,38 @@ namespace BishalAgroSeed;
     )]
 public class BishalAgroSeedAuthServerModule : AbpModule
 {
+    private void ConfigureHttpsForwardingBehindProxy(IApplicationBuilder app)
+    {
+        var forwardedHeaderOptions = new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+        };
+        forwardedHeaderOptions.KnownNetworks.Clear();
+        forwardedHeaderOptions.KnownProxies.Clear();
+
+        app.UseForwardedHeaders(forwardedHeaderOptions);
+    }
+
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
         PreConfigure<OpenIddictBuilder>(builder =>
         {
+            var configuration = context.Services.GetConfiguration();
+
             builder.AddValidation(options =>
             {
                 options.AddAudiences("BishalAgroSeed");
                 options.UseLocalServer();
                 options.UseAspNetCore();
             });
+
+            if (!context.Services.GetHostingEnvironment().IsDevelopment())
+            {
+                builder.AddServer(o =>
+                {
+                    o.UseAspNetCore().DisableTransportSecurityRequirement();
+                });
+            }
         });
     }
 
@@ -160,6 +185,18 @@ public class BishalAgroSeedAuthServerModule : AbpModule
     {
         var app = context.GetApplicationBuilder();
         var env = context.GetEnvironment();
+        var configuration = context.GetConfiguration();
+
+        var pathBase = configuration["App:PathBase"];
+        if (!string.IsNullOrWhiteSpace(pathBase))
+        {
+            app.UsePathBase(pathBase);
+        }
+
+        if (configuration.GetValue<bool>("App:ConfigureHttpsForwardingBehindProxy"))
+        {
+            ConfigureHttpsForwardingBehindProxy(app);
+        }
 
         if (env.IsDevelopment())
         {

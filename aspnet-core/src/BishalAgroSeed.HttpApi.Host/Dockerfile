@@ -17,7 +17,7 @@ COPY ["src/BishalAgroSeed.HttpApi/BishalAgroSeed.HttpApi.csproj", "src/BishalAgr
 RUN dotnet restore "src/BishalAgroSeed.HttpApi.Host/BishalAgroSeed.HttpApi.Host.csproj"
 COPY . .
 WORKDIR "/src/src/BishalAgroSeed.HttpApi.Host"
-#RUN mv appsettings.Production.json appsettings.json
+
 RUN dotnet build "BishalAgroSeed.HttpApi.Host.csproj" -c Debug -o /app/build
 
 FROM build AS publish

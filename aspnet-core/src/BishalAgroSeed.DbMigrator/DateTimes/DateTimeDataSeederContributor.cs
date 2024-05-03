@@ -31,12 +31,12 @@ public class DateTimeDataSeederContributor : IDataSeedContributor, ITransientDep
             var path = Path.Combine("Scripts", "DateTime.sql");
             if (File.Exists(path))
             {
-                var fileContent = File.ReadAllText(path);
-                if (!string.IsNullOrWhiteSpace(fileContent))
-                {
-                    var dbContext = await _dbContextProvider.GetDbContextAsync();
-                    await dbContext.Database.ExecuteSqlRawAsync(fileContent);
-                }
+                //var fileContent = File.ReadAllText(path);
+                //if (!string.IsNullOrWhiteSpace(fileContent))
+                //{
+                //    var dbContext = await _dbContextProvider.GetDbContextAsync();
+                //    await dbContext.Database.ExecuteSqlRawAsync(fileContent);
+                //}
             }
         }
     }

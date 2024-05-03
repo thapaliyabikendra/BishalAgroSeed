@@ -5,25 +5,24 @@ using BishalAgroSeed.Options;
 using Hangfire;
 using Medallion.Threading;
 using Medallion.Threading.Redis;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using OpenIddict.Validation.AspNetCore;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using Volo.Abp;
 using Volo.Abp.Account;
-using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
@@ -56,7 +55,6 @@ namespace BishalAgroSeed;
     typeof(BishalAgroSeedApplicationModule),
     typeof(BishalAgroSeedEntityFrameworkCoreModule),
     typeof(AbpAspNetCoreMvcUiLeptonXLiteThemeModule),
-    typeof(AbpAccountWebOpenIddictModule),
     typeof(AbpAspNetCoreSerilogModule),
     typeof(AbpSwashbuckleModule),
     typeof(AbpBlobStoringFileSystemModule),
@@ -77,40 +75,13 @@ namespace BishalAgroSeed;
         app.UseForwardedHeaders(forwardedHeaderOptions);
     }
 
-    public override void PreConfigureServices(ServiceConfigurationContext context)
-    {
-        var configuration = context.Services.GetConfiguration();
-
-        PreConfigure<OpenIddictBuilder>(builder =>
-        {
-            builder.AddValidation(options =>
-            {
-                options.AddAudiences("BishalAgroSeed");
-                options.UseLocalServer();
-                options.UseAspNetCore();
-            });
-
-            if (!context.Services.GetHostingEnvironment().IsDevelopment())
-            {
-                builder.AddServer(o =>
-                {
-                    var uriString = configuration["App:SelfUrl"]; // omit trailing slash here
-                    var uri = new Uri(uriString, new UriCreationOptions { DangerousDisablePathAndQueryCanonicalization = true });
-                    o.SetIssuer(uri);
-                    o.UseAspNetCore().DisableTransportSecurityRequirement();
-                });
-            }
-        });
-    }
-
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         var configuration = context.Services.GetConfiguration();
         var hostingEnvironment = context.Services.GetHostingEnvironment();
 
-        ConfigureAuthentication(context);
+        ConfigureAuthentication(context, configuration);
         ConfigureBundles();
-        ConfigureUrls(configuration);
         ConfigureConventionalControllers();
         ConfigureCache(configuration);
         ConfigureVirtualFileSystem(context);
@@ -191,9 +162,19 @@ namespace BishalAgroSeed;
         });
     }
 
-    private void ConfigureAuthentication(ServiceConfigurationContext context)
+    private void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
     {
-        context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
+        context.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.Authority = configuration["AuthServer:Authority"];
+                options.RequireHttpsMetadata = configuration.GetValue<bool>("AuthServer:RequireHttpsMetadata");
+                options.Audience = "BishalAgroSeed";
+                if (configuration.GetValue<bool>("AuthServer:ByPassSSL"))
+                {
+                    options.BackchannelHttpHandler = new HttpClientHandler() { ServerCertificateCustomValidationCallback = delegate { return true; } };
+                }
+            });
     }
 
     private void ConfigureBundles()
@@ -207,18 +188,6 @@ namespace BishalAgroSeed;
                     bundle.AddFiles("/global-styles.css");
                 }
             );
-        });
-    }
-
-    private void ConfigureUrls(IConfiguration configuration)
-    {
-        Configure<AppUrlOptions>(options =>
-        {
-            options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
-            options.RedirectAllowedUrls.AddRange(configuration["App:RedirectAllowedUrls"]?.Split(',') ?? Array.Empty<string>());
-
-            options.Applications["Angular"].RootUrl = configuration["App:ClientUrl"];
-            options.Applications["Angular"].Urls[AccountUrlNames.PasswordReset] = "account/reset-password";
         });
     }
 
@@ -324,7 +293,6 @@ namespace BishalAgroSeed;
         app.UseRouting();
         app.UseCors();
         app.UseAuthentication();
-        app.UseAbpOpenIddictValidation();
 
         if (MultiTenancyConsts.IsEnabled)
         {

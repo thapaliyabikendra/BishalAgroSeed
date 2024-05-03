@@ -1,0 +1,19 @@
+{
+  "App": {
+    "SelfUrl": "http://www.bishalagroseed.com/sso",
+    "ClientUrl": "http://www.bishalagroseed.com",
+    "CorsOrigins": "http://www.bishalagroseed.com",
+    "RedirectAllowedUrls": "http://www.bishalagroseed.com",
+    "ConfigureHttpsForwardingBehindProxy": false,
+    "PathBase": "/sso"
+  },
+  "ConnectionStrings": {
+    "Default": "Server=database,1433;Database=BishalAgroSeed;User=sa;Password=yHMd@3WQtxtcjE;TrustServerCertificate=True"
+  },
+  "Redis": {
+    "Configuration": "redis"
+  },
+  "StringEncryption": {
+    "DefaultPassPhrase": "Li45enoGNAc7UAJZ"
+  }
+}
