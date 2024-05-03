@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Git Checkout') {
+            steps {
+                    checkout([$class: 'GitSCM', branches: [[name: 'develop']], extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'BishalAgroSeed']], userRemoteConfigs: [[credentialsId: 'github-token',url: 'https://github.com/thapaliyabikendra/BishalAgroSeed.git']]])
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                sh label: '', script: '''chmod +x ${WORKSPACE}/BishalAgroSeed/scripts/docker/build-server.sh
+                cd ${WORKSPACE}/BishalAgroSeed/scripts/docker
+                sh build-server.sh dev'''
+            }
+        }
+    }
+}

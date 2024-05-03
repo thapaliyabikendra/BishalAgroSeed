@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   portainer:
-    image: portainer/portainer-ce:latest
+    image: portainer/portainer-ce:2.20.2-alpine
     ports:
       - 9000:9000
     volumes:
@@ -21,7 +21,7 @@ services:
     ports:
       - 6379:6379
   database:
-    image: mcr.microsoft.com/mssql/server:latest
+    image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       TZ: 'Asia/Kathmandu'
       ACCEPT_EULA: 'Y'
@@ -32,10 +32,21 @@ services:
       - mssql_server_data:/var/opt/mssql
     networks:
       - bishal-agro-seed-portal
+  jenkins-blueocean:
+    image: myjenkins-blueocean:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - jenkins-data:/var/jenkins_home
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    networks:
+      - bishal-agro-seed-portal
 
 volumes:
   mssql_server_data:
   portainer_data:
+  jenkins-data:
 
 networks:
  bishal-agro-seed-portal:
