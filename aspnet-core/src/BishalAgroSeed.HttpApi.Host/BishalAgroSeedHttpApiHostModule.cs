@@ -45,6 +45,7 @@ using Volo.Abp.Swashbuckle;
 using Volo.Abp.Timing;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
+using Microsoft.IdentityModel.Logging;
 
 namespace BishalAgroSeed;
 
@@ -79,6 +80,7 @@ namespace BishalAgroSeed;
     {
         var configuration = context.Services.GetConfiguration();
         var hostingEnvironment = context.Services.GetHostingEnvironment();
+        IdentityModelEventSource.ShowPII = true; 
 
         ConfigureAuthentication(context, configuration);
         ConfigureBundles();
@@ -303,7 +305,7 @@ namespace BishalAgroSeed;
         app.UseAuthorization();
 
 
-        if (!string.IsNullOrEmpty(pathBase))
+        if (!string.IsNullOrWhiteSpace(pathBase))
         {
             app.UseSwagger(swaggerOptions =>
             {

@@ -1,19 +1,30 @@
 {
   "App": {
-    "SelfUrl": "https://bishalagroseed.com/sso",
+    "SelfUrl": "https://bishalagroseed.com/api",
     "ClientUrl": "https://bishalagroseed.com",
     "CorsOrigins": "https://bishalagroseed.com",
     "RedirectAllowedUrls": "https://bishalagroseed.com",
     "ConfigureHttpsForwardingBehindProxy": true,
-    "PathBase": "/sso"
+    "PathBase": "/api"
   },
   "ConnectionStrings": {
     "Default": "Server=database;Database=BishalAgroSeed;User=sa;Password=yHMd@3WQtxtcjE;TrustServerCertificate=True"
+  },
+  "AuthServer": {
+    "Authority": "https://bishalagroseed.com/sso",
+    "RequireHttpsMetadata": false,
+    "SwaggerClientId": "BishalAgroSeed_Swagger",
+    "ByPassSSL": true
   },
   "Redis": {
     "Configuration": "redis"
   },
   "StringEncryption": {
     "DefaultPassPhrase": "Li45enoGNAc7UAJZ"
+  },
+  "FileUpload": {
+    "BulkCycleCount": {
+      "FileSizeLimitInKB": 10240
+    }
   }
 }

@@ -37,6 +37,7 @@ using Volo.Abp.VirtualFileSystem;
 using Microsoft.AspNetCore.HttpOverrides;
 using NUglify.Helpers;
 using Microsoft.Extensions.Configuration;
+using Volo.Abp.AspNetCore.Mvc.AntiForgery;
 
 namespace BishalAgroSeed;
 
@@ -57,7 +58,9 @@ public class BishalAgroSeedAuthServerModule : AbpModule
     {
         var forwardedHeaderOptions = new ForwardedHeadersOptions
         {
-            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor
+                | ForwardedHeaders.XForwardedHost 
+                | ForwardedHeaders.XForwardedProto
         };
         forwardedHeaderOptions.KnownNetworks.Clear();
         forwardedHeaderOptions.KnownProxies.Clear();
@@ -80,9 +83,11 @@ public class BishalAgroSeedAuthServerModule : AbpModule
 
             if (!context.Services.GetHostingEnvironment().IsDevelopment())
             {
-                builder.AddServer(o =>
+                builder.AddServer(options =>
                 {
-                    o.UseAspNetCore().DisableTransportSecurityRequirement();
+                    // Set custom issuer URI
+                    options.SetIssuer(new Uri(configuration["App:SelfUrl"]));
+                    options.UseAspNetCore().DisableTransportSecurityRequirement();
                 });
             }
         });
@@ -178,6 +183,11 @@ public class BishalAgroSeedAuthServerModule : AbpModule
                     .AllowAnyMethod()
                     .AllowCredentials();
             });
+        });
+
+        context.Services.Configure<AbpAntiForgeryOptions>(options =>
+        {
+            options.AutoValidate = false;
         });
     }
 

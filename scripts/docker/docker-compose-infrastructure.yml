@@ -32,21 +32,36 @@ services:
       - mssql_server_data:/var/opt/mssql
     networks:
       - bishal-agro-seed-portal
-  jenkins-blueocean:
-    image: myjenkins-blueocean:latest
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - jenkins-data:/var/jenkins_home
-    ports:
-      - "8080:8080"
-      - "50000:50000"
-    networks:
-      - bishal-agro-seed-portal
+
+  # jenkins-blueocean:
+  #   image: myjenkins-blueocean:latest
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - jenkins-data:/var/jenkins_home
+  #   ports:
+  #     - "8080:8080"
+  #     - "50000:50000"
+  #   networks:
+  #     - bishal-agro-seed-portal
+
+  # nginx:
+  #   image: nginx:latest
+  #   ports:
+  #     - "5000:5000"
+  #   configs:
+  #     - source: bishal-agro-seed-nginx.conf
+  #       target: /etc/nginx/nginx.conf   
+  #   networks:
+  #     - bishal-agro-seed-portal 
 
 volumes:
   mssql_server_data:
   portainer_data:
-  jenkins-data:
+  # jenkins-data:
 
 networks:
- bishal-agro-seed-portal:
+  bishal-agro-seed-portal:
+
+# configs:
+#   bishal-agro-seed-nginx.conf:
+#     external: true

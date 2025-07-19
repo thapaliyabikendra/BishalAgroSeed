@@ -1,36 +1,49 @@
 version: '3.8'
 
 services:
-  client:
-    image: bishal-agro-seed/client:latest  
+  ui:
+    image: bishal-agro-seed/ui:latest  
     ports:
-      - 5000:80
+      - 443:443
     environment:
       - TZ=Asia/Kathmandu
     networks:
       - bishal-agro-seed-portal
+    extra_hosts:
+        - "bishalagroseed.com:host-gateway"
+    configs:
+      - source: bishal-agro-seed-nginx.conf
+        target: /etc/nginx/nginx.conf   
+
   auth:
     image: bishal-agro-seed/auth:latest  
     configs:
        - source: bishal-agro-seed-auth-appsettings.json
          target: /app/appsettings.json
     networks:
-      - bishal-agro-seed-portal
-  server:
-    image: bishal-agro-seed/server:latest 
+      bishal-agro-seed-portal:
+    extra_hosts:
+        - "bishalagroseed.com:host-gateway"
+        
+  api:
+    image: bishal-agro-seed/api:latest
     configs:
-      - source: bishal-agro-seed-server-appsettings.json
+      - source: bishal-agro-seed-api-appsettings.json
         target: /app/appsettings.json        
     environment:
       - TZ=Asia/Kathmandu
     networks:
-      - bishal-agro-seed-portal
+      bishal-agro-seed-portal:
+    extra_hosts:
+        - "bishalagroseed.com:host-gateway"
   
 networks:
   bishal-agro-seed-portal:
 
 configs:
-   bishal-agro-seed-server-appsettings.json:
+   bishal-agro-seed-api-appsettings.json:
     external: true
    bishal-agro-seed-auth-appsettings.json:
+    external: true
+   bishal-agro-seed-nginx.conf:
     external: true
